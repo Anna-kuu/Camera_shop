@@ -1,5 +1,9 @@
+import Catalog from '../../pages/catalog/catalog';
+
 function App(): JSX.Element {
-  return <p>Hello, world!</p>;
+  return (
+    <Catalog />
+  );
 }
 
 export default App;
