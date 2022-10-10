@@ -2,7 +2,7 @@ import { camerasMock } from '../../mocks/cameras-mocks';
 
 export default function CatalogCards():JSX.Element {
   const camerasCatalog = camerasMock.map((camera) => (
-    <div className="product-card" key={camera.id}>
+    <div className="product-card" key={`product-card-${camera.id}`}>
       <div className="product-card__img">
         <picture>
           <source type="image/webp" srcSet={`${camera.previewImgWebp}, ${camera.previewImgWebp2x} 2x`} />
