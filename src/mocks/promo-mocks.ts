@@ -1,4 +1,4 @@
-import { Promo } from '../types/promo-types';
+import { Promo } from '../types/promo-data';
 
 export const promoMock: Promo = {
   id: 1,
