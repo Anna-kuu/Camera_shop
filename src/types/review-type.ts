@@ -8,3 +8,5 @@ export type Review = {
   createAt: string;
   cameraId: number;
 };
+
+export type Reviews = Review[];

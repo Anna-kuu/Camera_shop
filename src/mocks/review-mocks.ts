@@ -1,4 +1,4 @@
-import { Review } from '../types/review-data';
+import { Review } from '../types/review-type';
 
 export const reviewMock: Review = {
   id: '2ab4a018-2e53-4f7c-abc7-7f868093e9a5',

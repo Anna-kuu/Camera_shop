@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
 import { APIRoute } from '../../const';
-import { promoMock } from '../../mocks/promo-mocks';
+import { useAppSelector } from '../../hooks';
+import { getPromoCamera } from '../../store/cameras-data/selectors';
 
 export default function Banner(): JSX.Element {
-  const {previewImg, previewImg2x, previewImgWebp, previewImgWebp2x, name, id} = promoMock;
+  const promoCamera = useAppSelector(getPromoCamera);
+  const {previewImg, previewImg2x, previewImgWebp, previewImgWebp2x, name, id} = promoCamera;
   return (
     <div className="banner">
       <picture>

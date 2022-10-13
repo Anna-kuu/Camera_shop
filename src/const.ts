@@ -1,3 +1,5 @@
+export const MAX_RATING = 5;
+
 export enum AppRoute {
   Root = '/',
   Catalog = '/catalog',
@@ -5,5 +7,12 @@ export enum AppRoute {
 }
 
 export enum APIRoute {
-  Cameras = '/cameras'
+  Cameras = '/cameras',
+  Promo = '/promo',
+}
+
+export enum NameSpace {
+  Cameras = 'CAMERAS',
+  Camera = 'CAMERA',
+  Reviews = 'REVIEWS',
 }

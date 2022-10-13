@@ -9,7 +9,7 @@ export default function Header(): JSX.Element {
         </a>
         <nav className="main-nav header__main-nav">
           <ul className="main-nav__list">
-            <li className="main-nav__item"><a className="main-nav__link" href="catalog.html">Каталог</a>
+            <li className="main-nav__item"><a className="main-nav__link" href="/">Каталог</a>
             </li>
             <li className="main-nav__item"><a className="main-nav__link" href="/">Гарантии</a>
             </li>

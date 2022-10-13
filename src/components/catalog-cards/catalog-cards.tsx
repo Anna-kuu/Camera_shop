@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
-import { APIRoute } from '../../const';
-import { camerasMock } from '../../mocks/cameras-mocks';
+import { APIRoute, MAX_RATING } from '../../const';
+import { useAppSelector } from '../../hooks';
+import { getCameras } from '../../store/cameras-data/selectors';
 
 export default function CatalogCards():JSX.Element {
-  const camerasCatalog = camerasMock.map((camera) => (
+  const cameras = useAppSelector(getCameras);
+  const camerasCatalog = cameras.map((camera) => (
     <div className="product-card" key={`product-card-${camera.id}`}>
       <div className="product-card__img">
         <picture>
@@ -13,21 +15,11 @@ export default function CatalogCards():JSX.Element {
       </div>
       <div className="product-card__info">
         <div className="rate product-card__rate">
-          <svg width="17" height="16" aria-hidden="true">
-            <use xlinkHref="#icon-full-star"></use>
-          </svg>
-          <svg width="17" height="16" aria-hidden="true">
-            <use xlinkHref="#icon-full-star"></use>
-          </svg>
-          <svg width="17" height="16" aria-hidden="true">
-            <use xlinkHref="#icon-full-star"></use>
-          </svg>
-          <svg width="17" height="16" aria-hidden="true">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-          <svg width="17" height="16" aria-hidden="true">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
+          {Array.from({length: MAX_RATING}, (it, index) => (
+            <svg width="17" height="16" aria-hidden="true" key={`star-${index}`}>
+              <use xlinkHref={`#icon-${index < camera.rating ? 'full-' : ''}star`}></use>
+            </svg>
+          ))}
           <p className="visually-hidden">{`Рейтинг: ${camera.rating}`}</p>
           <p className="rate__count"><span className="visually-hidden">Всего оценок:</span>{camera.reviewCount}</p>
         </div>

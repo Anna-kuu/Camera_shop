@@ -1,9 +1,29 @@
+import { useEffect } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
 import Review from '../../components/review/review';
-import { cameraMock } from '../../mocks/cameras-mocks';
+import Tabs from '../../components/tabs/tabs';
+import { AppRoute, MAX_RATING } from '../../const';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { fetchCameraByIdAction, fetchReviewsAction, fetchSimilarCamerasAction } from '../../store/api-actions';
+import { getCameraById } from '../../store/camera-data/selectors';
 
 export default function Camera():JSX.Element {
+  const params = useParams();
+  const dispatch = useAppDispatch();
+  const id = Number(params.id);
+  const camera = useAppSelector(getCameraById);
+
+  useEffect(() => {
+    if (id === null) {
+      return;
+    }
+    dispatch(fetchCameraByIdAction(id));
+    dispatch(fetchSimilarCamerasAction(id));
+    dispatch(fetchReviewsAction(id));
+  }, [dispatch, id]);
+
   return (
     <div className="wrapper">
       <Header />
@@ -13,20 +33,20 @@ export default function Camera():JSX.Element {
             <div className="container">
               <ul className="breadcrumbs__list">
                 <li className="breadcrumbs__item">
-                  <a className="breadcrumbs__link" href="index.html">Главная
+                  <Link className="breadcrumbs__link" to={AppRoute.Root}>Главная
                     <svg width="5" height="8" aria-hidden="true">
                       <use xlinkHref="#icon-arrow-mini"></use>
                     </svg>
-                  </a>
+                  </Link>
                 </li>
                 <li className="breadcrumbs__item">
-                  <a className="breadcrumbs__link" href="catalog.html">Каталог
+                  <Link className="breadcrumbs__link" to={AppRoute.Root}>Каталог
                     <svg width="5" height="8" aria-hidden="true">
                       <use xlinkHref="#icon-arrow-mini"></use>
                     </svg>
-                  </a>
+                  </Link>
                 </li>
-                <li className="breadcrumbs__item"><span className="breadcrumbs__link breadcrumbs__link--active">Ретрокамера «Das Auge IV»</span>
+                <li className="breadcrumbs__item"><span className="breadcrumbs__link breadcrumbs__link--active">{camera.name}</span>
                 </li>
               </ul>
             </div>
@@ -36,66 +56,28 @@ export default function Camera():JSX.Element {
               <div className="container">
                 <div className="product__img">
                   <picture>
-                    <source type="image/webp" srcSet="/img/content/img1.webp, /img/content/img1@2x.webp 2x" />
-                    <img src="/img/content/img1.jpg" srcSet="/img/content/img1@2x.jpg 2x" width="560" height="480" alt="Ретрокамера Das Auge IV"/>
+                    <source type="image/webp" srcSet={`/${camera.previewImgWebp}, /${camera.previewImgWebp2x} 2x"`} />
+                    <img src={`/${camera.previewImg}`} srcSet={`/${camera.previewImg2x}} 2x`} width="560" height="480" alt="Ретрокамера Das Auge IV"/>
                   </picture>
                 </div>
                 <div className="product__content">
-                  <h1 className="title title--h3">{cameraMock.name}</h1>
+                  <h1 className="title title--h3">{camera.name}</h1>
                   <div className="rate product__rate">
-                    <svg width="17" height="16" aria-hidden="true">
-                      <use xlinkHref="#icon-full-star"></use>
-                    </svg>
-                    <svg width="17" height="16" aria-hidden="true">
-                      <use xlinkHref="#icon-full-star"></use>
-                    </svg>
-                    <svg width="17" height="16" aria-hidden="true">
-                      <use xlinkHref="#icon-full-star"></use>
-                    </svg>
-                    <svg width="17" height="16" aria-hidden="true">
-                      <use xlinkHref="#icon-full-star"></use>
-                    </svg>
-                    <svg width="17" height="16" aria-hidden="true">
-                      <use xlinkHref="#icon-star"></use>
-                    </svg>
-                    <p className="visually-hidden">{`Рейтинг: ${cameraMock.rating}`}</p>
-                    <p className="rate__count"><span className="visually-hidden">Всего оценок:</span>{cameraMock.reviewCount}</p>
+                    {Array.from({length: MAX_RATING}, (it, index) => (
+                      <svg width="17" height="16" aria-hidden="true" key={`star-${index}`}>
+                        <use xlinkHref={`#icon-${index < camera.rating ? 'full-' : ''}star`}></use>
+                      </svg>
+                    ))}
+                    <p className="visually-hidden">{`Рейтинг: ${camera.rating}`}</p>
+                    <p className="rate__count"><span className="visually-hidden">Всего оценок:</span>{camera.reviewCount}</p>
                   </div>
-                  <p className="product__price"><span className="visually-hidden">Цена:</span>{`${cameraMock.price} ₽`}</p>
+                  <p className="product__price"><span className="visually-hidden">Цена:</span>{`${camera.price} ₽`}</p>
                   <button className="btn btn--purple" type="button">
                     <svg width="24" height="16" aria-hidden="true">
                       <use xlinkHref="#icon-add-basket"></use>
                     </svg>Добавить в корзину
                   </button>
-                  <div className="tabs product__tabs">
-                    <div className="tabs__controls product__tabs-controls">
-                      <button className="tabs__control" type="button">Характеристики</button>
-                      <button className="tabs__control is-active" type="button">Описание</button>
-                    </div>
-                    <div className="tabs__content">
-                      <div className="tabs__element">
-                        <ul className="product__tabs-list">
-                          <li className="item-list"><span className="item-list__title">Артикул:</span>
-                            <p className="item-list__text"> {cameraMock.vendorCode}</p>
-                          </li>
-                          <li className="item-list"><span className="item-list__title">Категория:</span>
-                            <p className="item-list__text">{cameraMock.category}</p>
-                          </li>
-                          <li className="item-list"><span className="item-list__title">Тип камеры:</span>
-                            <p className="item-list__text">{cameraMock.type}</p>
-                          </li>
-                          <li className="item-list"><span className="item-list__title">Уровень:</span>
-                            <p className="item-list__text">{cameraMock.level}</p>
-                          </li>
-                        </ul>
-                      </div>
-                      <div className="tabs__element is-active">
-                        <div className="product__tabs-text">
-                          <p>{cameraMock.description}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  <Tabs camera={camera}/>
                 </div>
               </div>
             </section>

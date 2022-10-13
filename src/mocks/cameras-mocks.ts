@@ -1,4 +1,4 @@
-import { Camera, Cameras } from '../types/cameras-data';
+import { Camera, Cameras } from '../types/cameras-type';
 
 export const camerasMock: Cameras = [
   {
