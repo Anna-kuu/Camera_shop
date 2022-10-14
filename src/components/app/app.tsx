@@ -1,5 +1,5 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { AppRoute } from '../../const';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { APIRoute, AppRoute } from '../../const';
 import Camera from '../../pages/camera/camera';
 import Catalog from '../../pages/catalog/catalog';
 
@@ -9,7 +9,7 @@ function App(): JSX.Element {
       <Routes>
         <Route
           path={AppRoute.Root}
-          element={<Catalog />}
+          element={<Navigate to = {APIRoute.Catalog} />}
         />
         <Route
           path={AppRoute.Catalog}

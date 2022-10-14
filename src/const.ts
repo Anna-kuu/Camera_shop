@@ -1,14 +1,19 @@
 export const MAX_RATING = 5;
+export const PAGE_STEP = 1;
+export const PAGE_DEFAULT = 1;
+export const MAX_CAMERAS_OF_PAGE = 9;
 
 export enum AppRoute {
   Root = '/',
-  Catalog = '/catalog',
+  Catalog = '/catalog/:pageId',
   Camera = '/cameras/:id',
 }
 
 export enum APIRoute {
   Cameras = '/cameras',
   Promo = '/promo',
+  Catalog = '/catalog/1',
+  Catalog2 = '/catalog'
 }
 
 export enum NameSpace {
