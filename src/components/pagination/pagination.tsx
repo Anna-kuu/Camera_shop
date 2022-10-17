@@ -16,7 +16,7 @@ export default function Pagination():JSX.Element {
       <ul className="pagination__list">
         {activePage !== PAGE_DEFAULT &&
         <li className="pagination__item">
-          <Link onClick={() => setActivePage(activePage - PAGE_STEP)}className="pagination__link pagination__link--text" to={`${APIRoute.Catalog2}/${activePage - PAGE_STEP}`}>Назад</Link>
+          <Link onClick={() => setActivePage(activePage - PAGE_STEP)} className="pagination__link pagination__link--text" to={`${APIRoute.Catalog2}/${activePage - PAGE_STEP}`}>Назад</Link>
         </li>}
         {Array.from({length: pageCount}, (it, index) => (
           <li className="pagination__item" key={`pagination-${index}`}>

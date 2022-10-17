@@ -6,12 +6,20 @@ import { fetchReviewsAction } from '../api-actions';
 const initialState: ReviewsData = {
   reviews: [],
   isDataLoaded: false,
+  reviewsCounter: 3,
 };
 
 export const reviewsData = createSlice({
   name: NameSpace.Reviews,
   initialState,
-  reducers: {},
+  reducers: {
+    resetCounter: (state) => {
+      state.reviewsCounter = 3;
+    },
+    reviewsShownCounter: (state) => {
+      state.reviewsCounter += 3;
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchReviewsAction.pending, (state) => {
@@ -23,3 +31,5 @@ export const reviewsData = createSlice({
       });
   }
 });
+
+export const {resetCounter, reviewsShownCounter} = reviewsData.actions;

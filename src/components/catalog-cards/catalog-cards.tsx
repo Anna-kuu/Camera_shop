@@ -1,15 +1,17 @@
 import { Link } from 'react-router-dom';
-import { APIRoute, MAX_CAMERAS_OF_PAGE, MAX_RATING } from '../../const';
-import { useAppSelector } from '../../hooks';
+import { APIRoute, MAX_CAMERAS_OF_PAGE, MAX_RATING, PAGE_STEP } from '../../const';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getCameras } from '../../store/cameras-data/selectors';
 import { useParams } from 'react-router-dom';
+import { resetCounter } from '../../store/reviews-data/reviews-data';
 
 export default function CatalogCards():JSX.Element {
+  const dispatch = useAppDispatch();
   const params = useParams();
   const pageId = Number(params.pageId);
   const cameras = useAppSelector(getCameras);
-  const startArrayIndex = MAX_CAMERAS_OF_PAGE * (pageId - 1);
-  const camerasSelected = cameras.slice(startArrayIndex, (startArrayIndex + 9));
+  const startArrayIndex = MAX_CAMERAS_OF_PAGE * (pageId - PAGE_STEP);
+  const camerasSelected = cameras.slice(startArrayIndex, (startArrayIndex + MAX_CAMERAS_OF_PAGE));
   const camerasCatalog = camerasSelected.map((camera) => (
     <div className="product-card" key={`product-card-${camera.id}`}>
       <div className="product-card__img">
@@ -35,7 +37,7 @@ export default function CatalogCards():JSX.Element {
       <div className="product-card__buttons">
         <button className="btn btn--purple product-card__btn" type="button">Купить
         </button>
-        <Link className="btn btn--transparent" to={`${APIRoute.Cameras}/${camera.id}`}>Подробнее
+        <Link onClick={() => dispatch(resetCounter())} className="btn btn--transparent" to={`${APIRoute.Cameras}/${camera.id}`}>Подробнее
         </Link>
       </div>
     </div>
