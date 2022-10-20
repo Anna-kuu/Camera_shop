@@ -5,11 +5,12 @@ import { getReviewsCounter } from '../../store/reviews-data/selectors';
 import { Reviews } from '../../types/review-type';
 import { dateReview } from '../../util';
 
-type reviewsType = {
+type reviewsProps = {
   reviews: Reviews;
+  setModalReviewActive: (status: boolean) => void;
 }
 
-export default function Review({reviews}: reviewsType): JSX.Element {
+export default function Review({reviews, setModalReviewActive}: reviewsProps): JSX.Element {
   const dispatch = useAppDispatch();
   const reviewsCounter = useAppSelector(getReviewsCounter);
   const shownRevies = reviews.slice(0, reviewsCounter);
@@ -45,7 +46,7 @@ export default function Review({reviews}: reviewsType): JSX.Element {
       <div className="container">
         <div className="page-content__headed">
           <h2 className="title title--h3">Отзывы</h2>
-          <button className="btn" type="button">Оставить свой отзыв</button>
+          <button onClick={() => setModalReviewActive(true)} className="btn" type="button">Оставить свой отзыв</button>
         </div>
         <ul className="review-block__list">
           {reviewsList}
