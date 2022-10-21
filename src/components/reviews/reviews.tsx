@@ -13,13 +13,14 @@ type reviewsProps = {
   id: number;
 }
 
-export default function Review({reviews, id}: reviewsProps): JSX.Element {
+export default function ReviewsList({reviews, id}: reviewsProps): JSX.Element {
   const [isModalReviewActive, setIsModalReviewActive] = useState(false);
   const [isModalReviewSuccessActive, setIsModalReviewSuccessActive] = useState(false);
 
   const dispatch = useAppDispatch();
   const reviewsCounter = useAppSelector(getReviewsCounter);
   const shownRevies = reviews.slice(0, reviewsCounter);
+
   const reviewsList = shownRevies.map((review) => (
     <li className="review-card" key={`review-${review.id}`}>
       <div className="review-card__head">

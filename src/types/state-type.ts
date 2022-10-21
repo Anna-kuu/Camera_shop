@@ -21,7 +21,7 @@ export type CameraData = {
 
 export type ReviewsData = {
   reviews: Reviews;
-  isDataLoaded: boolean;
+  isReviewLoading: boolean;
   reviewsCounter: number;
   isReviewSending: boolean;
 }

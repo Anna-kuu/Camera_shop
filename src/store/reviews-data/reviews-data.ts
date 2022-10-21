@@ -5,7 +5,7 @@ import { addReviewAction, fetchReviewsAction } from '../api-actions';
 
 const initialState: ReviewsData = {
   reviews: [],
-  isDataLoaded: false,
+  isReviewLoading: false,
   reviewsCounter: 3,
   isReviewSending: false,
 };
@@ -24,11 +24,11 @@ export const reviewsData = createSlice({
   extraReducers(builder) {
     builder
       .addCase(fetchReviewsAction.pending, (state) => {
-        state.isDataLoaded = true;
+        state.isReviewLoading = true;
       })
       .addCase(fetchReviewsAction.fulfilled, (state, action) => {
         state.reviews = action.payload;
-        state.isDataLoaded = false;
+        state.isReviewLoading = false;
       })
       .addCase(addReviewAction.pending, (state) => {
         state.isReviewSending = true;

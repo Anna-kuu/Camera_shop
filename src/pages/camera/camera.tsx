@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
-import Review from '../../components/review/review';
+import ReviewsList from '../../components/reviews/reviews';
 import SimilarCameras from '../../components/similar-cameras/similar-cameras';
 import Tabs from '../../components/tabs/tabs';
 import { AppRoute, MAX_RATING } from '../../const';
@@ -90,7 +90,7 @@ export default function Camera():JSX.Element {
             <SimilarCameras similarCameras={similarCameras}/>
           </div>}
           <div className="page-content__section">
-            <Review reviews={reviews} id={id}/>
+            <ReviewsList reviews={reviews} id={id}/>
           </div>
         </div>
 
