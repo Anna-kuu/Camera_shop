@@ -5,6 +5,7 @@ import { reviewsShownCounter } from '../../store/reviews-data/reviews-data';
 import { getReviewsCounter } from '../../store/reviews-data/selectors';
 import { Reviews } from '../../types/review-type';
 import { dateReview } from '../../util';
+import { ModalReviewSuccess } from '../modal-review-success/modal-review-success';
 import ModalReview from '../modal-review/modal-review';
 
 type reviewsProps = {
@@ -13,7 +14,9 @@ type reviewsProps = {
 }
 
 export default function Review({reviews, id}: reviewsProps): JSX.Element {
-  const [isModalReviewActive, setModalReviewActive] = useState(false);
+  const [isModalReviewActive, setIsModalReviewActive] = useState(false);
+  const [isModalReviewSuccessActive, setIsModalReviewSuccessActive] = useState(false);
+
   const dispatch = useAppDispatch();
   const reviewsCounter = useAppSelector(getReviewsCounter);
   const shownRevies = reviews.slice(0, reviewsCounter);
@@ -50,7 +53,7 @@ export default function Review({reviews, id}: reviewsProps): JSX.Element {
         <div className="container">
           <div className="page-content__headed">
             <h2 className="title title--h3">Отзывы</h2>
-            <button onClick={() => setModalReviewActive(true)} className="btn" type="button">Оставить свой отзыв</button>
+            <button onClick={() => setIsModalReviewActive(true)} className="btn" type="button">Оставить свой отзыв</button>
           </div>
           <ul className="review-block__list">
             {reviewsList}
@@ -62,7 +65,8 @@ export default function Review({reviews, id}: reviewsProps): JSX.Element {
           </div>}
         </div>
       </section>
-      <ModalReview isModalReviewActive={isModalReviewActive} setModalReviewActive={setModalReviewActive} idCamera={id}/>
+      <ModalReview isModalReviewActive={isModalReviewActive} setIsModalReviewActive={setIsModalReviewActive} setIsModalReviewSuccessActive={setIsModalReviewSuccessActive} idCamera={id}/>
+      <ModalReviewSuccess isModalReviewSuccessActive={isModalReviewSuccessActive} setIsModalReviewSuccessActive={setIsModalReviewSuccessActive}/>
     </>
   );
 }
