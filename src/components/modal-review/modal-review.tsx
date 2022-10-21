@@ -1,9 +1,45 @@
+import React, { Fragment, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { RatingTitle } from '../../const';
+import { useAppDispatch } from '../../hooks';
+import { addReviewAction } from '../../store/api-actions';
+import { ReviewPost } from '../../types/review-type';
+
+const MAX_RATING_VALUES = 5;
+const RATING_VALUES = Array.from({ length: MAX_RATING_VALUES }, (it, index) => index + 1).reverse();
+
+
 type ModalReviewProps = {
   isModalReviewActive: boolean;
   setModalReviewActive: (status: boolean) => void;
+  idCamera: number;
 };
 
-export default function ModalReview({isModalReviewActive, setModalReviewActive}: ModalReviewProps): JSX.Element {
+export default function ModalReview({isModalReviewActive, setModalReviewActive, idCamera}: ModalReviewProps): JSX.Element {
+  const dispatch = useAppDispatch();
+  const [rating, setRating] = useState(0);
+  const {
+    register,
+    formState: {
+      errors,
+      isValid
+    },
+    handleSubmit,
+    reset,
+  } = useForm<ReviewPost>({
+    mode: 'all'
+  });
+
+  const onSubmit = handleSubmit((review) => {
+    const reviewData = {
+      ...review,
+      cameraId: idCamera,
+      rating: Number(review.rating),
+    };
+    dispatch(addReviewAction(reviewData));
+    reset();
+  });
+
   return (
     <div className={`modal ${isModalReviewActive ? 'is-active' : ''}`}>
       <div className="modal__wrapper">
@@ -11,7 +47,7 @@ export default function ModalReview({isModalReviewActive, setModalReviewActive}:
         <div className="modal__content">
           <p className="title title--h4">Оставить отзыв</p>
           <div className="form-review">
-            <form method="post">
+            <form method="post" onSubmit={onSubmit}>
               <div className="form-review__rate ">
                 <fieldset className="rate form-review__item">
                   <legend className="rate__caption">Рейтинг
@@ -21,21 +57,20 @@ export default function ModalReview({isModalReviewActive, setModalReviewActive}:
                   </legend>
                   <div className="rate__bar">
                     <div className="rate__group">
-                      <input className="visually-hidden" id="star-5" name="rate" type="radio" value="5"/>
-                      <label className="rate__label" htmlFor="star-5" title="Отлично"></label>
-                      <input className="visually-hidden" id="star-4" name="rate" type="radio" value="4"/>
-                      <label className="rate__label" htmlFor="star-4" title="Хорошо"></label>
-                      <input className="visually-hidden" id="star-3" name="rate" type="radio" value="3"/>
-                      <label className="rate__label" htmlFor="star-3" title="Нормально"></label>
-                      <input className="visually-hidden" id="star-2" name="rate" type="radio" value="2"/>
-                      <label className="rate__label" htmlFor="star-2" title="Плохо"></label>
-                      <input className="visually-hidden" id="star-1" name="rate" type="radio" value="1"/>
-                      <label className="rate__label" htmlFor="star-1" title="Ужасно"></label>
+                      {RATING_VALUES.map((index) => (
+                        <Fragment key={`star-${index}`}>
+                          <input className="visually-hidden" id={`star-${index}`} type="radio" {...register('rating', {required: true})} value={index} onChange={() => setRating(index)} />
+                          <label className="rate__label" htmlFor={`star-${index}`} title={RatingTitle[index]}></label>
+                        </Fragment>
+                      ))}
                     </div>
-                    <div className="rate__progress"><span className="rate__stars">0</span> <span>/</span> <span className="rate__all-stars">5</span>
+                    <div className="rate__progress">
+                      <span className="rate__stars">{rating}</span>
+                      <span>/</span>
+                      <span className="rate__all-stars">5</span>
                     </div>
                   </div>
-                  <p className="rate__message">Нужно оценить товар</p>
+                  {errors?.rating && <p className="rate__message">Нужно оценить товар</p>}
                 </fieldset>
                 <div className="custom-input form-review__item">
                   <label>
@@ -44,9 +79,9 @@ export default function ModalReview({isModalReviewActive, setModalReviewActive}:
                         <use xlinkHref="#icon-snowflake"></use>
                       </svg>
                     </span>
-                    <input type="text" name="user-name" placeholder="Введите ваше имя" required/>
+                    <input type="text" placeholder="Введите ваше имя" {...register('userName', {required: true})}/>
                   </label>
-                  <p className="custom-input__error">Нужно указать имя</p>
+                  {errors?.userName && <p className="custom-input__error">Нужно указать имя</p>}
                 </div>
                 <div className="custom-input form-review__item">
                   <label>
@@ -55,9 +90,9 @@ export default function ModalReview({isModalReviewActive, setModalReviewActive}:
                         <use xlinkHref="#icon-snowflake"></use>
                       </svg>
                     </span>
-                    <input type="text" name="user-plus" placeholder="Основные преимущества товара" required/>
+                    <input type="text" placeholder="Основные преимущества товара" {...register('advantage', {required: true})}/>
                   </label>
-                  <p className="custom-input__error">Нужно указать достоинства</p>
+                  {errors?.advantage && <p className="custom-input__error">Нужно указать достоинства</p>}
                 </div>
                 <div className="custom-input form-review__item">
                   <label>
@@ -66,9 +101,9 @@ export default function ModalReview({isModalReviewActive, setModalReviewActive}:
                         <use xlinkHref="#icon-snowflake"></use>
                       </svg>
                     </span>
-                    <input type="text" name="user-minus" placeholder="Главные недостатки товара" required />
+                    <input type="text" placeholder="Главные недостатки товара" {...register('disadvantage', {required: true})} />
                   </label>
-                  <p className="custom-input__error">Нужно указать недостатки</p>
+                  {errors?.disadvantage && <p className="custom-input__error">Нужно указать недостатки</p>}
                 </div>
                 <div className="custom-textarea form-review__item">
                   <label>
@@ -77,12 +112,21 @@ export default function ModalReview({isModalReviewActive, setModalReviewActive}:
                         <use xlinkHref="#icon-snowflake"></use>
                       </svg>
                     </span>
-                    <textarea name="user-comment" minLength={5} placeholder="Поделитесь своим опытом покупки"></textarea>
+                    <textarea placeholder="Поделитесь своим опытом покупки"
+                      {...register('review', {
+                        required: true,
+                        minLength: {
+                          value: 5,
+                          message: 'Минумум 5 символов'
+                        }})
+                      }
+                    >
+                    </textarea>
                   </label>
-                  <div className="custom-textarea__error">Нужно добавить комментарий</div>
+                  {errors?.review && <div className="custom-textarea__error">Нужно добавить комментарий</div>}
                 </div>
               </div>
-              <button className="btn btn--purple form-review__btn" type="submit">Отправить отзыв</button>
+              <button className="btn btn--purple form-review__btn" type="submit" disabled={!isValid}>Отправить отзыв</button>
             </form>
           </div>
           <button onClick={() => setModalReviewActive(false)} className="cross-btn" type="button" aria-label="Закрыть попап">

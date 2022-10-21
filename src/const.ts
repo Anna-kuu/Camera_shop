@@ -15,7 +15,8 @@ export enum APIRoute {
   Cameras = '/cameras',
   Promo = '/promo',
   Catalog = '/catalog/1',
-  Catalog2 = '/catalog'
+  Catalog2 = '/catalog',
+  Review = '/reviews',
 }
 
 export enum NameSpace {
@@ -23,3 +24,11 @@ export enum NameSpace {
   Camera = 'CAMERA',
   Reviews = 'REVIEWS',
 }
+
+export const RatingTitle: {[key: number]: string} = {
+  1: 'Ужасно',
+  2: 'Плохо',
+  3: 'Нормально',
+  4: 'Хорошо',
+  5: 'Отлично',
+} as const;

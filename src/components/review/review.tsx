@@ -1,16 +1,19 @@
+import { useState } from 'react';
 import { MAX_RATING } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { reviewsShownCounter } from '../../store/reviews-data/reviews-data';
 import { getReviewsCounter } from '../../store/reviews-data/selectors';
 import { Reviews } from '../../types/review-type';
 import { dateReview } from '../../util';
+import ModalReview from '../modal-review/modal-review';
 
 type reviewsProps = {
   reviews: Reviews;
-  setModalReviewActive: (status: boolean) => void;
+  id: number;
 }
 
-export default function Review({reviews, setModalReviewActive}: reviewsProps): JSX.Element {
+export default function Review({reviews, id}: reviewsProps): JSX.Element {
+  const [isModalReviewActive, setModalReviewActive] = useState(false);
   const dispatch = useAppDispatch();
   const reviewsCounter = useAppSelector(getReviewsCounter);
   const shownRevies = reviews.slice(0, reviewsCounter);
@@ -42,21 +45,24 @@ export default function Review({reviews, setModalReviewActive}: reviewsProps): J
     </li>
   ));
   return (
-    <section className="review-block">
-      <div className="container">
-        <div className="page-content__headed">
-          <h2 className="title title--h3">Отзывы</h2>
-          <button onClick={() => setModalReviewActive(true)} className="btn" type="button">Оставить свой отзыв</button>
+    <>
+      <section className="review-block">
+        <div className="container">
+          <div className="page-content__headed">
+            <h2 className="title title--h3">Отзывы</h2>
+            <button onClick={() => setModalReviewActive(true)} className="btn" type="button">Оставить свой отзыв</button>
+          </div>
+          <ul className="review-block__list">
+            {reviewsList}
+          </ul>
+          {reviews.length !== shownRevies.length &&
+          <div className="review-block__buttons">
+            <button onClick={() => dispatch(reviewsShownCounter())} className="btn btn--purple" type="button">Показать больше отзывов
+            </button>
+          </div>}
         </div>
-        <ul className="review-block__list">
-          {reviewsList}
-        </ul>
-        {reviews.length !== shownRevies.length &&
-        <div className="review-block__buttons">
-          <button onClick={() => dispatch(reviewsShownCounter())} className="btn btn--purple" type="button">Показать больше отзывов
-          </button>
-        </div>}
-      </div>
-    </section>
+      </section>
+      <ModalReview isModalReviewActive={isModalReviewActive} setModalReviewActive={setModalReviewActive} idCamera={id}/>
+    </>
   );
 }

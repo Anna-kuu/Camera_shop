@@ -23,4 +23,5 @@ export type ReviewsData = {
   reviews: Reviews;
   isDataLoaded: boolean;
   reviewsCounter: number;
+  isReviewSending: boolean;
 }

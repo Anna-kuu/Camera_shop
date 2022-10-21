@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
-import ModalReview from '../../components/modal-review/modal-review';
 import Review from '../../components/review/review';
 import SimilarCameras from '../../components/similar-cameras/similar-cameras';
 import Tabs from '../../components/tabs/tabs';
@@ -13,7 +12,6 @@ import { getCameraById, getSimilarCameras } from '../../store/camera-data/select
 import { getReviews } from '../../store/reviews-data/selectors';
 
 export default function Camera():JSX.Element {
-  const [isModalReviewActive, setModalReviewActive] = useState(false);
   const dispatch = useAppDispatch();
   const params = useParams();
   const id = Number(params.id);
@@ -92,10 +90,10 @@ export default function Camera():JSX.Element {
             <SimilarCameras similarCameras={similarCameras}/>
           </div>}
           <div className="page-content__section">
-            <Review reviews={reviews} setModalReviewActive={setModalReviewActive}/>
+            <Review reviews={reviews} id={id}/>
           </div>
         </div>
-        <ModalReview isModalReviewActive={isModalReviewActive} setModalReviewActive={setModalReviewActive}/>
+
       </main>
       <button className="up-btn" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
         <svg width="12" height="18" aria-hidden="true">
