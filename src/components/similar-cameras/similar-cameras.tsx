@@ -17,7 +17,7 @@ export default function SimilarCameras({similarCameras}: SimilarCamerasProps):JS
     <div className="product-card is-active" key={`slider-${camera.id}`}>
       <div className="product-card__img">
         <picture>
-          <source type="image/webp" srcSet={`${camera.previewImgWebp}, ${camera.previewImgWebp2x} 2x`}/>
+          <source type="image/webp" srcSet={`/${camera.previewImgWebp}, /${camera.previewImgWebp2x} 2x`}/>
           <img src={camera.previewImg} srcSet={`${camera.previewImg2x} 2x`} width="280" height="240" alt={camera.name}/>
         </picture>
       </div>
