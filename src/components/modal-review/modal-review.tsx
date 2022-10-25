@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { RatingTitle } from '../../const';
 import { useAppDispatch } from '../../hooks';
@@ -48,7 +48,7 @@ export default function ModalReview({isModalReviewActive, setIsModalReviewActive
   return (
     <div className={`modal ${isModalReviewActive ? 'is-active' : ''}`}>
       <div className="modal__wrapper">
-        <div onClick={() => setIsModalReviewActive(false)} className="modal__overlay"></div>
+        <div onClick={() => {setIsModalReviewActive(false); document.body.style.overflow = 'scroll';}} className="modal__overlay"></div>
         <div className="modal__content">
           <p className="title title--h4">Оставить отзыв</p>
           <div className="form-review">
@@ -134,7 +134,7 @@ export default function ModalReview({isModalReviewActive, setIsModalReviewActive
               <button className="btn btn--purple form-review__btn" type="submit" disabled={!isValid}>Отправить отзыв</button>
             </form>
           </div>
-          <button onClick={() => setIsModalReviewActive(false)} className="cross-btn" type="button" aria-label="Закрыть попап">
+          <button onClick={() => {setIsModalReviewActive(false); document.body.style.overflow = 'scroll';}} className="cross-btn" type="button" aria-label="Закрыть попап">
             <svg width="10" height="10" aria-hidden="true">
               <use xlinkHref="#icon-close"></use>
             </svg>

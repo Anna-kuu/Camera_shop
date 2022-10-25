@@ -53,7 +53,7 @@ export default function ReviewsList({reviews, id}: reviewsProps): JSX.Element {
         <div className="container">
           <div className="page-content__headed">
             <h2 className="title title--h3">Отзывы</h2>
-            <button onClick={() => setIsModalReviewActive(true)} className="btn" type="button">Оставить свой отзыв</button>
+            <button onClick={() => {setIsModalReviewActive(true); document.body.style.overflow = 'hidden';}} className="btn" type="button">Оставить свой отзыв</button>
           </div>
           <ul className="review-block__list">
             {reviewsList}

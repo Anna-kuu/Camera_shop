@@ -1,11 +1,11 @@
-import useKeydown from "../../hooks/use-keydown";
+import useKeydown from '../../hooks/use-keydown';
 
 type ModalReviewSuccessProps = {
   isModalReviewSuccessActive: boolean;
   setIsModalReviewSuccessActive: (status: boolean) => void;
 }
 export function ModalReviewSuccess({isModalReviewSuccessActive, setIsModalReviewSuccessActive}: ModalReviewSuccessProps): JSX.Element {
-  useKeydown('Escape', () => setIsModalReviewSuccessActive(false));
+  useKeydown('Escape', () => {setIsModalReviewSuccessActive(false); document.body.style.overflow = 'scroll';});
   return (
     <div className={`modal modal--narrow ${isModalReviewSuccessActive ? 'is-active' : ''}`}>
       <div className="modal__wrapper">
@@ -16,10 +16,10 @@ export function ModalReviewSuccess({isModalReviewSuccessActive, setIsModalReview
             <use xlinkHref="#icon-review-success"></use>
           </svg>
           <div className="modal__buttons">
-            <button onClick={() => setIsModalReviewSuccessActive(false)} className="btn btn--purple modal__btn modal__btn--fit-width" type="button">Вернуться к покупкам
+            <button onClick={() => {setIsModalReviewSuccessActive(false); document.body.style.overflow = 'scroll';}} className="btn btn--purple modal__btn modal__btn--fit-width" type="button">Вернуться к покупкам
             </button>
           </div>
-          <button onClick={() => setIsModalReviewSuccessActive(false)} className="cross-btn" type="button" aria-label="Закрыть попап">
+          <button onClick={() => {setIsModalReviewSuccessActive(false); document.body.style.overflow = 'scroll';}} className="cross-btn" type="button" aria-label="Закрыть попап">
             <svg width="10" height="10" aria-hidden="true">
               <use xlinkHref="#icon-close"></use>
             </svg>
