@@ -4,7 +4,7 @@ export const PAGE_DEFAULT = 1;
 export const MAX_CAMERAS_OF_PAGE = 9;
 export const SLIDER_STEP = 3;
 export const SLIDER_DEFAULT = 0;
-export const REVIEWS_COUNT_DEFAULT = 3;
+export const REVIEWS_COUNT_DEFAULT = Number(3);
 export const REVIEWS_COUNT_STEP = 3;
 
 export enum AppRoute {

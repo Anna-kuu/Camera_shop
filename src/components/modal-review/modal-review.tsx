@@ -33,7 +33,7 @@ export default function ModalReview({isModalReviewActive, setIsModalReviewActive
     mode: 'all'
   });
 
-  const onSubmit = handleSubmit((review) => {
+  const submitHandler = handleSubmit((review) => {
     const reviewData = {
       ...review,
       cameraId: idCamera,
@@ -44,6 +44,9 @@ export default function ModalReview({isModalReviewActive, setIsModalReviewActive
     setIsModalReviewActive(false);
     setIsModalReviewSuccessActive(true);
   });
+  const onSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
+    submitHandler(e);
+  };
 
   return (
     <div className={`modal ${isModalReviewActive ? 'is-active' : ''}`}>
