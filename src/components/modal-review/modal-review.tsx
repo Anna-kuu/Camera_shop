@@ -84,7 +84,7 @@ export default function ModalReview({isModalReviewActive, setIsModalReviewActive
                         <use xlinkHref="#icon-snowflake"></use>
                       </svg>
                     </span>
-                    <input type="text" placeholder="Введите ваше имя" {...register('userName', {required: true})}/>
+                    <input data-testid='userName' type="text" placeholder="Введите ваше имя" {...register('userName', {required: true})}/>
                   </label>
                   {errors?.userName && <p className="custom-input__error">Нужно указать имя</p>}
                 </div>
@@ -119,7 +119,7 @@ export default function ModalReview({isModalReviewActive, setIsModalReviewActive
                     </span>
                     <textarea placeholder="Поделитесь своим опытом покупки"
                       {...register('review', {
-                        required: true,
+                        required: 'Нужно добавить комментарий',
                         minLength: {
                           value: 5,
                           message: 'Минумум 5 символов'
@@ -128,7 +128,7 @@ export default function ModalReview({isModalReviewActive, setIsModalReviewActive
                     >
                     </textarea>
                   </label>
-                  {errors?.review && <div className="custom-textarea__error">Нужно добавить комментарий</div>}
+                  {errors?.review && <div className="custom-textarea__error">{errors.review.message}</div>}
                 </div>
               </div>
               <button className="btn btn--purple form-review__btn" type="submit" disabled={!isValid}>Отправить отзыв</button>

@@ -73,12 +73,7 @@ export const addReviewAction = createAsyncThunk<void, ReviewPost, {
 }>(
   'data/addReview',
   async(review, {dispatch, extra: api}) => {
-    //try {
     await api.post<Review>(APIRoute.Review, review);
     dispatch(fetchReviewsAction(review.cameraId));
-    /*} catch (error) {
-      toast.error('Can\'t send review. Try again later');
-      throw (error);
-    }*/
   },
 );

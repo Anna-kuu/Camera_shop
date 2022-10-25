@@ -1,12 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { NameSpace } from '../../const';
+import { NameSpace, REVIEWS_COUNT_DEFAULT, REVIEWS_COUNT_STEP } from '../../const';
 import { ReviewsData } from '../../types/state-type';
 import { addReviewAction, fetchReviewsAction } from '../api-actions';
 
 const initialState: ReviewsData = {
   reviews: [],
   isReviewLoading: false,
-  reviewsCounter: 3,
+  reviewsCounter: REVIEWS_COUNT_DEFAULT,
   isReviewSending: false,
 };
 
@@ -15,10 +15,10 @@ export const reviewsData = createSlice({
   initialState,
   reducers: {
     resetCounter: (state) => {
-      state.reviewsCounter = 3;
+      state.reviewsCounter = REVIEWS_COUNT_DEFAULT;
     },
     reviewsShownCounter: (state) => {
-      state.reviewsCounter += 3;
+      state.reviewsCounter += REVIEWS_COUNT_STEP;
     },
   },
   extraReducers(builder) {

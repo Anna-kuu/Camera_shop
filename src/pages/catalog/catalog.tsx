@@ -53,7 +53,7 @@ export default function Catalog(): JSX.Element {
                         <legend className="title title--h5">Категория</legend>
                         <div className="custom-checkbox catalog-filter__item">
                           <label>
-                            <input type="checkbox" name="photocamera" checked /><span className="custom-checkbox__icon"></span><span className="custom-checkbox__label">Фотокамера</span>
+                            <input type="checkbox" name="photocamera" defaultChecked /><span className="custom-checkbox__icon"></span><span className="custom-checkbox__label">Фотокамера</span>
                           </label>
                         </div>
                         <div className="custom-checkbox catalog-filter__item">
@@ -66,7 +66,7 @@ export default function Catalog(): JSX.Element {
                         <legend className="title title--h5">Тип камеры</legend>
                         <div className="custom-checkbox catalog-filter__item">
                           <label>
-                            <input type="checkbox" name="digital" checked /><span className="custom-checkbox__icon"></span><span className="custom-checkbox__label">Цифровая</span>
+                            <input type="checkbox" name="digital" defaultChecked /><span className="custom-checkbox__icon"></span><span className="custom-checkbox__label">Цифровая</span>
                           </label>
                         </div>
                         <div className="custom-checkbox catalog-filter__item">
@@ -81,7 +81,7 @@ export default function Catalog(): JSX.Element {
                         </div>
                         <div className="custom-checkbox catalog-filter__item">
                           <label>
-                            <input type="checkbox" name="collection" checked disabled /><span className="custom-checkbox__icon"></span><span className="custom-checkbox__label">Коллекционная</span>
+                            <input type="checkbox" name="collection" defaultChecked disabled /><span className="custom-checkbox__icon"></span><span className="custom-checkbox__label">Коллекционная</span>
                           </label>
                         </div>
                       </fieldset>
@@ -89,7 +89,7 @@ export default function Catalog(): JSX.Element {
                         <legend className="title title--h5">Уровень</legend>
                         <div className="custom-checkbox catalog-filter__item">
                           <label>
-                            <input type="checkbox" name="zero" checked /><span className="custom-checkbox__icon"></span><span className="custom-checkbox__label">Нулевой</span>
+                            <input type="checkbox" name="zero" defaultChecked /><span className="custom-checkbox__icon"></span><span className="custom-checkbox__label">Нулевой</span>
                           </label>
                         </div>
                         <div className="custom-checkbox catalog-filter__item">
@@ -115,7 +115,7 @@ export default function Catalog(): JSX.Element {
                         <p className="title title--h5">Сортировать:</p>
                         <div className="catalog-sort__type">
                           <div className="catalog-sort__btn-text">
-                            <input type="radio" id="sortPrice" name="sort" checked />
+                            <input type="radio" id="sortPrice" name="sort" defaultChecked />
                             <label htmlFor="sortPrice">по цене</label>
                           </div>
                           <div className="catalog-sort__btn-text">
@@ -125,7 +125,7 @@ export default function Catalog(): JSX.Element {
                         </div>
                         <div className="catalog-sort__order">
                           <div className="catalog-sort__btn catalog-sort__btn--up">
-                            <input type="radio" id="up" name="sort-icon" checked aria-label="По возрастанию" />
+                            <input type="radio" id="up" name="sort-icon" defaultChecked aria-label="По возрастанию" />
                             <label htmlFor="up">
                               <svg width="16" height="14" aria-hidden="true">
                                 <use xlinkHref="#icon-sort"></use>
