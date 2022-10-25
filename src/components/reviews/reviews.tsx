@@ -20,7 +20,6 @@ export default function ReviewsList({reviews, id}: reviewsProps): JSX.Element {
   const dispatch = useAppDispatch();
   const reviewsCounter = useAppSelector(getReviewsCounter);
   const shownRevies = reviews.slice(0, reviewsCounter);
-
   const reviewsList = shownRevies.map((review) => (
     <li className="review-card" key={`review-${review.id}`}>
       <div className="review-card__head">

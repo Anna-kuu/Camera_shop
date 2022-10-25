@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { fetchCameraByIdAction, fetchReviewsAction, fetchSimilarCamerasAction } from '../../store/api-actions';
 import { getCameraById, getSimilarCameras } from '../../store/camera-data/selectors';
 import { getReviews } from '../../store/reviews-data/selectors';
+import { reviewSort } from '../../util';
 
 export default function Camera():JSX.Element {
   const dispatch = useAppDispatch();
@@ -17,7 +18,8 @@ export default function Camera():JSX.Element {
   const id = Number(params.id);
   const camera = useAppSelector(getCameraById);
   const similarCameras = useAppSelector(getSimilarCameras);
-  const reviews = useAppSelector(getReviews);
+  const reviews2 = useAppSelector(getReviews);
+  const reviews = reviews2.slice().sort(reviewSort);
 
   useEffect(() => {
     if (id === null) {
