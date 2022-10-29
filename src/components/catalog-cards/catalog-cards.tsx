@@ -1,19 +1,16 @@
 import { Link } from 'react-router-dom';
-import { APIRoute, MAX_CAMERAS_OF_PAGE, MAX_RATING, PAGE_STEP } from '../../const';
+import { APIRoute, MAX_RATING} from '../../const';
 import { getCameras } from '../../store/cameras-data/selectors';
-import { useParams } from 'react-router-dom';
 import { resetCounter } from '../../store/reviews-data/reviews-data';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { useAppSelector } from '../../hooks/use-app-selector';
 
+
 export default function CatalogCards():JSX.Element {
   const dispatch = useAppDispatch();
-  const params = useParams();
-  const pageId = Number(params.pageId);
   const cameras = useAppSelector(getCameras);
-  const startArrayIndex = MAX_CAMERAS_OF_PAGE * (pageId - PAGE_STEP);
-  const camerasSelected = cameras.slice(startArrayIndex, (startArrayIndex + MAX_CAMERAS_OF_PAGE));
-  const camerasCatalog = camerasSelected.map((camera) => (
+
+  const camerasCatalog = cameras.map((camera) => (
     <div className="product-card" key={`product-card-${camera.id}`}>
       <div className="product-card__img">
         <picture>

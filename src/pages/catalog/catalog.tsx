@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import Banner from '../../components/banner/banner';
 import CatalogCards from '../../components/catalog-cards/catalog-cards';
 import Footer from '../../components/footer/footer';
@@ -9,10 +10,14 @@ import { fetchCamerasAction, fetchPromoCameraAction } from '../../store/api-acti
 
 export default function Catalog(): JSX.Element {
   const dispatch = useAppDispatch();
+  const params = useParams();
+  const pageId = Number(params.pageId);
+
   useEffect(() => {
-    dispatch(fetchCamerasAction());
+    dispatch(fetchCamerasAction(pageId));
     dispatch(fetchPromoCameraAction());
-  }, [dispatch]);
+  }, [dispatch, pageId]);
+
   return (
     <div className="wrapper">
       <Header />

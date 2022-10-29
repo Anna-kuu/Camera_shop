@@ -6,6 +6,7 @@ import { fetchCamerasAction } from '../api-actions';
 const initialState: CamerasData = {
   cameras: [],
   isDataLoaded: false,
+  camerasCount: 0,
 };
 
 export const camerasData = createSlice({
@@ -18,7 +19,8 @@ export const camerasData = createSlice({
         state.isDataLoaded = true;
       })
       .addCase(fetchCamerasAction.fulfilled, (state, action) => {
-        state.cameras = action.payload;
+        state.cameras = action.payload.data;
+        state.camerasCount = Number(action.payload.camerasCount);
         state.isDataLoaded = false;
       });
   }

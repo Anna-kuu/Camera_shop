@@ -10,6 +10,7 @@ export type State = ReturnType<typeof store.getState>;
 export type CamerasData = {
   cameras: Cameras;
   isDataLoaded: boolean;
+  camerasCount: number;
 };
 
 export type CameraData = {

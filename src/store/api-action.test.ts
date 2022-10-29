@@ -22,13 +22,13 @@ describe('Async actions', () => {
     const mockCameras = makeFakeCameras();
     mockAPI
       .onGet(APIRoute.Cameras)
-      .reply(200, mockCameras);
+      .reply(200, {data: mockCameras, camerasTotalCount: 0 }, { 'x-total-count': 40 });
 
     const store = mockStore();
 
-    await store.dispatch(fetchCamerasAction());
+    await store.dispatch(fetchCamerasAction(3));
 
-    const actions = store.getActions().map(({ type }) => type);
+    const actions = store.getActions().map(({ type }:Action<string>) => type);
 
     expect(actions).toEqual([
       fetchCamerasAction.pending.type,
@@ -46,7 +46,7 @@ describe('Async actions', () => {
 
     await store.dispatch(fetchPromoCameraAction());
 
-    const actions = store.getActions().map(({ type }) => type);
+    const actions = store.getActions().map(({ type }:Action<string>) => type);
 
     expect(actions).toEqual([
       fetchPromoCameraAction.pending.type,
@@ -65,7 +65,7 @@ describe('Async actions', () => {
 
     await store.dispatch(fetchCameraByIdAction(id));
 
-    const actions = store.getActions().map(({ type }) => type);
+    const actions = store.getActions().map(({ type }:Action<string>) => type);
 
     expect(actions).toEqual([
       fetchCameraByIdAction.pending.type,
@@ -85,7 +85,7 @@ describe('Async actions', () => {
 
     await store.dispatch(fetchSimilarCamerasAction(id));
 
-    const actions = store.getActions().map(({ type }) => type);
+    const actions = store.getActions().map(({ type }:Action<string>) => type);
 
     expect(actions).toEqual([
       fetchSimilarCamerasAction.pending.type,
@@ -105,7 +105,7 @@ describe('Async actions', () => {
 
     await store.dispatch(fetchReviewsAction(id));
 
-    const actions = store.getActions().map(({ type }) => type);
+    const actions = store.getActions().map(({ type }:Action<string>) => type);
 
     expect(actions).toEqual([
       fetchReviewsAction.pending.type,
@@ -123,7 +123,7 @@ describe('Async actions', () => {
 
     await store.dispatch(addReviewAction(mockReview));
 
-    const actions = store.getActions().map(({ type }) => type);
+    const actions = store.getActions().map(({ type }:Action<string>) => type);
 
     expect(actions).toEqual([
       addReviewAction.pending.type,

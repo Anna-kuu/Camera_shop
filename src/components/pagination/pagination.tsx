@@ -2,14 +2,14 @@ import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { APIRoute, MAX_CAMERAS_OF_PAGE, PAGE_DEFAULT, PAGE_STEP } from '../../const';
 import { useAppSelector } from '../../hooks/use-app-selector';
-import { getCameras } from '../../store/cameras-data/selectors';
+import { getCamerasCount } from '../../store/cameras-data/selectors';
 
 export default function Pagination():JSX.Element {
   const params = useParams();
   const pageId = Number(params.pageId);
   const [activePage, setActivePage] = useState(pageId);
-  const cameras = useAppSelector(getCameras);
-  const pageCount = Math.ceil(cameras.length / MAX_CAMERAS_OF_PAGE);
+  const camerasCount = useAppSelector(getCamerasCount);
+  const pageCount = Math.ceil(camerasCount / MAX_CAMERAS_OF_PAGE);
 
   return (
     <div className="pagination">

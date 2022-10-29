@@ -15,8 +15,8 @@ const mockStore = configureMockStore(middlewares);
 export const store = mockStore({
   CAMERAS: {
     cameras: cameras,
-    promo: promo,
     isDataLoaded: false,
+    camerasCount: 0,
   },
   CAMERA: {
     camera: camera,
@@ -29,4 +29,7 @@ export const store = mockStore({
     reviewsCounter: REVIEWS_COUNT_DEFAULT,
     isReviewSending: false,
   },
+  PROMO : {
+    promo: promo,
+  }
 });
