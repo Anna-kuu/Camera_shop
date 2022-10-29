@@ -1,11 +1,10 @@
 import { Promo } from '../../types/promo-type';
 import { CamerasData } from '../../types/state-type';
-import { makeFakeCameras, makeFakePromoCamera } from '../../utils/mocks';
+import { makeFakeCameras} from '../../utils/mocks';
 import { fetchCamerasAction, fetchPromoCameraAction } from '../api-actions';
 import { camerasData } from './cameras-data';
 
 const cameras = makeFakeCameras();
-const promo = makeFakePromoCamera();
 
 describe('Reducer: camerasData', () => {
   let state: CamerasData;
@@ -13,7 +12,6 @@ describe('Reducer: camerasData', () => {
   beforeEach(() => {
     state = {
       cameras: [],
-      promo: {} as Promo,
       isDataLoaded: false,
     };
   });
@@ -28,18 +26,6 @@ describe('Reducer: camerasData', () => {
       expect(camerasData.reducer(state, {type: fetchCamerasAction.fulfilled.type, payload: cameras}))
         .toEqual({
           cameras: cameras,
-          promo: {} as Promo,
-          isDataLoaded: false,
-        });
-    });
-  });
-
-  describe('fetchPromoCameraAction test', () => {
-    it('should update promo by load prromo', () => {
-      expect(camerasData.reducer(state, {type: fetchPromoCameraAction.fulfilled.type, payload: promo}))
-        .toEqual({
-          cameras: [],
-          promo: promo,
           isDataLoaded: false,
         });
     });

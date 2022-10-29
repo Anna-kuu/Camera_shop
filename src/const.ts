@@ -24,6 +24,7 @@ export enum NameSpace {
   Cameras = 'CAMERAS',
   Camera = 'CAMERA',
   Reviews = 'REVIEWS',
+  Promo = 'PROMO',
 }
 
 export const RatingTitle: {[key: number]: string} = {

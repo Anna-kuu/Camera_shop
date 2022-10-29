@@ -9,7 +9,6 @@ export type State = ReturnType<typeof store.getState>;
 
 export type CamerasData = {
   cameras: Cameras;
-  promo: Promo;
   isDataLoaded: boolean;
 };
 
@@ -25,3 +24,7 @@ export type ReviewsData = {
   reviewsCounter: number;
   isReviewSending: boolean;
 }
+
+export type PromoData = {
+  promo: Promo;
+};

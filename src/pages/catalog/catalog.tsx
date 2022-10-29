@@ -1,10 +1,18 @@
+import { useEffect } from 'react';
 import Banner from '../../components/banner/banner';
 import CatalogCards from '../../components/catalog-cards/catalog-cards';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
 import Pagination from '../../components/pagination/pagination';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
+import { fetchCamerasAction, fetchPromoCameraAction } from '../../store/api-actions';
 
 export default function Catalog(): JSX.Element {
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(fetchCamerasAction());
+    dispatch(fetchPromoCameraAction());
+  }, [dispatch]);
   return (
     <div className="wrapper">
       <Header />
