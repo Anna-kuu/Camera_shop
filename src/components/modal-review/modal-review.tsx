@@ -1,14 +1,13 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { RatingTitle } from '../../const';
-import { useAppDispatch } from '../../hooks';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import useKeydown from '../../hooks/use-keydown';
 import { addReviewAction } from '../../store/api-actions';
 import { ReviewPost } from '../../types/review-type';
 
 const MAX_RATING_VALUES = 5;
 const RATING_VALUES = Array.from({ length: MAX_RATING_VALUES }, (it, index) => index + 1).reverse();
-
 
 type ModalReviewProps = {
   isModalReviewActive: boolean;
@@ -23,6 +22,7 @@ export default function ModalReview({isModalReviewActive, setIsModalReviewActive
   const [rating, setRating] = useState(0);
   const {
     register,
+    setFocus,
     formState: {
       errors,
       isValid
@@ -32,6 +32,14 @@ export default function ModalReview({isModalReviewActive, setIsModalReviewActive
   } = useForm<ReviewPost>({
     mode: 'all'
   });
+
+  useEffect(() => {
+    if (isModalReviewActive) {
+      setTimeout(() => {
+        setFocus('rating');
+      }, 100);
+    }
+  }, [isModalReviewActive, setFocus]);
 
   const submitHandler = handleSubmit((review) => {
     const reviewData = {
@@ -67,7 +75,7 @@ export default function ModalReview({isModalReviewActive, setIsModalReviewActive
                     <div className="rate__group">
                       {RATING_VALUES.map((index) => (
                         <Fragment key={`star-${index}`}>
-                          <input className="visually-hidden" id={`star-${index}`} type="radio" {...register('rating', {required: true})} value={index} onChange={() => setRating(index)} />
+                          <input className="visually-hidden" id={`star-${index}`} type="radio" {...register('rating', {required: true})} value={index} onChange={() => setRating(index)}/>
                           <label className="rate__label" htmlFor={`star-${index}`} title={RatingTitle[index]}></label>
                         </Fragment>
                       ))}
@@ -87,7 +95,7 @@ export default function ModalReview({isModalReviewActive, setIsModalReviewActive
                         <use xlinkHref="#icon-snowflake"></use>
                       </svg>
                     </span>
-                    <input data-testid='userName' type="text" placeholder="Введите ваше имя" {...register('userName', {required: true})}/>
+                    <input data-testid='userName' type="text" placeholder="Введите ваше имя" {...register('userName', {required: true})} />
                   </label>
                   {errors?.userName && <p className="custom-input__error">Нужно указать имя</p>}
                 </div>
@@ -137,7 +145,7 @@ export default function ModalReview({isModalReviewActive, setIsModalReviewActive
               <button className="btn btn--purple form-review__btn" type="submit" disabled={!isValid}>Отправить отзыв</button>
             </form>
           </div>
-          <button onClick={() => {setIsModalReviewActive(false); document.body.style.overflow = 'scroll';}} className="cross-btn" type="button" aria-label="Закрыть попап">
+          <button onBlur={() => setFocus('rating')} onClick={() => {setIsModalReviewActive(false); document.body.style.overflow = 'scroll';}} className="cross-btn" type="button" aria-label="Закрыть попап">
             <svg width="10" height="10" aria-hidden="true">
               <use xlinkHref="#icon-close"></use>
             </svg>

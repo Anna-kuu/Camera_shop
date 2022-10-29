@@ -33,3 +33,8 @@ export const RatingTitle: {[key: number]: string} = {
   4: 'Хорошо',
   5: 'Отлично',
 } as const;
+
+export enum CameraTabs {
+  Specification = 'Характеристики',
+  Description = 'Описание',
+}

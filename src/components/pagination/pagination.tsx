@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { APIRoute, MAX_CAMERAS_OF_PAGE, PAGE_DEFAULT, PAGE_STEP } from '../../const';
-import { useAppSelector } from '../../hooks';
+import { useAppSelector } from '../../hooks/use-app-selector';
 import { getCameras } from '../../store/cameras-data/selectors';
 
 export default function Pagination():JSX.Element {

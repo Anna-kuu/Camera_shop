@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { APIRoute } from '../../const';
-import { useAppSelector } from '../../hooks';
+import { useAppSelector } from '../../hooks/use-app-selector';
 import { getPromoCamera } from '../../store/cameras-data/selectors';
 
 export default function Banner(): JSX.Element {

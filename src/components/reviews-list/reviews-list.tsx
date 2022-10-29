@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { MAX_RATING } from '../../const';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
+import { useAppSelector } from '../../hooks/use-app-selector';
 import { reviewsShownCounter } from '../../store/reviews-data/reviews-data';
 import { getReviewsCounter } from '../../store/reviews-data/selectors';
 import { Reviews } from '../../types/review-type';

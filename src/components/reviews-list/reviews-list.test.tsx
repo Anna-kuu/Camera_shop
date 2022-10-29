@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { store } from '../../utils/mock-store';
 import { makeFakeReviews } from '../../utils/mocks';
 import HistoryRouter from '../history-route/history-route';
-import ReviewsList from './reviews';
+import ReviewsList from './reviews-list';
 
 const reviews = makeFakeReviews();
 describe('Component: Reviews', () => {

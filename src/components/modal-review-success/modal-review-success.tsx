@@ -9,7 +9,7 @@ export function ModalReviewSuccess({isModalReviewSuccessActive, setIsModalReview
   return (
     <div className={`modal modal--narrow ${isModalReviewSuccessActive ? 'is-active' : ''}`}>
       <div className="modal__wrapper">
-        <div className="modal__overlay" onClick={() => setIsModalReviewSuccessActive(false)}></div>
+        <div className="modal__overlay" onClick={() => {setIsModalReviewSuccessActive(false); document.body.style.overflow = 'scroll';}}></div>
         <div className="modal__content">
           <p className="title title--h4">Спасибо за отзыв</p>
           <svg className="modal__icon" width="80" height="78" aria-hidden="true">

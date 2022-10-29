@@ -14,6 +14,7 @@ export const fetchCamerasAction = createAsyncThunk<Cameras, undefined, {
   'data/fetchCameras',
   async (_arg, {extra: api}) => {
     const {data} = await api.get<Cameras>(APIRoute.Cameras);
+    api.get<Cameras>(APIRoute.Cameras, {params: {_limit: 9, _page: 1}}).then((response) => console.log(response.data));
     return data;
   }
 );
