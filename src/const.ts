@@ -38,7 +38,7 @@ export const RatingTitle: {[key: number]: string} = {
 
 export enum CameraTabs {
   Specification = 'specification',
-  Description = 'deescripton',
+  Description = 'description',
 }
 
 export enum dataLoadingStatus {

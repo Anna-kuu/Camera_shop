@@ -5,9 +5,10 @@ import { Review, ReviewPost, Reviews } from '../types/review-type';
 
 export const DEFAULT_CAMERAS_TOTAL_COUNT = 0;
 export const CAMERAS_TOTAL_COUNT = 30;
+let fakeCameraId = 1;
 
 export const makeFakeCamera = (): Camera => ({
-  id: datatype.number({min: 1, max: 4}),
+  id: fakeCameraId++,
   name: commerce.productName(),
   vendorCode: datatype.string(),
   type: datatype.string(),
