@@ -16,7 +16,7 @@ export type CamerasData = {
 export type CameraData = {
   camera: Camera;
   similarCameras: Cameras;
-  isDataLoaded: boolean;
+  dataLoadingStatus: string;
 }
 
 export type ReviewsData = {

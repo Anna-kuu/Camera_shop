@@ -1,3 +1,4 @@
+import { dataLoadingStatus } from '../../const';
 import { Camera } from '../../types/cameras-type';
 import { CameraData } from '../../types/state-type';
 import { makeFakeCamera, makeFakeCameras } from '../../utils/mocks';
@@ -14,7 +15,7 @@ describe('Reducer: cameraData', () => {
     state = {
       camera: {} as Camera,
       similarCameras: [],
-      isDataLoaded: false,
+      dataLoadingStatus: dataLoadingStatus.Idle,
     };
   });
 
@@ -24,12 +25,12 @@ describe('Reducer: cameraData', () => {
   });
 
   describe('fetchCameraByIdAction test', () => {
-    it('should update cameera by load camera', () => {
+    it('should update camera by load camera', () => {
       expect(cameraData.reducer(state, {type: fetchCameraByIdAction.fulfilled.type, payload: camera}))
         .toEqual({
           camera: camera,
           similarCameras: [],
-          isDataLoaded: false,
+          dataLoadingStatus: dataLoadingStatus.Fulfilled,
         });
     });
   });
@@ -40,7 +41,7 @@ describe('Reducer: cameraData', () => {
         .toEqual({
           camera: {} as Camera,
           similarCameras: similarCameras,
-          isDataLoaded: false,
+          dataLoadingStatus: dataLoadingStatus.Idle,
         });
     });
   });

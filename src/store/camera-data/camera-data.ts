@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { NameSpace } from '../../const';
+import { dataLoadingStatus, NameSpace } from '../../const';
 import { Camera } from '../../types/cameras-type';
 import { CameraData } from '../../types/state-type';
 import { fetchCameraByIdAction, fetchSimilarCamerasAction } from '../api-actions';
@@ -7,7 +7,7 @@ import { fetchCameraByIdAction, fetchSimilarCamerasAction } from '../api-actions
 const initialState: CameraData = {
   camera: {} as Camera,
   similarCameras: [],
-  isDataLoaded: false,
+  dataLoadingStatus: dataLoadingStatus.Idle,
 };
 
 export const cameraData = createSlice({
@@ -17,18 +17,17 @@ export const cameraData = createSlice({
   extraReducers(builder) {
     builder
       .addCase(fetchCameraByIdAction.pending, (state) => {
-        state.isDataLoaded = true;
+        state.dataLoadingStatus = dataLoadingStatus.Pending;
       })
       .addCase(fetchCameraByIdAction.fulfilled, (state, action) => {
         state.camera = action.payload;
-        state.isDataLoaded = false;
+        state.dataLoadingStatus = dataLoadingStatus.Fulfilled;
       })
-      .addCase(fetchSimilarCamerasAction.pending, (state) => {
-        state.isDataLoaded = true;
+      .addCase(fetchCameraByIdAction.rejected, (state) => {
+        state.dataLoadingStatus = dataLoadingStatus.Rejected;
       })
       .addCase(fetchSimilarCamerasAction.fulfilled, (state, action) => {
         state.similarCameras = action.payload;
-        state.isDataLoaded = false;
       });
   }
 });

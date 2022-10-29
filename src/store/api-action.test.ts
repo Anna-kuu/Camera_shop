@@ -5,7 +5,7 @@ import { configureMockStore } from '@jedmao/redux-mock-store';
 import { State } from '../types/state-type';
 import { Action } from 'redux';
 import { APIRoute } from '../const';
-import { makeFakeAddReview, makeFakeCamera, makeFakeCameras, makeFakePromoCamera, makeFakeReviews } from '../utils/mocks';
+import { CAMERAS_TOTAL_COUNT, DEFAULT_CAMERAS_TOTAL_COUNT, makeFakeAddReview, makeFakeCamera, makeFakeCameras, makeFakePromoCamera, makeFakeReviews } from '../utils/mocks';
 import { addReviewAction, fetchCameraByIdAction, fetchCamerasAction, fetchPromoCameraAction, fetchReviewsAction, fetchSimilarCamerasAction } from './api-actions';
 
 describe('Async actions', () => {
@@ -22,7 +22,7 @@ describe('Async actions', () => {
     const mockCameras = makeFakeCameras();
     mockAPI
       .onGet(APIRoute.Cameras)
-      .reply(200, {data: mockCameras, camerasTotalCount: 0 }, { 'x-total-count': 40 });
+      .reply(200, {data: mockCameras, camerasTotalCount: DEFAULT_CAMERAS_TOTAL_COUNT }, { 'x-total-count': CAMERAS_TOTAL_COUNT });
 
     const store = mockStore();
 

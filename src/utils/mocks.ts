@@ -3,6 +3,9 @@ import { Camera, Cameras } from '../types/cameras-type';
 import { Promo } from '../types/promo-type';
 import { Review, ReviewPost, Reviews } from '../types/review-type';
 
+export const DEFAULT_CAMERAS_TOTAL_COUNT = 0;
+export const CAMERAS_TOTAL_COUNT = 30;
+
 export const makeFakeCamera = (): Camera => ({
   id: datatype.number({min: 1, max: 4}),
   name: commerce.productName(),

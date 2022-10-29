@@ -6,6 +6,7 @@ export const SLIDER_STEP = 3;
 export const SLIDER_DEFAULT = 0;
 export const REVIEWS_COUNT_DEFAULT = Number(3);
 export const REVIEWS_COUNT_STEP = 3;
+export const CAMERAS_COUNT_DEFAULT = 0;
 
 export enum AppRoute {
   Root = '/',
@@ -36,6 +37,13 @@ export const RatingTitle: {[key: number]: string} = {
 } as const;
 
 export enum CameraTabs {
-  Specification = 'Характеристики',
-  Description = 'Описание',
+  Specification = 'specification',
+  Description = 'deescripton',
+}
+
+export enum dataLoadingStatus {
+  Idle = 'idle',
+  Pending = 'pending',
+  Fulfilled = 'fulfilled',
+  Rejected = 'rejected'
 }

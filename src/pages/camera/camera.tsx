@@ -2,14 +2,15 @@ import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
+import NotFoundScreen from '../../components/not-found-screen/not-found-screen';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import SimilarCameras from '../../components/similar-cameras/similar-cameras';
 import Tabs from '../../components/tabs/tabs';
-import { AppRoute, MAX_RATING } from '../../const';
+import { AppRoute, MAX_RATING, dataLoadingStatus } from '../../const';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { fetchCameraByIdAction, fetchReviewsAction, fetchSimilarCamerasAction } from '../../store/api-actions';
-import { getCameraById, getSimilarCameras } from '../../store/camera-data/selectors';
+import { getCameraById, getDataLoadingStatus, getSimilarCameras } from '../../store/camera-data/selectors';
 import { getReviews } from '../../store/reviews-data/selectors';
 import { reviewSort } from '../../util';
 
@@ -19,8 +20,9 @@ export default function Camera():JSX.Element {
   const id = Number(params.id);
   const camera = useAppSelector(getCameraById);
   const similarCameras = useAppSelector(getSimilarCameras);
-  const reviews2 = useAppSelector(getReviews);
-  const reviews = reviews2.slice().sort(reviewSort);
+  const reviews = useAppSelector(getReviews);
+  const reviewsSorted = reviews.slice().sort(reviewSort);
+  const cameraLoadingStatus = useAppSelector(getDataLoadingStatus);
 
   useEffect(() => {
     if (id === null) {
@@ -30,6 +32,13 @@ export default function Camera():JSX.Element {
     dispatch(fetchSimilarCamerasAction(id));
     dispatch(fetchReviewsAction(id));
   }, [dispatch, id]);
+
+  if (cameraLoadingStatus === dataLoadingStatus.Rejected) {
+    return (
+      <NotFoundScreen/>
+    );
+  }
+
   return (
     <div className="wrapper">
       <Header />
@@ -93,7 +102,7 @@ export default function Camera():JSX.Element {
             <SimilarCameras similarCameras={similarCameras}/>
           </div>}
           <div className="page-content__section">
-            <ReviewsList reviews={reviews} id={id}/>
+            <ReviewsList reviews={reviewsSorted} id={id}/>
           </div>
         </div>
 
