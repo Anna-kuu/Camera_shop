@@ -1,11 +1,20 @@
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { APIRoute } from '../../const';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { useAppSelector } from '../../hooks/use-app-selector';
+import { fetchPromoCameraAction } from '../../store/api-actions';
 import { getPromoCamera } from '../../store/promo-data/selectors';
 
 export default function Banner(): JSX.Element {
   const promoCamera = useAppSelector(getPromoCamera);
   const {previewImg, previewImg2x, previewImgWebp, previewImgWebp2x, name, id} = promoCamera;
+  const dispatch = useAppDispatch
+  ();
+
+  useEffect(() => {
+    dispatch(fetchPromoCameraAction());
+  }, [dispatch]);
   return (
     <div className="banner">
       <picture>

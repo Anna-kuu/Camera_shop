@@ -6,7 +6,7 @@ import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
 import Pagination from '../../components/pagination/pagination';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
-import { fetchCamerasAction, fetchPromoCameraAction } from '../../store/api-actions';
+import { fetchCamerasAction } from '../../store/api-actions';
 
 export default function Catalog(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -15,7 +15,6 @@ export default function Catalog(): JSX.Element {
 
   useEffect(() => {
     dispatch(fetchCamerasAction(pageId));
-    dispatch(fetchPromoCameraAction());
   }, [dispatch, pageId]);
 
   return (
