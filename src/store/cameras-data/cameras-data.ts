@@ -1,12 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { CAMERAS_COUNT_DEFAULT, NameSpace } from '../../const';
 import { CamerasData } from '../../types/state-type';
-import { fetchCamerasAction } from '../api-actions';
+import { fetchCamerasAction, fetchCamerasByNameAction } from '../api-actions';
 
 const initialState: CamerasData = {
   cameras: [],
   isDataLoaded: false,
   camerasCount: CAMERAS_COUNT_DEFAULT,
+  camerasByName: [],
 };
 
 export const camerasData = createSlice({
@@ -22,6 +23,9 @@ export const camerasData = createSlice({
         state.cameras = action.payload.data;
         state.camerasCount = Number(action.payload.camerasCount);
         state.isDataLoaded = false;
+      })
+      .addCase(fetchCamerasByNameAction.fulfilled, (state, action) => {
+        state.camerasByName = action.payload;
       });
   }
 });

@@ -13,6 +13,7 @@ describe('Reducer: camerasData', () => {
       cameras: [],
       isDataLoaded: false,
       camerasCount: 0,
+      camerasByName: [],
     };
   });
 
@@ -28,6 +29,7 @@ describe('Reducer: camerasData', () => {
           cameras: cameras,
           isDataLoaded: false,
           camerasCount: 6,
+          camerasByName: [],
         });
     });
   });

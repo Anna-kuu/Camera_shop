@@ -80,3 +80,15 @@ export const addReviewAction = createAsyncThunk<void, ReviewPost, {
     dispatch(fetchReviewsAction(review.cameraId));
   },
 );
+
+export const fetchCamerasByNameAction = createAsyncThunk<Cameras, string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/fetchCamerasByName',
+  async (name, {extra: api}) => {
+    const {data} = await api.get<Cameras>(APIRoute.Cameras, {params: {name_like: name}});
+    return data;
+  }
+);

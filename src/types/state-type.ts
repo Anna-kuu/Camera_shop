@@ -11,6 +11,7 @@ export type CamerasData = {
   cameras: Cameras;
   isDataLoaded: boolean;
   camerasCount: number;
+  camerasByName: Cameras;
 };
 
 export type CameraData = {
