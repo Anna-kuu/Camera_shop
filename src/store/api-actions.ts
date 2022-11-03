@@ -88,7 +88,7 @@ export const fetchCamerasByNameAction = createAsyncThunk<Cameras, string, {
 }>(
   'data/fetchCamerasByName',
   async (name, {extra: api}) => {
-    const {data} = await api.get<Cameras>(APIRoute.Cameras, {params: {name_like: name}});
+    const {data} = await api.get<Cameras>(APIRoute.Cameras, {params: {'name_like': name}});
     return data;
   }
 );
