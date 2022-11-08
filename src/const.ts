@@ -47,3 +47,21 @@ export enum dataLoadingStatus {
   Fulfilled = 'fulfilled',
   Rejected = 'rejected'
 }
+
+export const QueryParams = {
+  Limit: '_limit',
+  Page: '_page',
+  NameLike: 'name_like',
+  Sort: '_sort',
+  Order: '_order',
+} as const;
+
+export const SortType = {
+  Price: 'price',
+  Rating: 'rating',
+} as const;
+
+export const OrderType = {
+  Desc: 'desc',
+  Asc: 'asc',
+} as const;
