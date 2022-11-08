@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
-import { APIRoute, MAX_CAMERAS_OF_PAGE, QueryParams } from '../const';
+import { APIRoute, MAX_CAMERAS_OF_PAGE, OrderType, QueryParams, SortType } from '../const';
 import { Camera, Cameras } from '../types/cameras-type';
 import { Promo } from '../types/promo-type';
 import { Review, ReviewPost, Reviews } from '../types/review-type';
@@ -17,6 +17,22 @@ export const fetchCamerasAction = createAsyncThunk<{data: Cameras; camerasCount:
     return {
       data,
       camerasCount: headers['x-total-count']
+    };
+  }
+);
+
+export const fetchCamerasOfMinMaxPrice = createAsyncThunk<{ minPriceOfCameras: number; maxPriceOfCameras: number }, undefined, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/fetchCamerasOgMinMaxPrice',
+  async (_arg, {extra: api}) => {
+    const {data} = await api.get<Cameras>(APIRoute.Cameras, {params: {[QueryParams.Order]: OrderType.Asc, [QueryParams.Sort]: SortType.Price}});
+    const minPriceOfCameras = data[0].price;
+    const maxPriceOfCameras = data[data.length - 1].price;
+    return {
+      minPriceOfCameras, maxPriceOfCameras
     };
   }
 );

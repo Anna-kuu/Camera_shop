@@ -12,6 +12,8 @@ export type CamerasData = {
   isDataLoaded: boolean;
   camerasCount: number;
   camerasByName: Cameras;
+  minPriceOfCameras: number;
+  maxPriceOfCameras: number;
 };
 
 export type CameraData = {
