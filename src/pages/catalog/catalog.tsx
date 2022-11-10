@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { ChangeEvent, useEffect, useMemo } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import Banner from '../../components/banner/banner';
 import CatalogCards from '../../components/catalog-cards/catalog-cards';
@@ -30,12 +30,12 @@ export default function Catalog(): JSX.Element {
     setSeachParams(searchParams);
   }
 
-  const handleClickSort = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    if (evt.currentTarget.name === '_sort') {
-      searchParams.set(QueryParams.Sort, String(evt.currentTarget.dataset.sort));
+  const handleChangeSort = (evt: ChangeEvent<HTMLInputElement>) => {
+    if (evt.target.name === '_sort') {
+      searchParams.set(QueryParams.Sort, String(evt.target.dataset.sort));
     }
-    if (evt.currentTarget.name === '_order') {
-      searchParams.set(QueryParams.Order, String(evt.currentTarget.dataset.order));
+    if (evt.target.name === '_order') {
+      searchParams.set(QueryParams.Order, String(evt.target.dataset.order));
     }
 
     setSeachParams(searchParams);
@@ -84,17 +84,17 @@ export default function Catalog(): JSX.Element {
                         <p className="title title--h5">Сортировать:</p>
                         <div className="catalog-sort__type">
                           <div className="catalog-sort__btn-text">
-                            <input onChange={handleClickSort} type="radio" id="sortPrice" name="_sort" data-sort="price" checked={paramsSort._sort === SortType.Price}/>
+                            <input onChange={handleChangeSort} type="radio" id="sortPrice" name="_sort" data-sort="price" checked={paramsSort._sort === SortType.Price}/>
                             <label htmlFor="sortPrice">по цене</label>
                           </div>
                           <div className="catalog-sort__btn-text">
-                            <input onChange={handleClickSort} type="radio" id="sortPopular" name="_sort" data-sort="rating" checked={paramsSort._sort === SortType.Rating}/>
+                            <input onChange={handleChangeSort} type="radio" id="sortPopular" name="_sort" data-sort="rating" checked={paramsSort._sort === SortType.Rating}/>
                             <label htmlFor="sortPopular">по популярности</label>
                           </div>
                         </div>
                         <div className="catalog-sort__order">
                           <div className="catalog-sort__btn catalog-sort__btn--up">
-                            <input onChange={handleClickSort} type="radio" id="up" name="_order" data-order="asc" aria-label="По возрастанию" checked={paramsSort._order === OrderType.Asc} />
+                            <input onChange={handleChangeSort} type="radio" id="up" name="_order" data-order="asc" aria-label="По возрастанию" checked={paramsSort._order === OrderType.Asc} />
                             <label htmlFor="up">
                               <svg width="16" height="14" aria-hidden="true">
                                 <use xlinkHref="#icon-sort"></use>
@@ -102,7 +102,7 @@ export default function Catalog(): JSX.Element {
                             </label>
                           </div>
                           <div className="catalog-sort__btn catalog-sort__btn--down">
-                            <input onChange={handleClickSort} type="radio" id="down" name="_order" data-order="desc" aria-label="По убыванию" checked={paramsSort._order === OrderType.Desc}/>
+                            <input onChange={handleChangeSort} type="radio" id="down" name="_order" data-order="desc" aria-label="По убыванию" checked={paramsSort._order === OrderType.Desc}/>
                             <label htmlFor="down">
                               <svg width="16" height="14" aria-hidden="true">
                                 <use xlinkHref="#icon-sort"></use>

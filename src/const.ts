@@ -54,6 +54,9 @@ export const QueryParams = {
   NameLike: 'name_like',
   Sort: '_sort',
   Order: '_order',
+  Category: 'category',
+  Level: 'level',
+  Type: 'type',
 } as const;
 
 export const SortType = {
@@ -64,4 +67,9 @@ export const SortType = {
 export const OrderType = {
   Desc: 'desc',
   Asc: 'asc',
+} as const;
+
+export const CategoryType = {
+  videocamera: 'Видеокамера',
+  photocamera: 'Фотокамера',
 } as const;

@@ -14,6 +14,8 @@ describe('Reducer: camerasData', () => {
       isDataLoaded: false,
       camerasCount: 0,
       camerasByName: [],
+      minPriceOfCameras: 0,
+      maxPriceOfCameras: 0,
     };
   });
 
@@ -30,6 +32,8 @@ describe('Reducer: camerasData', () => {
           isDataLoaded: false,
           camerasCount: 6,
           camerasByName: [],
+          minPriceOfCameras: 0,
+          maxPriceOfCameras: 0,
         });
     });
   });
