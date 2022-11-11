@@ -44,6 +44,11 @@ export default function CatalogFilter(): JSX.Element {
     setSeachParams(searchParams);
   };
 
+  const handleResetButton = () => {
+    const newParams = Array.from(searchParams.entries()).filter(([key, value]) => (key === '_sort' || key === '_order'));
+    setSeachParams(newParams);
+  };
+
   return (
     <div className="catalog-filter">
       <form action="#">
@@ -67,9 +72,9 @@ export default function CatalogFilter(): JSX.Element {
           <legend className="title title--h5">Категория</legend>
           <div className="custom-checkbox catalog-filter__item">
             <label>
-              <input onChange={handleChangeFilter} type="checkbox" name="category" id="Фотокамера" checked={searchParams.getAll('category').includes('Фотокамера')} />
+              <input onChange={handleChangeFilter} type="checkbox" name="category" id="Фотоаппарат" checked={searchParams.getAll('category').includes('Фотоаппарат')} />
               <span className="custom-checkbox__icon"></span>
-              <span className="custom-checkbox__label">Фотокамера</span>
+              <span className="custom-checkbox__label">Фотоаппарат</span>
             </label>
           </div>
           <div className="custom-checkbox catalog-filter__item">
@@ -135,7 +140,7 @@ export default function CatalogFilter(): JSX.Element {
             </label>
           </div>
         </fieldset>
-        <button className="btn catalog-filter__reset-btn" type="reset">Сбросить фильтры
+        <button onClick={handleResetButton} className="btn catalog-filter__reset-btn" type="reset">Сбросить фильтры
         </button>
       </form>
     </div>

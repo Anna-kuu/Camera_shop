@@ -19,6 +19,9 @@ export default function Catalog(): JSX.Element {
   const paramsSort = useMemo(() => ({
     _sort: String(searchParams.get(QueryParams.Sort)),
     _order: String(searchParams.get(QueryParams.Order)),
+    category: searchParams.getAll(QueryParams.Category),
+    type: searchParams.getAll(QueryParams.Type),
+    level: searchParams.getAll(QueryParams.Level),
   }), [searchParams]);
 
   if (searchParams.has(QueryParams.Sort) && (!searchParams.has(QueryParams.Order))) {

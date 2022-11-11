@@ -6,14 +6,33 @@ import { Promo } from '../types/promo-type';
 import { Review, ReviewPost, Reviews } from '../types/review-type';
 import { AppDispatch, State } from '../types/state-type';
 
-export const fetchCamerasAction = createAsyncThunk<{data: Cameras; camerasCount: string}, {pageId: number; paramsSort: {_sort: string; _order: string} }, {
+export const fetchCamerasAction = createAsyncThunk<{data: Cameras; camerasCount: string}, {
+  pageId: number;
+  paramsSort: {
+    _sort: string;
+    _order: string;
+    category: string[];
+    type: string[];
+    level: string[];
+  };
+ }, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'data/fetchCameras',
   async ({pageId, paramsSort}, {extra: api}) => {
-    const {data, headers} = await api.get<Cameras>(APIRoute.Cameras, {params: {[QueryParams.Limit]: MAX_CAMERAS_OF_PAGE, [QueryParams.Page]: pageId, [QueryParams.Order]: paramsSort._order, [QueryParams.Sort]: paramsSort._sort}});
+    const {data, headers} = await api.get<Cameras>(APIRoute.Cameras, {
+      params: {
+        [QueryParams.Limit]: MAX_CAMERAS_OF_PAGE,
+        [QueryParams.Page]: pageId,
+        [QueryParams.Order]: paramsSort._order,
+        [QueryParams.Sort]: paramsSort._sort,
+        [QueryParams.Category]: paramsSort.category,
+        [QueryParams.Type]: paramsSort.type,
+        [QueryParams.Level]: paramsSort.level,
+      }
+    });
     return {
       data,
       camerasCount: headers['x-total-count']
