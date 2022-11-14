@@ -57,6 +57,8 @@ export const QueryParams = {
   Category: 'category',
   Level: 'level',
   Type: 'type',
+  MinPrice: 'price_gte',
+  MaxPrice: 'price_lte',
 } as const;
 
 export const SortType = {

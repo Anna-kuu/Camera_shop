@@ -9,11 +9,13 @@ import { AppDispatch, State } from '../types/state-type';
 export const fetchCamerasAction = createAsyncThunk<{data: Cameras; camerasCount: string}, {
   pageId: number;
   paramsSort: {
-    _sort: string;
-    _order: string;
+    _sort: string | null;
+    _order: string | null;
     category: string[];
     type: string[];
     level: string[];
+    minPrice: string | null;
+    maxPrice: string | null;
   };
  }, {
   dispatch: AppDispatch;
@@ -31,6 +33,8 @@ export const fetchCamerasAction = createAsyncThunk<{data: Cameras; camerasCount:
         [QueryParams.Category]: paramsSort.category,
         [QueryParams.Type]: paramsSort.type,
         [QueryParams.Level]: paramsSort.level,
+        [QueryParams.MinPrice]: paramsSort.minPrice,
+        [QueryParams.MaxPrice]: paramsSort.maxPrice,
       }
     });
     return {
@@ -40,14 +44,27 @@ export const fetchCamerasAction = createAsyncThunk<{data: Cameras; camerasCount:
   }
 );
 
-export const fetchCamerasOfMinMaxPrice = createAsyncThunk<{ minPriceOfCameras: number; maxPriceOfCameras: number }, undefined, {
+export const fetchCamerasOfMinMaxPrice = createAsyncThunk<{ minPriceOfCameras: number; maxPriceOfCameras: number }, {
+  params: {
+    category: string[];
+    type: string[];
+    level: string[];
+  };
+}, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'data/fetchCamerasOgMinMaxPrice',
-  async (_arg, {extra: api}) => {
-    const {data} = await api.get<Cameras>(APIRoute.Cameras, {params: {[QueryParams.Order]: OrderType.Asc, [QueryParams.Sort]: SortType.Price}});
+  async ({params}, {extra: api}) => {
+    const {data} = await api.get<Cameras>(APIRoute.Cameras, {
+      params: {
+        [QueryParams.Order]: OrderType.Asc,
+        [QueryParams.Sort]: SortType.Price,
+        [QueryParams.Category]: params.category,
+        [QueryParams.Type]: params.type,
+        [QueryParams.Level]: params.level,
+      }});
     const minPriceOfCameras = data[0].price;
     const maxPriceOfCameras = data[data.length - 1].price;
     return {

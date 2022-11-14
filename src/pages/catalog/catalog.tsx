@@ -17,11 +17,13 @@ export default function Catalog(): JSX.Element {
   const [searchParams, setSeachParams] = useSearchParams();
 
   const paramsSort = useMemo(() => ({
-    _sort: String(searchParams.get(QueryParams.Sort)),
-    _order: String(searchParams.get(QueryParams.Order)),
+    _sort: searchParams.get(QueryParams.Sort),
+    _order: searchParams.get(QueryParams.Order),
     category: searchParams.getAll(QueryParams.Category),
     type: searchParams.getAll(QueryParams.Type),
     level: searchParams.getAll(QueryParams.Level),
+    minPrice: searchParams.get(QueryParams.MinPrice),
+    maxPrice: searchParams.get(QueryParams.MaxPrice),
   }), [searchParams]);
 
   if (searchParams.has(QueryParams.Sort) && (!searchParams.has(QueryParams.Order))) {
@@ -49,8 +51,14 @@ export default function Catalog(): JSX.Element {
   }, [dispatch, pageId, paramsSort]);
 
   useEffect(() => {
-    dispatch(fetchCamerasOfMinMaxPrice());
-  }, [dispatch]);
+    dispatch(fetchCamerasOfMinMaxPrice({
+      params: {
+        category: paramsSort.category,
+        type: paramsSort.type,
+        level: paramsSort.level,
+      }
+    }));
+  }, [dispatch, paramsSort]);
 
   return (
     <div className="wrapper">

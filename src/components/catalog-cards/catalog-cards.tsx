@@ -9,7 +9,6 @@ import { useAppSelector } from '../../hooks/use-app-selector';
 export default function CatalogCards():JSX.Element {
   const dispatch = useAppDispatch();
   const cameras = useAppSelector(getCameras);
-
   const camerasCatalog = cameras.map((camera) => (
     <div className="product-card" key={`product-card-${camera.id}`}>
       <div className="product-card__img">
@@ -41,8 +40,6 @@ export default function CatalogCards():JSX.Element {
     </div>
   ));
   return (
-    <div className="cards catalog__cards">
-      {camerasCatalog}
-    </div>
+<div><h2 className="title title--h2">404. Page not found</h2></div>
   );
 }

@@ -1,11 +1,11 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { QueryParams } from '../../const';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { getMaxPriceOfCameras, getMinPriceOfCameras } from '../../store/cameras-data/selectors';
+import PriceRange from '../price-range/price-range';
 
 export default function CatalogFilter(): JSX.Element {
-  const minPrice = useAppSelector(getMinPriceOfCameras);
-  const maxPrice = useAppSelector(getMaxPriceOfCameras);
   const [searchParams, setSeachParams] = useSearchParams();
 
   const handleChangeFilter = (evt: ChangeEvent<HTMLInputElement>) => {
@@ -14,33 +14,13 @@ export default function CatalogFilter(): JSX.Element {
     const currentValues = searchParams.getAll(filter);
     if (currentValues.includes(filterName)) {
       searchParams.delete(filter);
-      currentValues.filter((v) => v !== filterName).forEach((v) => {
+      currentValues.filter((value) => value !== filterName).forEach((v) => {
         searchParams.append(filter, String(v));
       });
     } else {
       searchParams.append(filter, String(filterName));
     }
-    /*if (searchParams.getAll(evt.target.name).includes(evt.target.id)) {
-      console.log(true)
-    }
-    //console.log(searchParams.get('category') !== 'Фотокамера');
-    //console.log(searchParams.getAll(evt.target.name))
-    //console.log(searchParams.getAll(evt.target.name).includes(evt.target.id))
-    console.log(evt.target.id)
-    console.log(evt.target.name)
 
-    searchParams.append(evt.target.name, String(evt.target.id));*/
-    //console.log(searchParams.get('category') !== 'Видеокамера');
-    /*if (evt.currentTarget.name === QueryParams.Category && searchParams.get(evt.currentTarget.dataset.category) !== evt.currentTarget.dataset.category) {
-      searchParams.append(QueryParams.Category, String(evt.currentTarget.dataset.category));
-    }
-    if (evt.currentTarget.name === QueryParams.Type) {
-      searchParams.append(QueryParams.Type, String(evt.currentTarget.dataset.type));
-    }
-    if (evt.currentTarget.name === QueryParams.Level) {
-      searchParams.append(QueryParams.Level, String(evt.currentTarget.dataset.level));
-    }*/
-    //searchParams.set('category', 'Фотокамера');
     setSeachParams(searchParams);
   };
 
@@ -53,21 +33,7 @@ export default function CatalogFilter(): JSX.Element {
     <div className="catalog-filter">
       <form action="#">
         <h2 className="visually-hidden">Фильтр</h2>
-        <fieldset className="catalog-filter__block">
-          <legend className="title title--h5">Цена, ₽</legend>
-          <div className="catalog-filter__price-range">
-            <div className="custom-input">
-              <label>
-                <input type="number" name="price" placeholder="от" value={minPrice}/>
-              </label>
-            </div>
-            <div className="custom-input">
-              <label>
-                <input type="number" name="priceUp" placeholder="до" value={maxPrice}/>
-              </label>
-            </div>
-          </div>
-        </fieldset>
+        <PriceRange />
         <fieldset className="catalog-filter__block">
           <legend className="title title--h5">Категория</legend>
           <div className="custom-checkbox catalog-filter__item">

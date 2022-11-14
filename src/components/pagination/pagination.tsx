@@ -23,7 +23,7 @@ export default function Pagination():JSX.Element {
             <Link onClick={() => setActivePage(PAGE_STEP + index)} className={`pagination__link ${(activePage === (PAGE_STEP + index)) ? 'pagination__link--active' : ''}`} to={`${APIRoute.Catalog}/${PAGE_STEP + index}`}>{PAGE_STEP + index}</Link>
           </li>
         ))}
-        {activePage !== pageCount &&
+        {activePage !== pageCount && pageCount > 1 &&
         <li className="pagination__item">
           <Link onClick={() => setActivePage(activePage + PAGE_STEP)}className="pagination__link pagination__link--text" to={`${APIRoute.Catalog}/${activePage + PAGE_STEP}`}>Далее</Link>
         </li>}
