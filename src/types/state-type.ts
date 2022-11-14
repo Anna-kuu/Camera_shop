@@ -1,3 +1,4 @@
+import { DataLoadingStatus } from '../const';
 import { store } from '../store';
 import { Camera, Cameras } from './cameras-type';
 import { Promo } from './promo-type';
@@ -9,7 +10,7 @@ export type State = ReturnType<typeof store.getState>;
 
 export type CamerasData = {
   cameras: Cameras;
-  isDataLoaded: boolean;
+  dataLoadingStatus: DataLoadingStatus;
   camerasCount: number;
   camerasByName: Cameras;
   minPriceOfCameras: number;
@@ -19,7 +20,7 @@ export type CamerasData = {
 export type CameraData = {
   camera: Camera;
   similarCameras: Cameras;
-  dataLoadingStatus: string;
+  dataLoadingStatus: DataLoadingStatus;
 }
 
 export type ReviewsData = {

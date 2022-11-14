@@ -24,6 +24,11 @@ export default function PriceRange(): JSX.Element {
   };
 
   const changeMinPriceInput = () => {
+    if (!minPriceValue) {
+      searchParams.delete(QueryParams.MinPrice);
+      setSeachParams(searchParams);
+      return;
+    }
     if (Number(minPriceValue) < minPrice) {
       setMinPriceValue(String(minPrice));
       searchParams.set(QueryParams.MinPrice, String(minPrice));
@@ -43,6 +48,11 @@ export default function PriceRange(): JSX.Element {
   };
 
   const changeMaxPriceInput = () => {
+    if (!maxPriceValue) {
+      searchParams.delete(QueryParams.MaxPrice);
+      setSeachParams(searchParams);
+      return;
+    }
     if (Number(maxPriceValue) > maxPrice) {
       setMaxPriceValue(String(maxPrice));
       searchParams.set(QueryParams.MaxPrice, String(maxPrice));

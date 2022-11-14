@@ -1,3 +1,4 @@
+import { DataLoadingStatus } from '../../const';
 import { CamerasData } from '../../types/state-type';
 import { makeFakeCameras} from '../../utils/mocks';
 import { fetchCamerasAction } from '../api-actions';
@@ -11,7 +12,7 @@ describe('Reducer: camerasData', () => {
   beforeEach(() => {
     state = {
       cameras: [],
-      isDataLoaded: false,
+      dataLoadingStatus: DataLoadingStatus.Idle,
       camerasCount: 0,
       camerasByName: [],
       minPriceOfCameras: 0,
@@ -29,7 +30,7 @@ describe('Reducer: camerasData', () => {
       expect(camerasData.reducer(state, {type: fetchCamerasAction.fulfilled.type, payload: {data: cameras, camerasCount: '6'}}))
         .toEqual({
           cameras: cameras,
-          isDataLoaded: false,
+          dataLoadingStatus: DataLoadingStatus.Fulfilled,
           camerasCount: 6,
           camerasByName: [],
           minPriceOfCameras: 0,

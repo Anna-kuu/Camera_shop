@@ -5,16 +5,24 @@ import CatalogCards from '../../components/catalog-cards/catalog-cards';
 import CatalogFilter from '../../components/catalog-filter/catalog-filter';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
+import NotFoundScreen from '../../components/not-found-screen/not-found-screen';
 import Pagination from '../../components/pagination/pagination';
-import { OrderType, SortType, QueryParams } from '../../const';
+import Spinner from '../../components/spinner/spinner';
+import { OrderType, SortType, QueryParams, MAX_CAMERAS_OF_PAGE, DataLoadingStatus } from '../../const';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
+import { useAppSelector } from '../../hooks/use-app-selector';
 import { fetchCamerasAction, fetchCamerasOfMinMaxPrice } from '../../store/api-actions';
+import { getCameras, getCamerasCount, getLoadingDataStatus } from '../../store/cameras-data/selectors';
 
 export default function Catalog(): JSX.Element {
   const dispatch = useAppDispatch();
   const params = useParams();
   const pageId = Number(params.pageId);
   const [searchParams, setSeachParams] = useSearchParams();
+  const camerasCount = useAppSelector(getCamerasCount);
+  const pagesCount = Math.ceil(camerasCount / MAX_CAMERAS_OF_PAGE);
+  const loadingCamerasStatus = useAppSelector(getLoadingDataStatus);
+  const cameras = useAppSelector(getCameras);
 
   const paramsSort = useMemo(() => ({
     _sort: searchParams.get(QueryParams.Sort),
@@ -58,7 +66,20 @@ export default function Catalog(): JSX.Element {
         level: paramsSort.level,
       }
     }));
-  }, [dispatch, paramsSort]);
+  }, [dispatch, paramsSort.category, paramsSort.level, paramsSort.type]);
+
+  if ((pageId > pagesCount || pageId < 0) && pagesCount !== 0) {
+    return <NotFoundScreen />;
+  }
+
+  // if (cameras.length === 0) {
+  //   return (
+  //     <h2 className="title title--h2">По вашему запросу ничего не найдено</h2>
+  //   );
+  // }
+  // if (camerasLoadingStatus === DataLoadingStatus.Pending) {
+  //   return <Spinner />;
+  // }
 
   return (
     <div className="wrapper">
@@ -124,8 +145,13 @@ export default function Catalog(): JSX.Element {
                       </div>
                     </form>
                   </div>
-                  <CatalogCards />
-                  <Pagination />
+                  {loadingCamerasStatus === DataLoadingStatus.Pending ? <Spinner /> : ''}
+                  {!cameras.length && loadingCamerasStatus === DataLoadingStatus.Fulfilled ? <h2 className="title title--h2">По вашему запросу ничего не найдено</h2> : ''}
+                  {cameras.length && loadingCamerasStatus === DataLoadingStatus.Fulfilled ?
+                    <>
+                      <CatalogCards cameras={cameras}/>
+                      <Pagination pagesCount={pagesCount}/>
+                    </> : ''}
                 </div>
               </div>
             </div>

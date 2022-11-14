@@ -1,23 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { APIRoute, MAX_CAMERAS_OF_PAGE, OrderType, QueryParams, SortType } from '../const';
-import { Camera, Cameras } from '../types/cameras-type';
+import { Camera, Cameras, FetchCamerasPayloadType } from '../types/cameras-type';
 import { Promo } from '../types/promo-type';
 import { Review, ReviewPost, Reviews } from '../types/review-type';
 import { AppDispatch, State } from '../types/state-type';
 
-export const fetchCamerasAction = createAsyncThunk<{data: Cameras; camerasCount: string}, {
-  pageId: number;
-  paramsSort: {
-    _sort: string | null;
-    _order: string | null;
-    category: string[];
-    type: string[];
-    level: string[];
-    minPrice: string | null;
-    maxPrice: string | null;
-  };
- }, {
+export const fetchCamerasAction = createAsyncThunk<{data: Cameras; camerasCount: string}, FetchCamerasPayloadType, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
@@ -57,18 +46,30 @@ export const fetchCamerasOfMinMaxPrice = createAsyncThunk<{ minPriceOfCameras: n
 }>(
   'data/fetchCamerasOgMinMaxPrice',
   async ({params}, {extra: api}) => {
-    const {data} = await api.get<Cameras>(APIRoute.Cameras, {
+    const responseCameraMinPrice = await api.get<Cameras>(APIRoute.Cameras, {
       params: {
         [QueryParams.Order]: OrderType.Asc,
         [QueryParams.Sort]: SortType.Price,
         [QueryParams.Category]: params.category,
         [QueryParams.Type]: params.type,
         [QueryParams.Level]: params.level,
-      }});
-    const minPriceOfCameras = data[0].price;
-    const maxPriceOfCameras = data[data.length - 1].price;
+        [QueryParams.Limit]: 1
+      }
+    });
+    const responseCameraMaxPrice = await api.get<Cameras>(APIRoute.Cameras, {
+      params: {
+        [QueryParams.Order]: OrderType.Desc,
+        [QueryParams.Sort]: SortType.Price,
+        [QueryParams.Category]: params.category,
+        [QueryParams.Type]: params.type,
+        [QueryParams.Level]: params.level,
+        [QueryParams.Limit]: 1
+      }
+    });
+
     return {
-      minPriceOfCameras, maxPriceOfCameras
+      minPriceOfCameras: responseCameraMinPrice.data[0].price,
+      maxPriceOfCameras: responseCameraMaxPrice.data[0].price,
     };
   }
 );

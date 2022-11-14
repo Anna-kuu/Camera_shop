@@ -1,4 +1,4 @@
-import { dataLoadingStatus } from '../../const';
+import { DataLoadingStatus } from '../../const';
 import { Camera } from '../../types/cameras-type';
 import { CameraData } from '../../types/state-type';
 import { makeFakeCamera, makeFakeCameras } from '../../utils/mocks';
@@ -15,7 +15,7 @@ describe('Reducer: cameraData', () => {
     state = {
       camera: {} as Camera,
       similarCameras: [],
-      dataLoadingStatus: dataLoadingStatus.Idle,
+      dataLoadingStatus: DataLoadingStatus.Idle,
     };
   });
 
@@ -30,7 +30,7 @@ describe('Reducer: cameraData', () => {
         .toEqual({
           camera: camera,
           similarCameras: [],
-          dataLoadingStatus: dataLoadingStatus.Fulfilled,
+          dataLoadingStatus: DataLoadingStatus.Fulfilled,
         });
     });
   });
@@ -41,7 +41,7 @@ describe('Reducer: cameraData', () => {
         .toEqual({
           camera: {} as Camera,
           similarCameras: similarCameras,
-          dataLoadingStatus: dataLoadingStatus.Idle,
+          dataLoadingStatus: DataLoadingStatus.Idle,
         });
     });
   });

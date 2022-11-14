@@ -41,7 +41,7 @@ export enum CameraTabs {
   Description = 'description',
 }
 
-export enum dataLoadingStatus {
+export enum DataLoadingStatus {
   Idle = 'idle',
   Pending = 'pending',
   Fulfilled = 'fulfilled',
@@ -73,5 +73,18 @@ export const OrderType = {
 
 export const CategoryType = {
   videocamera: 'Видеокамера',
-  photocamera: 'Фотокамера',
+  photocamera: 'Фотоаппарат',
+} as const;
+
+export const TypeFilter = {
+  digital: 'Цифровая',
+  film: 'Пленочная',
+  snapshot: 'Моментальная',
+  collection: 'Коллеекционная',
+} as const;
+
+export const LevelType = {
+  zero: 'Нулевой',
+  nonProfessional: 'Любительский',
+  professional: 'Профессиональный',
 } as const;

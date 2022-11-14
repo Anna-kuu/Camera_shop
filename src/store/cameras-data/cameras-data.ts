@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { CAMERAS_COUNT_DEFAULT, NameSpace } from '../../const';
+import { CAMERAS_COUNT_DEFAULT, DataLoadingStatus, NameSpace } from '../../const';
 import { CamerasData } from '../../types/state-type';
 import { fetchCamerasAction, fetchCamerasByNameAction, fetchCamerasOfMinMaxPrice } from '../api-actions';
 
 const initialState: CamerasData = {
   cameras: [],
-  isDataLoaded: false,
+  dataLoadingStatus: DataLoadingStatus.Idle,
   camerasCount: CAMERAS_COUNT_DEFAULT,
   camerasByName: [],
   minPriceOfCameras: 0,
@@ -19,12 +19,15 @@ export const camerasData = createSlice({
   extraReducers(builder) {
     builder
       .addCase(fetchCamerasAction.pending, (state) => {
-        state.isDataLoaded = true;
+        state.dataLoadingStatus = DataLoadingStatus.Pending;
       })
       .addCase(fetchCamerasAction.fulfilled, (state, action) => {
         state.cameras = action.payload.data;
         state.camerasCount = Number(action.payload.camerasCount);
-        state.isDataLoaded = false;
+        state.dataLoadingStatus = DataLoadingStatus.Fulfilled;
+      })
+      .addCase(fetchCamerasAction.rejected, (state) => {
+        state.dataLoadingStatus = DataLoadingStatus.Rejected;
       })
       .addCase(fetchCamerasByNameAction.fulfilled, (state, action) => {
         state.camerasByName = action.payload;

@@ -16,3 +16,16 @@ export type Camera = {
 };
 
 export type Cameras = Camera[];
+
+export type FetchCamerasPayloadType = {
+  pageId: number;
+  paramsSort: {
+    _sort: string | null;
+    _order: string | null;
+    category: string[];
+    type: string[];
+    level: string[];
+    minPrice: string | null;
+    maxPrice: string | null;
+  };
+};

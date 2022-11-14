@@ -13,7 +13,7 @@ describe('Component: Pagination', () => {
     render(
       <Provider store={store}>
         <HistoryRouter history={history}>
-          <Pagination />
+          <Pagination pagesCount={5}/>
         </HistoryRouter>
       </Provider>
     );
@@ -28,7 +28,7 @@ describe('Component: Pagination', () => {
     render(
       <Provider store={store}>
         <HistoryRouter history={history}>
-          <Pagination />
+          <Pagination pagesCount={5}/>
         </HistoryRouter>
       </Provider>
     );

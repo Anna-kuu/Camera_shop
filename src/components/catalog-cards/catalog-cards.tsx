@@ -1,14 +1,18 @@
 import { Link } from 'react-router-dom';
 import { APIRoute, MAX_RATING} from '../../const';
-import { getCameras } from '../../store/cameras-data/selectors';
 import { resetCounter } from '../../store/reviews-data/reviews-data';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
-import { useAppSelector } from '../../hooks/use-app-selector';
+import { Cameras } from '../../types/cameras-type';
 
+type CatalogCardsPropsType = {
+  cameras: Cameras;
+}
 
-export default function CatalogCards():JSX.Element {
+export default function CatalogCards({cameras}: CatalogCardsPropsType):JSX.Element {
+
   const dispatch = useAppDispatch();
-  const cameras = useAppSelector(getCameras);
+  //const cameras = useAppSelector(getCameras);
+
   const camerasCatalog = cameras.map((camera) => (
     <div className="product-card" key={`product-card-${camera.id}`}>
       <div className="product-card__img">
@@ -39,7 +43,10 @@ export default function CatalogCards():JSX.Element {
       </div>
     </div>
   ));
+
   return (
-<div><h2 className="title title--h2">404. Page not found</h2></div>
+    <div className="cards catalog__cards">
+      {camerasCatalog}
+    </div>
   );
 }

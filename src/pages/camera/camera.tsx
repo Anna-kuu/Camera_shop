@@ -5,8 +5,9 @@ import Header from '../../components/header/header';
 import NotFoundScreen from '../../components/not-found-screen/not-found-screen';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import SimilarCameras from '../../components/similar-cameras/similar-cameras';
+import Spinner from '../../components/spinner/spinner';
 import Tabs from '../../components/tabs/tabs';
-import { AppRoute, MAX_RATING, dataLoadingStatus } from '../../const';
+import { AppRoute, MAX_RATING, DataLoadingStatus } from '../../const';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { fetchCameraByIdAction, fetchReviewsAction, fetchSimilarCamerasAction } from '../../store/api-actions';
@@ -33,9 +34,15 @@ export default function Camera():JSX.Element {
     dispatch(fetchReviewsAction(id));
   }, [dispatch, id]);
 
-  if (cameraLoadingStatus === dataLoadingStatus.Rejected) {
+  if (cameraLoadingStatus === DataLoadingStatus.Rejected) {
     return (
       <NotFoundScreen/>
+    );
+  }
+
+  if (cameraLoadingStatus === DataLoadingStatus.Pending) {
+    return (
+      <Spinner />
     );
   }
 

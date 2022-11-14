@@ -1,8 +1,6 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { QueryParams } from '../../const';
-import { useAppSelector } from '../../hooks/use-app-selector';
-import { getMaxPriceOfCameras, getMinPriceOfCameras } from '../../store/cameras-data/selectors';
+import { QueryParams, CategoryType, TypeFilter, LevelType } from '../../const';
 import PriceRange from '../price-range/price-range';
 
 export default function CatalogFilter(): JSX.Element {
@@ -14,8 +12,8 @@ export default function CatalogFilter(): JSX.Element {
     const currentValues = searchParams.getAll(filter);
     if (currentValues.includes(filterName)) {
       searchParams.delete(filter);
-      currentValues.filter((value) => value !== filterName).forEach((v) => {
-        searchParams.append(filter, String(v));
+      currentValues.filter((value) => value !== filterName).forEach((value) => {
+        searchParams.append(filter, String(value));
       });
     } else {
       searchParams.append(filter, String(filterName));
@@ -25,7 +23,7 @@ export default function CatalogFilter(): JSX.Element {
   };
 
   const handleResetButton = () => {
-    const newParams = Array.from(searchParams.entries()).filter(([key, value]) => (key === '_sort' || key === '_order'));
+    const newParams = Array.from(searchParams.entries()).filter(([key, value]) => (key === QueryParams.Sort || key === QueryParams.Order));
     setSeachParams(newParams);
   };
 
@@ -38,14 +36,14 @@ export default function CatalogFilter(): JSX.Element {
           <legend className="title title--h5">Категория</legend>
           <div className="custom-checkbox catalog-filter__item">
             <label>
-              <input onChange={handleChangeFilter} type="checkbox" name="category" id="Фотоаппарат" checked={searchParams.getAll('category').includes('Фотоаппарат')} />
+              <input onChange={handleChangeFilter} type="checkbox" name={QueryParams.Category} id={CategoryType.photocamera} checked={searchParams.getAll(QueryParams.Category).includes(CategoryType.photocamera)} />
               <span className="custom-checkbox__icon"></span>
               <span className="custom-checkbox__label">Фотоаппарат</span>
             </label>
           </div>
           <div className="custom-checkbox catalog-filter__item">
             <label>
-              <input onChange={handleChangeFilter} type="checkbox" name="category" id="Видеокамера" checked={searchParams.getAll('category').includes('Видеокамера')}/>
+              <input onChange={handleChangeFilter} type="checkbox" name={QueryParams.Category} id={CategoryType.videocamera} checked={searchParams.getAll(QueryParams.Category).includes(CategoryType.videocamera)}/>
               <span className="custom-checkbox__icon"></span>
               <span className="custom-checkbox__label">Видеокамера</span>
             </label>
@@ -55,28 +53,28 @@ export default function CatalogFilter(): JSX.Element {
           <legend className="title title--h5">Тип камеры</legend>
           <div className="custom-checkbox catalog-filter__item">
             <label>
-              <input onChange={handleChangeFilter} type="checkbox" name="type" id="Цифровая" checked={searchParams.getAll('type').includes('Цифровая')} />
+              <input onChange={handleChangeFilter} type="checkbox" name={QueryParams.Type} id={TypeFilter.digital} checked={searchParams.getAll(QueryParams.Type).includes(TypeFilter.digital)} />
               <span className="custom-checkbox__icon"></span>
               <span className="custom-checkbox__label">Цифровая</span>
             </label>
           </div>
           <div className="custom-checkbox catalog-filter__item">
             <label>
-              <input onChange={handleChangeFilter} type="checkbox" name="type" id="Плёночная" checked={searchParams.getAll('type').includes('Плёночная')} disabled={searchParams.getAll('category').includes('Видеокамера')}/>
+              <input onChange={handleChangeFilter} type="checkbox" name={QueryParams.Type} id={TypeFilter.film} checked={searchParams.getAll(QueryParams.Type).includes(TypeFilter.film)} disabled={searchParams.getAll('category').includes('Видеокамера')}/>
               <span className="custom-checkbox__icon">
               </span><span className="custom-checkbox__label">Плёночная</span>
             </label>
           </div>
           <div className="custom-checkbox catalog-filter__item">
             <label>
-              <input onChange={handleChangeFilter} type="checkbox" name="type" id="Моментальная" checked={searchParams.getAll('type').includes('Моментальная')} disabled={searchParams.getAll('category').includes('Видеокамера')}/>
+              <input onChange={handleChangeFilter} type="checkbox" name={QueryParams.Type} id={TypeFilter.snapshot} checked={searchParams.getAll(QueryParams.Type).includes(TypeFilter.snapshot)} disabled={searchParams.getAll('category').includes('Видеокамера')}/>
               <span className="custom-checkbox__icon"></span>
               <span className="custom-checkbox__label">Моментальная</span>
             </label>
           </div>
           <div className="custom-checkbox catalog-filter__item">
             <label>
-              <input onChange={handleChangeFilter} type="checkbox" name="type" id="Коллекционная" checked={searchParams.getAll('type').includes('Коллекционная')} />
+              <input onChange={handleChangeFilter} type="checkbox" name={QueryParams.Type} id={TypeFilter.collection} checked={searchParams.getAll(QueryParams.Type).includes(TypeFilter.collection)} />
               <span className="custom-checkbox__icon"></span>
               <span className="custom-checkbox__label">Коллекционная</span>
             </label>
@@ -86,21 +84,21 @@ export default function CatalogFilter(): JSX.Element {
           <legend className="title title--h5">Уровень</legend>
           <div className="custom-checkbox catalog-filter__item">
             <label>
-              <input onChange={handleChangeFilter} type="checkbox" name="level" id="Нулевой" checked={searchParams.getAll('level').includes('Нулевой')} />
+              <input onChange={handleChangeFilter} type="checkbox" name={QueryParams.Level} id={LevelType.zero} checked={searchParams.getAll(QueryParams.Level).includes(LevelType.zero)} />
               <span className="custom-checkbox__icon"></span>
               <span className="custom-checkbox__label">Нулевой</span>
             </label>
           </div>
           <div className="custom-checkbox catalog-filter__item">
             <label>
-              <input onChange={handleChangeFilter} type="checkbox" name="level" id="Любительский" checked={searchParams.getAll('level').includes('Любительский')} />
+              <input onChange={handleChangeFilter} type="checkbox" name={QueryParams.Level} id={LevelType.nonProfessional} checked={searchParams.getAll(QueryParams.Level).includes(LevelType.nonProfessional)} />
               <span className="custom-checkbox__icon"></span>
               <span className="custom-checkbox__label">Любительский</span>
             </label>
           </div>
           <div className="custom-checkbox catalog-filter__item">
             <label>
-              <input onChange={handleChangeFilter} type="checkbox" name="level" id="Профессиональный" checked={searchParams.getAll('level').includes('Профессиональный')} />
+              <input onChange={handleChangeFilter} type="checkbox" name={QueryParams.Level} id={LevelType.professional} checked={searchParams.getAll(QueryParams.Level).includes(LevelType.professional)} />
               <span className="custom-checkbox__icon"></span>
               <span className="custom-checkbox__label">Профессиональный</span>
             </label>
