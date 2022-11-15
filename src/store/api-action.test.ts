@@ -6,7 +6,7 @@ import { State } from '../types/state-type';
 import { Action } from 'redux';
 import { APIRoute } from '../const';
 import { CAMERAS_TOTAL_COUNT, DEFAULT_CAMERAS_TOTAL_COUNT, makeFakeAddReview, makeFakeCamera, makeFakeCameras, makeFakePromoCamera, makeFakeReviews } from '../utils/mocks';
-import { addReviewAction, fetchCameraByIdAction, fetchCamerasAction, fetchPromoCameraAction, fetchReviewsAction, fetchSimilarCamerasAction } from './api-actions';
+import { addReviewAction, fetchCameraByIdAction, fetchCamerasAction, fetchCamerasByNameAction, fetchCamerasOfMinMaxPrice, fetchPromoCameraAction, fetchReviewsAction, fetchSimilarCamerasAction } from './api-actions';
 
 describe('Async actions', () => {
   const api = createAPI();
@@ -42,6 +42,28 @@ describe('Async actions', () => {
     expect(actions).toEqual([
       fetchCamerasAction.pending.type,
       fetchCamerasAction.fulfilled.type,
+    ]);
+  });
+  it('should dispatch fetchCamerasOfMinMaxPrice when GET /cameras', async () => {
+    const mockCamera = makeFakeCamera();
+    mockAPI
+      .onGet(APIRoute.Cameras)
+      .reply(200, [mockCamera, mockCamera]);
+
+    const store = mockStore();
+
+    await store.dispatch(fetchCamerasOfMinMaxPrice({
+      params: {
+        category: [''],
+        type: [''],
+        level: [''],
+      }}));
+
+    const actions = store.getActions().map(({ type }:Action<string>) => type);
+
+    expect(actions).toEqual([
+      fetchCamerasOfMinMaxPrice.pending.type,
+      fetchCamerasOfMinMaxPrice.fulfilled.type,
     ]);
   });
 
@@ -138,6 +160,24 @@ describe('Async actions', () => {
       addReviewAction.pending.type,
       fetchReviewsAction.pending.type,
       addReviewAction.fulfilled.type,
+    ]);
+  });
+  it('should dispatch fetchCamerasByNameAction when GET /cameras?name_like', async () => {
+    const mockCamerasByName = makeFakeCameras();
+    const mockCamera = makeFakeCamera();
+    mockAPI
+      .onGet(`${APIRoute.Cameras}?name_like`)
+      .reply(200, mockCamerasByName);
+
+    const store = mockStore();
+
+    await store.dispatch(fetchCamerasByNameAction(mockCamera.name));
+
+    const actions = store.getActions().map(({ type }:Action<string>) => type);
+
+    expect(actions).toEqual([
+      fetchCamerasByNameAction.pending.type,
+      fetchCamerasByNameAction.fulfilled.type,
     ]);
   });
 });

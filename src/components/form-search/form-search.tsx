@@ -33,7 +33,7 @@ export default function FormSearch(): JSX.Element {
   }, [dispatch, name]);
 
   return (
-    <div className={`form-search ${camerasByName.length > 0 && name ? 'list-opened' : ''}`}>
+    <div data-testid="form-search" className={`form-search ${camerasByName?.length > 0 && name ? 'list-opened' : ''}`}>
       <form>
         <label>
           <svg className="form-search__icon" width="16" height="16" aria-hidden="true">

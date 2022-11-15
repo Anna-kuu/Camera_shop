@@ -3,7 +3,7 @@ import { AppRoute } from '../../const';
 import Footer from '../footer/footer';
 import Header from '../header/header';
 
-export default function ErrorrScreen(): JSX.Element {
+export default function ErrorScreen(): JSX.Element {
   return (
     <div className="wrapper">
       <Header />

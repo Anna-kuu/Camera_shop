@@ -1,7 +1,7 @@
 import { DataLoadingStatus } from '../../const';
 import { CamerasData } from '../../types/state-type';
 import { makeFakeCameras} from '../../utils/mocks';
-import { fetchCamerasAction } from '../api-actions';
+import { fetchCamerasAction, fetchCamerasByNameAction, fetchCamerasOfMinMaxPrice } from '../api-actions';
 import { camerasData } from './cameras-data';
 
 const cameras = makeFakeCameras();
@@ -35,6 +35,54 @@ describe('Reducer: camerasData', () => {
           camerasByName: [],
           minPriceOfCameras: 0,
           maxPriceOfCameras: 0,
+        });
+    });
+    it('should update DataLoadingStatus pending', () => {
+      expect(camerasData.reducer(state, {type: fetchCamerasAction.pending.type}))
+        .toEqual({
+          cameras: [],
+          dataLoadingStatus: DataLoadingStatus.Pending,
+          camerasCount: 0,
+          camerasByName: [],
+          minPriceOfCameras: 0,
+          maxPriceOfCameras: 0,
+        });
+    });
+    it('should update DataLoadingStatus rejected', () => {
+      expect(camerasData.reducer(state, {type: fetchCamerasAction.rejected.type}))
+        .toEqual({
+          cameras: [],
+          dataLoadingStatus: DataLoadingStatus.Rejected,
+          camerasCount: 0,
+          camerasByName: [],
+          minPriceOfCameras: 0,
+          maxPriceOfCameras: 0,
+        });
+    });
+  });
+  describe('fetchCamerasByNameAction test', () => {
+    it('should update camerasByName by load camerasByName', () => {
+      expect(camerasData.reducer(state, {type: fetchCamerasByNameAction.fulfilled.type, payload: cameras}))
+        .toEqual({
+          cameras: [],
+          dataLoadingStatus: DataLoadingStatus.Idle,
+          camerasCount: 0,
+          camerasByName: cameras,
+          minPriceOfCameras: 0,
+          maxPriceOfCameras: 0,
+        });
+    });
+  });
+  describe('fetchCamerasOfMinMaxPrice test', () => {
+    it('should update min and max price', () => {
+      expect(camerasData.reducer(state, {type: fetchCamerasOfMinMaxPrice.fulfilled.type, payload: {minPriceOfCameras: 10, maxPriceOfCameras: 90}}))
+        .toEqual({
+          cameras: [],
+          dataLoadingStatus: DataLoadingStatus.Idle,
+          camerasCount: 0,
+          camerasByName: [],
+          minPriceOfCameras: 10,
+          maxPriceOfCameras: 90,
         });
     });
   });

@@ -9,9 +9,7 @@ type CatalogCardsPropsType = {
 }
 
 export default function CatalogCards({cameras}: CatalogCardsPropsType):JSX.Element {
-
   const dispatch = useAppDispatch();
-  //const cameras = useAppSelector(getCameras);
 
   const camerasCatalog = cameras.map((camera) => (
     <div className="product-card" key={`product-card-${camera.id}`}>

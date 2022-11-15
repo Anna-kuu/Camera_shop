@@ -75,12 +75,12 @@ export default function PriceRange(): JSX.Element {
       <div className="catalog-filter__price-range">
         <div className="custom-input">
           <label>
-            <input onBlur={changeMinPriceInput} onChange={handleChangeMinPriceValue} type="number" name="price" placeholder={String(minPrice)} value={minPriceValue}/>
+            <input data-testid="price" onBlur={changeMinPriceInput} onChange={handleChangeMinPriceValue} type="number" name="price" placeholder={String(minPrice)} value={minPriceValue}/>
           </label>
         </div>
         <div className="custom-input">
           <label>
-            <input onBlur={changeMaxPriceInput} onChange={handleChangeMaxPriceValue} type="number" name="priceUp" placeholder={String(maxPrice)} value={maxPriceValue}/>
+            <input data-testid="priceUp" onBlur={changeMaxPriceInput} onChange={handleChangeMaxPriceValue} type="number" name="priceUp" placeholder={String(maxPrice)} value={maxPriceValue}/>
           </label>
         </div>
       </div>

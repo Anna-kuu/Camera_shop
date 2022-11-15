@@ -3,7 +3,7 @@ import { createMemoryHistory } from 'history';
 import { Provider } from 'react-redux';
 import { store } from '../../utils/mock-store';
 import HistoryRouter from '../history-route/history-route';
-import NotFoundScreen from './not-found-screen';
+import Preloader from './preloader';
 
 describe('Component: NotFoundScreen', () => {
   it ('should render corectly', () => {
@@ -12,12 +12,11 @@ describe('Component: NotFoundScreen', () => {
     render(
       <HistoryRouter history={history}>
         <Provider store={store}>
-          <NotFoundScreen />
+          <Preloader />
         </Provider>
       </HistoryRouter>
     );
 
-    expect(screen.getByText('404. Page not found')).toBeInTheDocument();
-    expect(screen.getByText('Вернуться на главную')).toBeInTheDocument();
+    expect(screen.getByTestId('preloader')).toBeInTheDocument();
   });
 });

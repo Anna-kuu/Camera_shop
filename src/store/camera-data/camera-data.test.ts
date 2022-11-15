@@ -33,6 +33,22 @@ describe('Reducer: cameraData', () => {
           dataLoadingStatus: DataLoadingStatus.Fulfilled,
         });
     });
+    it('should update DataLoadingStatus pending', () => {
+      expect(cameraData.reducer(state, {type: fetchCameraByIdAction.pending.type}))
+        .toEqual({
+          camera: {} as Camera,
+          similarCameras: [],
+          dataLoadingStatus: DataLoadingStatus.Pending,
+        });
+    });
+    it('should update DataLoadingStatus rejected', () => {
+      expect(cameraData.reducer(state, {type: fetchCameraByIdAction.rejected.type}))
+        .toEqual({
+          camera: {} as Camera,
+          similarCameras: [],
+          dataLoadingStatus: DataLoadingStatus.Rejected,
+        });
+    });
   });
 
   describe('fetchSimilarCamerasAction test', () => {

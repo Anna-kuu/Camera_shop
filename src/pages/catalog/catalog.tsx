@@ -3,12 +3,12 @@ import { useParams, useSearchParams } from 'react-router-dom';
 import Banner from '../../components/banner/banner';
 import CatalogCards from '../../components/catalog-cards/catalog-cards';
 import CatalogFilter from '../../components/catalog-filter/catalog-filter';
-import ErrorrScreen from '../../components/error-screen/error-screen';
+import ErrorScreen from '../../components/error-screen/error-screen';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
 import NotFoundScreen from '../../components/not-found-screen/not-found-screen';
 import Pagination from '../../components/pagination/pagination';
-import Preloader from '../../components/spinner/preloader';
+import Preloader from '../../components/preloader/preloader';
 import { OrderType, SortType, QueryParams, MAX_CAMERAS_OF_PAGE, DataLoadingStatus } from '../../const';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { useAppSelector } from '../../hooks/use-app-selector';
@@ -69,12 +69,12 @@ export default function Catalog(): JSX.Element {
     }));
   }, [dispatch, paramsSort.category, paramsSort.level, paramsSort.type]);
 
-  if ((pageId > pagesCount || pageId < 0) && pagesCount !== 0) {
+  if ((pageId > pagesCount || pageId <= 0) && pagesCount !== 0) {
     return <NotFoundScreen />;
   }
 
   if (loadingCamerasStatus === DataLoadingStatus.Rejected) {
-    return <ErrorrScreen />;
+    return <ErrorScreen />;
   }
 
   return (
