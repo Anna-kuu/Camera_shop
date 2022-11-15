@@ -1795,6 +1795,7 @@ button,
   margin: 37px 0 0;
   padding-bottom: 40px;
   border-bottom: 2px solid #f4f4fc;
+
 }
 
 .catalog__aside {
@@ -1809,6 +1810,7 @@ button,
   -ms-grid-row-span: 2;
   -ms-grid-column: 3;
   grid-area: content;
+
 }
 
 .catalog-filter {
@@ -2204,6 +2206,7 @@ button,
   row-gap: 40px;
   -ms-grid-columns: (1fr)[3];
   grid-template-columns: repeat(3, 1fr);
+  position: relative;
 }
 
 .rate {

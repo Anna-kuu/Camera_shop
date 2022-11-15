@@ -1,6 +1,6 @@
-import './spinner.css';
+import './preloader.css';
 
-export default function Spinner() {
+export default function Preloader() {
   return (
     <div className="preloader">
       <div className="preloader__row">

@@ -1,11 +1,12 @@
 import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import ErrorrScreen from '../../components/error-screen/error-screen';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
 import NotFoundScreen from '../../components/not-found-screen/not-found-screen';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import SimilarCameras from '../../components/similar-cameras/similar-cameras';
-import Spinner from '../../components/spinner/spinner';
+import Preloader from '../../components/spinner/preloader';
 import Tabs from '../../components/tabs/tabs';
 import { AppRoute, MAX_RATING, DataLoadingStatus } from '../../const';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
@@ -42,8 +43,12 @@ export default function Camera():JSX.Element {
 
   if (cameraLoadingStatus === DataLoadingStatus.Pending) {
     return (
-      <Spinner />
+      <Preloader />
     );
+  }
+
+  if (cameraLoadingStatus === DataLoadingStatus.Rejected) {
+    return <ErrorrScreen />;
   }
 
   return (
@@ -112,7 +117,6 @@ export default function Camera():JSX.Element {
             <ReviewsList reviews={reviewsSorted} id={id}/>
           </div>
         </div>
-
       </main>
       <button className="up-btn" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
         <svg width="12" height="18" aria-hidden="true">
