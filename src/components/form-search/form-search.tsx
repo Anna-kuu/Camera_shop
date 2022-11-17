@@ -35,7 +35,7 @@ export default function FormSearch(): JSX.Element {
 
   return (
     <div data-testid="form-search" className={`form-search ${camerasByName?.length > 0 && name ? 'list-opened' : ''}`}>
-      <form>
+      <form onSubmit={(evt) => evt.preventDefault()}>
         <label>
           <svg className="form-search__icon" width="16" height="16" aria-hidden="true">
             <use xlinkHref="#icon-lens"></use>
@@ -43,7 +43,7 @@ export default function FormSearch(): JSX.Element {
           <DebounceInput debounceTimeout={300} onChange={handleSearchChange} value={name} className="form-search__input" type="text" autoComplete="off" placeholder="Поиск по сайту" />
         </label>
         <ul className="form-search__select-list">
-          {camerasByName.map((camera) =>
+          {camerasByName?.map((camera) =>
             (<li onKeyDown={(evt) => handleEnterKeyDown(evt, camera.id)} onClick={() => redirectToCamera(camera.id)} key={`search-camera-${camera.id}`} className="form-search__select-item" tabIndex={0}>{camera.name}</li>))}
         </ul>
       </form>

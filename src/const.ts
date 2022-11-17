@@ -78,7 +78,7 @@ export const CategoryType = {
 
 export const TypeFilter = {
   digital: 'Цифровая',
-  film: 'Пленочная',
+  film: 'Плёночная',
   snapshot: 'Моментальная',
   collection: 'Коллеекционная',
 } as const;
