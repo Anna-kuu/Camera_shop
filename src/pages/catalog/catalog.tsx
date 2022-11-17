@@ -12,7 +12,7 @@ import Preloader from '../../components/preloader/preloader';
 import { OrderType, SortType, QueryParams, MAX_CAMERAS_OF_PAGE, DataLoadingStatus } from '../../const';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { useAppSelector } from '../../hooks/use-app-selector';
-import { fetchCamerasAction, fetchCamerasOfMinMaxPrice } from '../../store/api-actions';
+import { fetchCamerasAction, fetchCamerasMinMaxPrice } from '../../store/api-actions';
 import { getCameras, getCamerasCount, getLoadingDataStatus } from '../../store/cameras-data/selectors';
 
 export default function Catalog(): JSX.Element {
@@ -44,7 +44,7 @@ export default function Catalog(): JSX.Element {
     setSeachParams(searchParams);
   }
 
-  const handleChangeSort = (evt: ChangeEvent<HTMLInputElement>) => {
+  const handleSortChange = (evt: ChangeEvent<HTMLInputElement>) => {
     if (evt.target.name === '_sort') {
       searchParams.set(QueryParams.Sort, String(evt.target.dataset.sort));
     }
@@ -60,7 +60,7 @@ export default function Catalog(): JSX.Element {
   }, [dispatch, pageId, paramsSort]);
 
   useEffect(() => {
-    dispatch(fetchCamerasOfMinMaxPrice({
+    dispatch(fetchCamerasMinMaxPrice({
       params: {
         category: paramsSort.category,
         type: paramsSort.type,
@@ -112,17 +112,17 @@ export default function Catalog(): JSX.Element {
                         <p className="title title--h5">Сортировать:</p>
                         <div className="catalog-sort__type">
                           <div className="catalog-sort__btn-text">
-                            <input onChange={handleChangeSort} type="radio" id="sortPrice" name="_sort" data-sort="price" checked={paramsSort._sort === SortType.Price}/>
+                            <input onChange={handleSortChange} type="radio" id="sortPrice" name="_sort" data-sort="price" checked={paramsSort._sort === SortType.Price}/>
                             <label htmlFor="sortPrice">по цене</label>
                           </div>
                           <div className="catalog-sort__btn-text">
-                            <input onChange={handleChangeSort} type="radio" id="sortPopular" name="_sort" data-sort="rating" checked={paramsSort._sort === SortType.Rating}/>
+                            <input onChange={handleSortChange} type="radio" id="sortPopular" name="_sort" data-sort="rating" checked={paramsSort._sort === SortType.Rating}/>
                             <label htmlFor="sortPopular">по популярности</label>
                           </div>
                         </div>
                         <div className="catalog-sort__order">
                           <div className="catalog-sort__btn catalog-sort__btn--up">
-                            <input onChange={handleChangeSort} type="radio" id="up" name="_order" data-order="asc" aria-label="По возрастанию" checked={paramsSort._order === OrderType.Asc} />
+                            <input onChange={handleSortChange} type="radio" id="up" name="_order" data-order="asc" aria-label="По возрастанию" checked={paramsSort._order === OrderType.Asc} />
                             <label htmlFor="up">
                               <svg width="16" height="14" aria-hidden="true">
                                 <use xlinkHref="#icon-sort"></use>
@@ -130,7 +130,7 @@ export default function Catalog(): JSX.Element {
                             </label>
                           </div>
                           <div className="catalog-sort__btn catalog-sort__btn--down">
-                            <input onChange={handleChangeSort} type="radio" id="down" name="_order" data-order="desc" aria-label="По убыванию" checked={paramsSort._order === OrderType.Desc}/>
+                            <input onChange={handleSortChange} type="radio" id="down" name="_order" data-order="desc" aria-label="По убыванию" checked={paramsSort._order === OrderType.Desc}/>
                             <label htmlFor="down">
                               <svg width="16" height="14" aria-hidden="true">
                                 <use xlinkHref="#icon-sort"></use>

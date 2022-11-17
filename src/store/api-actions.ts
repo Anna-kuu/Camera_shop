@@ -38,7 +38,7 @@ export const fetchCamerasAction = createAsyncThunk<{data: Cameras; camerasCount:
   }
 );
 
-export const fetchCamerasOfMinMaxPrice = createAsyncThunk<{ minPriceOfCameras: number; maxPriceOfCameras: number }, {
+export const fetchCamerasMinMaxPrice = createAsyncThunk<{ minPriceOfCameras: number; maxPriceOfCameras: number }, {
   params: {
     category: string[];
     type: string[];
@@ -51,37 +51,31 @@ export const fetchCamerasOfMinMaxPrice = createAsyncThunk<{ minPriceOfCameras: n
 }>(
   'data/fetchCamerasOgMinMaxPrice',
   async ({params}, {extra: api}) => {
-    try {
-      const responseCameraMinPrice = await api.get<Cameras>(APIRoute.Cameras, {
-        params: {
-          [QueryParams.Order]: OrderType.Asc,
-          [QueryParams.Sort]: SortType.Price,
-          [QueryParams.Category]: params.category,
-          [QueryParams.Type]: params.type,
-          [QueryParams.Level]: params.level,
-          [QueryParams.Limit]: 1
-        }
-      });
-      const responseCameraMaxPrice = await api.get<Cameras>(APIRoute.Cameras, {
-        params: {
-          [QueryParams.Order]: OrderType.Desc,
-          [QueryParams.Sort]: SortType.Price,
-          [QueryParams.Category]: params.category,
-          [QueryParams.Type]: params.type,
-          [QueryParams.Level]: params.level,
-          [QueryParams.Limit]: 1
-        }
-      });
+    const responseCameraMinPrice = await api.get<Cameras>(APIRoute.Cameras, {
+      params: {
+        [QueryParams.Order]: OrderType.Asc,
+        [QueryParams.Sort]: SortType.Price,
+        [QueryParams.Category]: params.category,
+        [QueryParams.Type]: params.type,
+        [QueryParams.Level]: params.level,
+        [QueryParams.Limit]: 1
+      }
+    });
+    const responseCameraMaxPrice = await api.get<Cameras>(APIRoute.Cameras, {
+      params: {
+        [QueryParams.Order]: OrderType.Desc,
+        [QueryParams.Sort]: SortType.Price,
+        [QueryParams.Category]: params.category,
+        [QueryParams.Type]: params.type,
+        [QueryParams.Level]: params.level,
+        [QueryParams.Limit]: 1
+      }
+    });
 
-      return {
-        minPriceOfCameras: responseCameraMinPrice.data[0].price,
-        maxPriceOfCameras: responseCameraMaxPrice.data[0].price,
-      };
-    } catch (error) {
-
-      toast.error('Failed to load prices. Try again later');
-      throw (error);
-    }
+    return {
+      minPriceOfCameras: responseCameraMinPrice.data[0].price,
+      maxPriceOfCameras: responseCameraMaxPrice.data[0].price,
+    };
   }
 );
 

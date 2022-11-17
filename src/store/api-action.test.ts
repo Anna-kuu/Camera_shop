@@ -6,7 +6,7 @@ import { State } from '../types/state-type';
 import { Action } from 'redux';
 import { APIRoute } from '../const';
 import { CAMERAS_TOTAL_COUNT, DEFAULT_CAMERAS_TOTAL_COUNT, makeFakeAddReview, makeFakeCamera, makeFakeCameras, makeFakePromoCamera, makeFakeReviews } from '../utils/mocks';
-import { addReviewAction, fetchCameraByIdAction, fetchCamerasAction, fetchCamerasByNameAction, fetchCamerasOfMinMaxPrice, fetchPromoCameraAction, fetchReviewsAction, fetchSimilarCamerasAction } from './api-actions';
+import { addReviewAction, fetchCameraByIdAction, fetchCamerasAction, fetchCamerasByNameAction, fetchCamerasMinMaxPrice, fetchPromoCameraAction, fetchReviewsAction, fetchSimilarCamerasAction } from './api-actions';
 
 describe('Async actions', () => {
   const api = createAPI();
@@ -44,7 +44,7 @@ describe('Async actions', () => {
       fetchCamerasAction.fulfilled.type,
     ]);
   });
-  it('should dispatch fetchCamerasOfMinMaxPrice when GET /cameras', async () => {
+  it('should dispatch fetchCamerasMinMaxPrice when GET /cameras', async () => {
     const mockCamera = makeFakeCamera();
     mockAPI
       .onGet(APIRoute.Cameras)
@@ -52,7 +52,7 @@ describe('Async actions', () => {
 
     const store = mockStore();
 
-    await store.dispatch(fetchCamerasOfMinMaxPrice({
+    await store.dispatch(fetchCamerasMinMaxPrice({
       params: {
         category: [''],
         type: [''],
@@ -62,8 +62,8 @@ describe('Async actions', () => {
     const actions = store.getActions().map(({ type }:Action<string>) => type);
 
     expect(actions).toEqual([
-      fetchCamerasOfMinMaxPrice.pending.type,
-      fetchCamerasOfMinMaxPrice.fulfilled.type,
+      fetchCamerasMinMaxPrice.pending.type,
+      fetchCamerasMinMaxPrice.fulfilled.type,
     ]);
   });
 

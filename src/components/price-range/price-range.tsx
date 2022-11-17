@@ -5,9 +5,6 @@ import { useAppSelector } from '../../hooks/use-app-selector';
 import { getMaxPriceOfCameras, getMinPriceOfCameras } from '../../store/cameras-data/selectors';
 
 export default function PriceRange(): JSX.Element {
-  // const minPriceRef = useRef<HTMLInputElement>(null);
-  // console.log(minPriceRef.current?.value)
-
 
   const minPrice = useAppSelector(getMinPriceOfCameras);
   const maxPrice = useAppSelector(getMaxPriceOfCameras);
@@ -15,7 +12,7 @@ export default function PriceRange(): JSX.Element {
   const [minPriceValue, setMinPriceValue] = useState(String(searchParams.get(QueryParams.MinPrice)));
   const [maxPriceValue, setMaxPriceValue] = useState(String(searchParams.get(QueryParams.MaxPrice)));
 
-  const handleChangeMinPriceValue = (evt: ChangeEvent<HTMLInputElement>) => {
+  const handleMinPriceValueChange = (evt: ChangeEvent<HTMLInputElement>) => {
     if (Number(evt.target.value) < 0) {
       setMinPriceValue('0');
       return;
@@ -35,11 +32,17 @@ export default function PriceRange(): JSX.Element {
       setSeachParams(searchParams);
       return;
     }
+    if (Number(minPriceValue) > Number(maxPriceValue)) {
+      setMinPriceValue(maxPriceValue);
+      searchParams.set(QueryParams.MinPrice, maxPriceValue);
+      setSeachParams(searchParams);
+      return;
+    }
     searchParams.set(QueryParams.MinPrice, minPriceValue);
     setSeachParams(searchParams);
   };
 
-  const handleChangeMaxPriceValue = (evt: ChangeEvent<HTMLInputElement>) => {
+  const handleMaxPriceValueChange = (evt: ChangeEvent<HTMLInputElement>) => {
     if (Number(evt.target.value) < 0) {
       setMaxPriceValue('0');
       return;
@@ -75,12 +78,12 @@ export default function PriceRange(): JSX.Element {
       <div className="catalog-filter__price-range">
         <div className="custom-input">
           <label>
-            <input data-testid="price" onBlur={changeMinPriceInput} onChange={handleChangeMinPriceValue} type="number" name="price" placeholder={String(minPrice)} value={minPriceValue}/>
+            <input data-testid="price" onBlur={changeMinPriceInput} onChange={handleMinPriceValueChange} type="number" name="price" placeholder={String(minPrice)} value={minPriceValue}/>
           </label>
         </div>
         <div className="custom-input">
           <label>
-            <input data-testid="priceUp" onBlur={changeMaxPriceInput} onChange={handleChangeMaxPriceValue} type="number" name="priceUp" placeholder={String(maxPrice)} value={maxPriceValue}/>
+            <input data-testid="priceUp" onBlur={changeMaxPriceInput} onChange={handleMaxPriceValueChange} type="number" name="priceUp" placeholder={String(maxPrice)} value={maxPriceValue}/>
           </label>
         </div>
       </div>

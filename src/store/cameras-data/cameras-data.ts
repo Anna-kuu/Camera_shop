@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { CAMERAS_COUNT_DEFAULT, DataLoadingStatus, NameSpace } from '../../const';
 import { CamerasData } from '../../types/state-type';
-import { fetchCamerasAction, fetchCamerasByNameAction, fetchCamerasOfMinMaxPrice } from '../api-actions';
+import { fetchCamerasAction, fetchCamerasByNameAction, fetchCamerasMinMaxPrice } from '../api-actions';
 
 const initialState: CamerasData = {
   cameras: [],
@@ -32,7 +32,7 @@ export const camerasData = createSlice({
       .addCase(fetchCamerasByNameAction.fulfilled, (state, action) => {
         state.camerasByName = action.payload;
       })
-      .addCase(fetchCamerasOfMinMaxPrice.fulfilled, (state, action) => {
+      .addCase(fetchCamerasMinMaxPrice.fulfilled, (state, action) => {
         state.minPriceOfCameras = action.payload.minPriceOfCameras;
         state.maxPriceOfCameras = action.payload.maxPriceOfCameras;
       });

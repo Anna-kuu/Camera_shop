@@ -1,7 +1,7 @@
 import { DataLoadingStatus } from '../../const';
 import { CamerasData } from '../../types/state-type';
 import { makeFakeCameras} from '../../utils/mocks';
-import { fetchCamerasAction, fetchCamerasByNameAction, fetchCamerasOfMinMaxPrice } from '../api-actions';
+import { fetchCamerasAction, fetchCamerasByNameAction, fetchCamerasMinMaxPrice } from '../api-actions';
 import { camerasData } from './cameras-data';
 
 const cameras = makeFakeCameras();
@@ -73,9 +73,9 @@ describe('Reducer: camerasData', () => {
         });
     });
   });
-  describe('fetchCamerasOfMinMaxPrice test', () => {
+  describe('fetchCamerasMinMaxPrice test', () => {
     it('should update min and max price', () => {
-      expect(camerasData.reducer(state, {type: fetchCamerasOfMinMaxPrice.fulfilled.type, payload: {minPriceOfCameras: 10, maxPriceOfCameras: 90}}))
+      expect(camerasData.reducer(state, {type: fetchCamerasMinMaxPrice.fulfilled.type, payload: {minPriceOfCameras: 10, maxPriceOfCameras: 90}}))
         .toEqual({
           cameras: [],
           dataLoadingStatus: DataLoadingStatus.Idle,
