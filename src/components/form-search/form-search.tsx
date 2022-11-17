@@ -5,6 +5,7 @@ import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { fetchCamerasByNameAction } from '../../store/api-actions';
 import { getCamerasByName } from '../../store/cameras-data/selectors';
+import {DebounceInput} from 'react-debounce-input';
 
 export default function FormSearch(): JSX.Element {
   const navigate = useNavigate();
@@ -39,7 +40,7 @@ export default function FormSearch(): JSX.Element {
           <svg className="form-search__icon" width="16" height="16" aria-hidden="true">
             <use xlinkHref="#icon-lens"></use>
           </svg>
-          <input onChange={handleSearchChange} value={name} className="form-search__input" type="text" autoComplete="off" placeholder="Поиск по сайту" />
+          <DebounceInput debounceTimeout={300} onChange={handleSearchChange} value={name} className="form-search__input" type="text" autoComplete="off" placeholder="Поиск по сайту" />
         </label>
         <ul className="form-search__select-list">
           {camerasByName.map((camera) =>
