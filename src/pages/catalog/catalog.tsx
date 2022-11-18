@@ -67,7 +67,7 @@ export default function Catalog(): JSX.Element {
         level: paramsSort.level,
       }
     }));
-  }, [dispatch, paramsSort.category, paramsSort.level, paramsSort.type]);
+  }, [dispatch, paramsSort.category.join(','), paramsSort.level.join(','), paramsSort.type.join(',')]);
 
   if ((pageId > pagesCount || pageId <= 0) && pagesCount !== 0) {
     return <NotFoundScreen />;
