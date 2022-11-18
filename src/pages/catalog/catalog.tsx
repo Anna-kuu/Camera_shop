@@ -67,6 +67,7 @@ export default function Catalog(): JSX.Element {
         level: paramsSort.level,
       }
     }));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, paramsSort.category.join(','), paramsSort.level.join(','), paramsSort.type.join(',')]);
 
   if ((pageId > pagesCount || pageId <= 0) && pagesCount !== 0) {
