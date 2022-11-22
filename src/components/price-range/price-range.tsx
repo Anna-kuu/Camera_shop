@@ -21,23 +21,27 @@ export default function PriceRange(): JSX.Element {
   };
 
   const changeMinPriceInput = () => {
+    if (minPriceValue === 'null') {
+      return;
+    }
     if (!minPriceValue) {
       searchParams.delete(QueryParams.MinPrice);
       setSeachParams(searchParams);
-      return;
+      return setMinPriceValue('');
     }
-    if (Number(minPriceValue) < minPrice) {
+    if (Number(minPriceValue) < minPrice || Number(minPriceValue) > Number(maxPriceValue)) {
       setMinPriceValue(String(minPrice));
       searchParams.set(QueryParams.MinPrice, String(minPrice));
       setSeachParams(searchParams);
       return;
     }
-    if (Number(minPriceValue) > Number(maxPriceValue)) {
-      setMinPriceValue(maxPriceValue);
-      searchParams.set(QueryParams.MinPrice, maxPriceValue);
+    if (Number(minPriceValue) > maxPrice) {
+      setMinPriceValue(String(maxPrice));
+      searchParams.set(QueryParams.MinPrice, String(maxPrice));
       setSeachParams(searchParams);
       return;
     }
+
     searchParams.set(QueryParams.MinPrice, minPriceValue);
     setSeachParams(searchParams);
   };
@@ -51,20 +55,23 @@ export default function PriceRange(): JSX.Element {
   };
 
   const changeMaxPriceInput = () => {
+    if (maxPriceValue === 'null') {
+      return;
+    }
     if (!maxPriceValue) {
       searchParams.delete(QueryParams.MaxPrice);
       setSeachParams(searchParams);
       return;
     }
-    if (Number(maxPriceValue) > maxPrice) {
+    if (Number(maxPriceValue) > maxPrice || Number(maxPriceValue) < Number(minPriceValue)) {
       setMaxPriceValue(String(maxPrice));
       searchParams.set(QueryParams.MaxPrice, String(maxPrice));
       setSeachParams(searchParams);
       return;
     }
-    if (Number(maxPriceValue) < Number(minPriceValue)) {
-      setMaxPriceValue(minPriceValue);
-      searchParams.set(QueryParams.MaxPrice, minPriceValue);
+    if (Number(maxPriceValue) < minPrice) {
+      setMaxPriceValue(String(minPrice));
+      searchParams.set(QueryParams.MaxPrice, String(minPrice));
       setSeachParams(searchParams);
       return;
     }
