@@ -1,81 +1,68 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { QueryParams } from '../../const';
 import { useAppSelector } from '../../hooks/use-app-selector';
-import { getMaxPriceOfCameras, getMinPriceOfCameras } from '../../store/cameras-data/selectors';
+import { getMaxPriceOfCameras, getMaxPriceOfCamerasFiltered, getMinPriceOfCameras, getMinPriceOfCamerasFiltered } from '../../store/cameras-data/selectors';
 
 export default function PriceRange(): JSX.Element {
 
   const minPrice = useAppSelector(getMinPriceOfCameras);
   const maxPrice = useAppSelector(getMaxPriceOfCameras);
+  let minPriceFiltered = useAppSelector(getMinPriceOfCamerasFiltered);
+  let maxPriceFiltered = useAppSelector(getMaxPriceOfCamerasFiltered);
   const [searchParams, setSeachParams] = useSearchParams();
-  const [minPriceValue, setMinPriceValue] = useState(String(searchParams.get(QueryParams.MinPrice)));
-  const [maxPriceValue, setMaxPriceValue] = useState(String(searchParams.get(QueryParams.MaxPrice)));
+  const [minPriceValue, setMinPriceValue] = useState(Number(searchParams.get(QueryParams.MinPrice) || '0'));
+  const [maxPriceValue, setMaxPriceValue] = useState(Number(searchParams.get(QueryParams.MaxPrice) || '0'));
+
+  useEffect(() => {
+    if (minPriceFiltered && minPriceValue ) {
+      setMinPriceValue(Math.max(minPriceValue, minPriceFiltered));
+    }
+    if (maxPriceFiltered && maxPriceValue) {
+      setMaxPriceValue(Math.min(maxPriceValue, maxPriceFiltered));
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [minPriceFiltered, maxPriceFiltered]);
 
   const handleMinPriceValueChange = (evt: ChangeEvent<HTMLInputElement>) => {
     if (Number(evt.target.value) < 0) {
-      setMinPriceValue('0');
+      setMinPriceValue(0);
       return;
     }
-    setMinPriceValue(evt.target.value);
+    setMinPriceValue(Number(evt.target.value));
   };
 
   const changeMinPriceInput = () => {
-    if (minPriceValue === 'null') {
-      return;
-    }
     if (!minPriceValue) {
       searchParams.delete(QueryParams.MinPrice);
-      setSeachParams(searchParams);
-      return setMinPriceValue('');
+    } else {
+      minPriceFiltered = minPrice;
+      let newValue = Math.max(minPriceValue, minPriceFiltered);
+      newValue = Math.min(newValue, maxPriceValue || maxPriceFiltered);
+      setMinPriceValue(newValue);
+      searchParams.set(QueryParams.MinPrice, String(newValue));
     }
-    if (Number(minPriceValue) < minPrice || Number(minPriceValue) > Number(maxPriceValue)) {
-      setMinPriceValue(String(minPrice));
-      searchParams.set(QueryParams.MinPrice, String(minPrice));
-      setSeachParams(searchParams);
-      return;
-    }
-    if (Number(minPriceValue) > maxPrice) {
-      setMinPriceValue(String(maxPrice));
-      searchParams.set(QueryParams.MinPrice, String(maxPrice));
-      setSeachParams(searchParams);
-      return;
-    }
-
-    searchParams.set(QueryParams.MinPrice, minPriceValue);
     setSeachParams(searchParams);
   };
 
   const handleMaxPriceValueChange = (evt: ChangeEvent<HTMLInputElement>) => {
     if (Number(evt.target.value) < 0) {
-      setMaxPriceValue('0');
+      setMaxPriceValue(0);
       return;
     }
-    setMaxPriceValue(evt.target.value);
+    setMaxPriceValue(Number(evt.target.value));
   };
 
   const changeMaxPriceInput = () => {
-    if (maxPriceValue === 'null') {
-      return;
-    }
     if (!maxPriceValue) {
       searchParams.delete(QueryParams.MaxPrice);
-      setSeachParams(searchParams);
-      return;
+    } else {
+      maxPriceFiltered = maxPrice;
+      let newValue = Math.min(maxPriceValue, maxPriceFiltered);
+      newValue = Math.max(newValue, minPriceValue || minPriceFiltered);
+      setMaxPriceValue(newValue);
+      searchParams.set(QueryParams.MaxPrice, String(newValue));
     }
-    if (Number(maxPriceValue) > maxPrice || Number(maxPriceValue) < Number(minPriceValue)) {
-      setMaxPriceValue(String(maxPrice));
-      searchParams.set(QueryParams.MaxPrice, String(maxPrice));
-      setSeachParams(searchParams);
-      return;
-    }
-    if (Number(maxPriceValue) < minPrice) {
-      setMaxPriceValue(String(minPrice));
-      searchParams.set(QueryParams.MaxPrice, String(minPrice));
-      setSeachParams(searchParams);
-      return;
-    }
-    searchParams.set(QueryParams.MaxPrice, maxPriceValue);
     setSeachParams(searchParams);
   };
 
@@ -85,12 +72,12 @@ export default function PriceRange(): JSX.Element {
       <div className="catalog-filter__price-range">
         <div className="custom-input">
           <label>
-            <input data-testid="price" onBlur={changeMinPriceInput} onChange={handleMinPriceValueChange} type="number" name="price" placeholder={String(minPrice)} value={minPriceValue}/>
+            <input data-testid="price" onBlur={changeMinPriceInput} onChange={handleMinPriceValueChange} type="number" name="price" placeholder={String(minPriceFiltered)} value={minPriceValue ? minPriceValue : ''}/>
           </label>
         </div>
         <div className="custom-input">
           <label>
-            <input data-testid="priceUp" onBlur={changeMaxPriceInput} onChange={handleMaxPriceValueChange} type="number" name="priceUp" placeholder={String(maxPrice)} value={maxPriceValue}/>
+            <input data-testid="priceUp" onBlur={changeMaxPriceInput} onChange={handleMaxPriceValueChange} type="number" name="priceUp" placeholder={String(maxPriceFiltered)} value={maxPriceValue ? maxPriceValue : ''}/>
           </label>
         </div>
       </div>

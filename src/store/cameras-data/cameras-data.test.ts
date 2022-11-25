@@ -1,7 +1,7 @@
 import { DataLoadingStatus } from '../../const';
 import { CamerasData } from '../../types/state-type';
 import { makeFakeCameras} from '../../utils/mocks';
-import { fetchCamerasAction, fetchCamerasByNameAction, fetchCamerasMinMaxPrice } from '../api-actions';
+import { fetchCamerasAction, fetchCamerasByNameAction, fetchCamerasMinMaxPrice, fetchCamerasMinMaxPriceFiltered } from '../api-actions';
 import { camerasData } from './cameras-data';
 
 const cameras = makeFakeCameras();
@@ -17,6 +17,8 @@ describe('Reducer: camerasData', () => {
       camerasByName: [],
       minPriceOfCameras: 0,
       maxPriceOfCameras: 0,
+      minPriceOfCamerasFiltered: 0,
+      maxPriceOfCamerasFiltered: 0,
     };
   });
 
@@ -35,6 +37,8 @@ describe('Reducer: camerasData', () => {
           camerasByName: [],
           minPriceOfCameras: 0,
           maxPriceOfCameras: 0,
+          minPriceOfCamerasFiltered: 0,
+          maxPriceOfCamerasFiltered: 0,
         });
     });
     it('should update DataLoadingStatus pending', () => {
@@ -46,6 +50,8 @@ describe('Reducer: camerasData', () => {
           camerasByName: [],
           minPriceOfCameras: 0,
           maxPriceOfCameras: 0,
+          minPriceOfCamerasFiltered: 0,
+          maxPriceOfCamerasFiltered: 0,
         });
     });
     it('should update DataLoadingStatus rejected', () => {
@@ -57,6 +63,8 @@ describe('Reducer: camerasData', () => {
           camerasByName: [],
           minPriceOfCameras: 0,
           maxPriceOfCameras: 0,
+          minPriceOfCamerasFiltered: 0,
+          maxPriceOfCamerasFiltered: 0,
         });
     });
   });
@@ -70,6 +78,8 @@ describe('Reducer: camerasData', () => {
           camerasByName: cameras,
           minPriceOfCameras: 0,
           maxPriceOfCameras: 0,
+          minPriceOfCamerasFiltered: 0,
+          maxPriceOfCamerasFiltered: 0,
         });
     });
   });
@@ -83,6 +93,23 @@ describe('Reducer: camerasData', () => {
           camerasByName: [],
           minPriceOfCameras: 10,
           maxPriceOfCameras: 90,
+          minPriceOfCamerasFiltered: 0,
+          maxPriceOfCamerasFiltered: 0,
+        });
+    });
+  });
+  describe('fetchCamerasMinMaxPriceFiltered test', () => {
+    it('should update min and max price', () => {
+      expect(camerasData.reducer(state, {type: fetchCamerasMinMaxPriceFiltered.fulfilled.type, payload: {minPriceOfCamerasFiltered: 15, maxPriceOfCamerasFiltered: 60}}))
+        .toEqual({
+          cameras: [],
+          dataLoadingStatus: DataLoadingStatus.Idle,
+          camerasCount: 0,
+          camerasByName: [],
+          minPriceOfCameras: 0,
+          maxPriceOfCameras: 0,
+          minPriceOfCamerasFiltered: 15,
+          maxPriceOfCamerasFiltered: 60,
         });
     });
   });

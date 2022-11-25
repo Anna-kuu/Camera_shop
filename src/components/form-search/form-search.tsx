@@ -42,7 +42,7 @@ export default function FormSearch(): JSX.Element {
           </svg>
           <DebounceInput debounceTimeout={300} onChange={handleSearchChange} value={name} className="form-search__input" type="text" autoComplete="off" placeholder="Поиск по сайту" />
         </label>
-        <ul className="form-search__select-list">
+        <ul className="form-search__select-list scroller">
           {camerasByName?.map((camera) =>
             (<li onKeyDown={(evt) => handleEnterKeyDown(evt, camera.id)} onClick={() => redirectToCamera(camera.id)} key={`search-camera-${camera.id}`} className="form-search__select-item" tabIndex={0}>{camera.name}</li>))}
         </ul>

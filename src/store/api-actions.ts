@@ -38,26 +38,17 @@ export const fetchCamerasAction = createAsyncThunk<{data: Cameras; camerasCount:
   }
 );
 
-export const fetchCamerasMinMaxPrice = createAsyncThunk<{ minPriceOfCameras: number; maxPriceOfCameras: number }, {
-  params: {
-    category: string[];
-    type: string[];
-    level: string[];
-  };
-}, {
+export const fetchCamerasMinMaxPrice = createAsyncThunk<{ minPriceOfCameras: number; maxPriceOfCameras: number }, undefined, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
-  'data/fetchCamerasOgMinMaxPrice',
-  async ({params}, {extra: api}) => {
+  'data/fetchCamerasOfMinMaxPrice',
+  async (_arg, {extra: api}) => {
     const responseCameraMinPrice = await api.get<Cameras>(APIRoute.Cameras, {
       params: {
         [QueryParams.Order]: OrderType.Asc,
         [QueryParams.Sort]: SortType.Price,
-        [QueryParams.Category]: params.category,
-        [QueryParams.Type]: params.type,
-        [QueryParams.Level]: params.level,
         [QueryParams.Limit]: 1
       }
     });
@@ -65,9 +56,6 @@ export const fetchCamerasMinMaxPrice = createAsyncThunk<{ minPriceOfCameras: num
       params: {
         [QueryParams.Order]: OrderType.Desc,
         [QueryParams.Sort]: SortType.Price,
-        [QueryParams.Category]: params.category,
-        [QueryParams.Type]: params.type,
-        [QueryParams.Level]: params.level,
         [QueryParams.Limit]: 1
       }
     });
@@ -75,6 +63,53 @@ export const fetchCamerasMinMaxPrice = createAsyncThunk<{ minPriceOfCameras: num
     return {
       minPriceOfCameras: responseCameraMinPrice.data[0].price,
       maxPriceOfCameras: responseCameraMaxPrice.data[0].price,
+    };
+  }
+);
+
+export const fetchCamerasMinMaxPriceFiltered = createAsyncThunk<{ minPriceOfCamerasFiltered: number; maxPriceOfCamerasFiltered: number }, {
+  params: {
+    category: string[];
+    type: string[];
+    level: string[];
+    minPrice: string | null;
+    maxPrice: string | null;
+  };
+}, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/fetchCamerasOfMinMaxPriceFiltered',
+  async ({params}, {extra: api}) => {
+    const responseCameraMinPriceFiltered = await api.get<Cameras>(APIRoute.Cameras, {
+      params: {
+        [QueryParams.Order]: OrderType.Asc,
+        [QueryParams.Sort]: SortType.Price,
+        [QueryParams.Category]: params.category,
+        [QueryParams.Type]: params.type,
+        [QueryParams.Level]: params.level,
+        [QueryParams.MinPrice]: params.minPrice,
+        [QueryParams.MaxPrice]: params.maxPrice,
+        [QueryParams.Limit]: 1
+      }
+    });
+    const responseCameraMaxPriceFiltered = await api.get<Cameras>(APIRoute.Cameras, {
+      params: {
+        [QueryParams.Order]: OrderType.Desc,
+        [QueryParams.Sort]: SortType.Price,
+        [QueryParams.Category]: params.category,
+        [QueryParams.Type]: params.type,
+        [QueryParams.Level]: params.level,
+        [QueryParams.MinPrice]: params.minPrice,
+        [QueryParams.MaxPrice]: params.maxPrice,
+        [QueryParams.Limit]: 1
+      }
+    });
+
+    return {
+      minPriceOfCamerasFiltered: responseCameraMinPriceFiltered.data[0].price,
+      maxPriceOfCamerasFiltered: responseCameraMaxPriceFiltered.data[0].price,
     };
   }
 );

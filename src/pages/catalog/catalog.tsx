@@ -12,7 +12,7 @@ import Preloader from '../../components/preloader/preloader';
 import { OrderType, SortType, QueryParams, MAX_CAMERAS_OF_PAGE, DataLoadingStatus } from '../../const';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { useAppSelector } from '../../hooks/use-app-selector';
-import { fetchCamerasAction, fetchCamerasMinMaxPrice } from '../../store/api-actions';
+import { fetchCamerasAction, fetchCamerasMinMaxPrice, fetchCamerasMinMaxPriceFiltered } from '../../store/api-actions';
 import { getCameras, getCamerasCount, getLoadingDataStatus } from '../../store/cameras-data/selectors';
 
 export default function Catalog(): JSX.Element {
@@ -60,15 +60,21 @@ export default function Catalog(): JSX.Element {
   }, [dispatch, pageId, paramsSort]);
 
   useEffect(() => {
-    dispatch(fetchCamerasMinMaxPrice({
+    dispatch(fetchCamerasMinMaxPrice());
+  },[dispatch]);
+
+  useEffect(() => {
+    dispatch(fetchCamerasMinMaxPriceFiltered({
       params: {
         category: paramsSort.category,
         type: paramsSort.type,
         level: paramsSort.level,
+        minPrice: paramsSort.minPrice,
+        maxPrice: paramsSort.maxPrice,
       }
     }));
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, paramsSort.category.join(','), paramsSort.level.join(','), paramsSort.type.join(',')]);
+  }, [dispatch, paramsSort.category.join(','), paramsSort.level.join(','), paramsSort.type.join(','), paramsSort.minPrice, paramsSort.maxPrice]);
 
   if ((pageId > pagesCount || pageId <= 0) && pagesCount !== 0) {
     return <NotFoundScreen />;

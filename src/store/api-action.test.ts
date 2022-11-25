@@ -6,7 +6,7 @@ import { State } from '../types/state-type';
 import { Action } from 'redux';
 import { APIRoute } from '../const';
 import { CAMERAS_TOTAL_COUNT, DEFAULT_CAMERAS_TOTAL_COUNT, makeFakeAddReview, makeFakeCamera, makeFakeCameras, makeFakePromoCamera, makeFakeReviews } from '../utils/mocks';
-import { addReviewAction, fetchCameraByIdAction, fetchCamerasAction, fetchCamerasByNameAction, fetchCamerasMinMaxPrice, fetchPromoCameraAction, fetchReviewsAction, fetchSimilarCamerasAction } from './api-actions';
+import { addReviewAction, fetchCameraByIdAction, fetchCamerasAction, fetchCamerasByNameAction, fetchCamerasMinMaxPrice, fetchCamerasMinMaxPriceFiltered, fetchPromoCameraAction, fetchReviewsAction, fetchSimilarCamerasAction } from './api-actions';
 
 describe('Async actions', () => {
   const api = createAPI();
@@ -52,18 +52,38 @@ describe('Async actions', () => {
 
     const store = mockStore();
 
-    await store.dispatch(fetchCamerasMinMaxPrice({
-      params: {
-        category: [''],
-        type: [''],
-        level: [''],
-      }}));
+    await store.dispatch(fetchCamerasMinMaxPrice());
 
     const actions = store.getActions().map(({ type }:Action<string>) => type);
 
     expect(actions).toEqual([
       fetchCamerasMinMaxPrice.pending.type,
       fetchCamerasMinMaxPrice.fulfilled.type,
+    ]);
+  });
+
+  it('should dispatch fetchCamerasMinMaxPriceFiltered when GET /cameras', async () => {
+    const mockCamera = makeFakeCamera();
+    mockAPI
+      .onGet(APIRoute.Cameras)
+      .reply(200, [mockCamera, mockCamera]);
+
+    const store = mockStore();
+
+    await store.dispatch(fetchCamerasMinMaxPriceFiltered({
+      params: {
+        category: [''],
+        type: [''],
+        level: [''],
+        minPrice: '',
+        maxPrice: '',
+      }}));
+
+    const actions = store.getActions().map(({ type }:Action<string>) => type);
+
+    expect(actions).toEqual([
+      fetchCamerasMinMaxPriceFiltered.pending.type,
+      fetchCamerasMinMaxPriceFiltered.fulfilled.type,
     ]);
   });
 

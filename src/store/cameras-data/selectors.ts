@@ -8,3 +8,6 @@ export const getCamerasByName = (state: State): Cameras => state[NameSpace.Camer
 export const getLoadingDataStatus = (state: State): string => state[NameSpace.Cameras].dataLoadingStatus;
 export const getMinPriceOfCameras = (state: State): number => state[NameSpace.Cameras].minPriceOfCameras;
 export const getMaxPriceOfCameras = (state: State): number => state[NameSpace.Cameras].maxPriceOfCameras;
+
+export const getMinPriceOfCamerasFiltered = (state: State): number => state[NameSpace.Cameras].minPriceOfCamerasFiltered;
+export const getMaxPriceOfCamerasFiltered = (state: State): number => state[NameSpace.Cameras].maxPriceOfCamerasFiltered;

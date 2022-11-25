@@ -15,6 +15,8 @@ export type CamerasData = {
   camerasByName: Cameras;
   minPriceOfCameras: number;
   maxPriceOfCameras: number;
+  minPriceOfCamerasFiltered: number;
+  maxPriceOfCamerasFiltered: number;
 };
 
 export type CameraData = {
