@@ -2,14 +2,21 @@ import { Link } from 'react-router-dom';
 import { APIRoute, MAX_RATING} from '../../const';
 import { resetCounter } from '../../store/reviews-data/reviews-data';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
-import { Cameras } from '../../types/cameras-type';
+import { Camera, Cameras } from '../../types/cameras-type';
 
 type CatalogCardsPropsType = {
   cameras: Cameras;
+  setSelectedCamera: (selectedCamera: Camera) => void;
+  setIsCatalogAddItemActiv: (status: boolean) => void;
 }
 
-export default function CatalogCards({cameras}: CatalogCardsPropsType):JSX.Element {
+export default function CatalogCards({cameras, setSelectedCamera, setIsCatalogAddItemActiv}: CatalogCardsPropsType):JSX.Element {
   const dispatch = useAppDispatch();
+  const handleButtonAddItemClick = (camera: Camera) => {
+    setSelectedCamera(camera);
+    setIsCatalogAddItemActiv(true);
+    document.body.style.overflow = 'hidden';
+  };
 
   const camerasCatalog = cameras.map((camera) => (
     <div className="product-card" key={`product-card-${camera.id}`}>
@@ -34,7 +41,7 @@ export default function CatalogCards({cameras}: CatalogCardsPropsType):JSX.Eleme
         </p>
       </div>
       <div className="product-card__buttons">
-        <button className="btn btn--purple product-card__btn" type="button">Купить
+        <button onClick={() => handleButtonAddItemClick(camera)} className="btn btn--purple product-card__btn" type="button">Купить
         </button>
         <Link onClick={() => dispatch(resetCounter())} className="btn btn--transparent" to={`${APIRoute.Cameras}/${camera.id}?tab=specification`}>Подробнее
         </Link>

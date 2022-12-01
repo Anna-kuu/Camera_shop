@@ -1,6 +1,8 @@
-import { ChangeEvent, useEffect, useMemo } from 'react';
+import { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import Banner from '../../components/banner/banner';
+import CatalogAddItemSuccess from '../../components/catalog-add-item-success/catalog-add-item-success';
+import CatalogAddItem from '../../components/catalog-add-item/catalog-add-item';
 import CatalogCards from '../../components/catalog-cards/catalog-cards';
 import CatalogFilter from '../../components/catalog-filter/catalog-filter';
 import ErrorScreen from '../../components/error-screen/error-screen';
@@ -14,6 +16,7 @@ import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { fetchCamerasAction, fetchCamerasMinMaxPrice, fetchCamerasMinMaxPriceFiltered } from '../../store/api-actions';
 import { getCameras, getCamerasCount, getLoadingDataStatus } from '../../store/cameras-data/selectors';
+import { Camera } from '../../types/cameras-type';
 
 export default function Catalog(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -24,6 +27,9 @@ export default function Catalog(): JSX.Element {
   const pagesCount = Math.ceil(camerasCount / MAX_CAMERAS_OF_PAGE);
   const loadingCamerasStatus = useAppSelector(getLoadingDataStatus);
   const cameras = useAppSelector(getCameras);
+  const [selectedCamera, setSelectedCamera] = useState({} as Camera);
+  const [isCatalogAddItemActiv, setIsCatalogAddItemActiv] = useState(false);
+  const [isCatalogAddItemSuccess, setIsCatalogAddItemSuccess] = useState(false);
 
   const paramsSort = useMemo(() => ({
     _sort: searchParams.get(QueryParams.Sort),
@@ -152,7 +158,7 @@ export default function Catalog(): JSX.Element {
                   {!cameras.length && loadingCamerasStatus === DataLoadingStatus.Fulfilled ? <h2 className="title title--h2">По вашему запросу ничего не найдено</h2> : ''}
                   {cameras.length && loadingCamerasStatus === DataLoadingStatus.Fulfilled ?
                     <>
-                      <CatalogCards cameras={cameras}/>
+                      <CatalogCards cameras={cameras} setSelectedCamera={setSelectedCamera} setIsCatalogAddItemActiv={setIsCatalogAddItemActiv}/>
                       <Pagination pagesCount={pagesCount}/>
                     </> : ''}
                 </div>
@@ -160,6 +166,10 @@ export default function Catalog(): JSX.Element {
             </div>
           </section>
         </div>
+        {isCatalogAddItemActiv &&
+        <CatalogAddItem selectedCamera={selectedCamera} setIsCatalogAddItemActiv={setIsCatalogAddItemActiv} setIsCatalogAddItemSuccess={setIsCatalogAddItemSuccess}/>}
+        {isCatalogAddItemSuccess &&
+        <CatalogAddItemSuccess setIsCatalogAddItemSuccess={setIsCatalogAddItemSuccess}/>}
       </main>
       <Footer />
     </div>
