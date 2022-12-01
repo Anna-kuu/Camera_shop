@@ -1,3 +1,6 @@
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../const';
+
 type CatalogAddItemSuccessProps = {
   setIsCatalogAddItemSuccess: (status: boolean) => void;
 }
@@ -12,7 +15,7 @@ export default function CatalogAddItemSuccess({setIsCatalogAddItemSuccess}: Cata
             <use xlinkHref="#icon-success"></use>
           </svg>
           <div className="modal__buttons">
-            <a className="btn btn--transparent modal__btn" href="/#">Продолжить покупки</a>
+            <Link to={AppRoute.Root} onClick={() => {setIsCatalogAddItemSuccess(false); document.body.style.overflow = 'scroll';}} className="btn btn--transparent modal__btn">Продолжить покупки</Link>
             <button className="btn btn--purple modal__btn modal__btn--fit-width">Перейти в корзину</button>
           </div>
           <button onClick={() => {setIsCatalogAddItemSuccess(false); document.body.style.overflow = 'scroll';}} className="cross-btn" type="button" aria-label="Закрыть попап">
