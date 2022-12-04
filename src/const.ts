@@ -12,6 +12,7 @@ export enum AppRoute {
   Root = '/',
   Catalog = '/catalog/:pageId',
   Camera = '/cameras/:id',
+  Basket = '/basket',
 }
 
 export enum APIRoute {
