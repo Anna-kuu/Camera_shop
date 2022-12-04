@@ -1,8 +1,8 @@
 import { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import Banner from '../../components/banner/banner';
-import CatalogAddItemSuccess from '../../components/catalog-add-item-success/catalog-add-item-success';
-import CatalogAddItem from '../../components/catalog-add-item/catalog-add-item';
+import ModalAddItemSuccess from '../../components/modal-add-item-success/modal-add-item-success';
+import ModalAddItem from '../../components/modal-add-item/modal-add-item';
 import CatalogCards from '../../components/catalog-cards/catalog-cards';
 import CatalogFilter from '../../components/catalog-filter/catalog-filter';
 import ErrorScreen from '../../components/error-screen/error-screen';
@@ -28,8 +28,8 @@ export default function Catalog(): JSX.Element {
   const loadingCamerasStatus = useAppSelector(getLoadingDataStatus);
   const cameras = useAppSelector(getCameras);
   const [selectedCamera, setSelectedCamera] = useState({} as Camera);
-  const [isCatalogAddItemActiv, setIsCatalogAddItemActiv] = useState(false);
-  const [isCatalogAddItemSuccess, setIsCatalogAddItemSuccess] = useState(false);
+  const [isModalAddItemActiv, setIsModalAddItemActiv] = useState(false);
+  const [isModalAddItemSuccess, setIsModalAddItemSuccess] = useState(false);
 
   const paramsSort = useMemo(() => ({
     _sort: searchParams.get(QueryParams.Sort),
@@ -158,7 +158,7 @@ export default function Catalog(): JSX.Element {
                   {!cameras.length && loadingCamerasStatus === DataLoadingStatus.Fulfilled ? <h2 className="title title--h2">По вашему запросу ничего не найдено</h2> : ''}
                   {cameras.length && loadingCamerasStatus === DataLoadingStatus.Fulfilled ?
                     <>
-                      <CatalogCards cameras={cameras} setSelectedCamera={setSelectedCamera} setIsCatalogAddItemActiv={setIsCatalogAddItemActiv}/>
+                      <CatalogCards cameras={cameras} setSelectedCamera={setSelectedCamera} setIsModalAddItemActiv={setIsModalAddItemActiv}/>
                       <Pagination pagesCount={pagesCount}/>
                     </> : ''}
                 </div>
@@ -166,10 +166,10 @@ export default function Catalog(): JSX.Element {
             </div>
           </section>
         </div>
-        {isCatalogAddItemActiv &&
-        <CatalogAddItem selectedCamera={selectedCamera} setIsCatalogAddItemActiv={setIsCatalogAddItemActiv} setIsCatalogAddItemSuccess={setIsCatalogAddItemSuccess}/>}
-        {isCatalogAddItemSuccess &&
-        <CatalogAddItemSuccess setIsCatalogAddItemSuccess={setIsCatalogAddItemSuccess}/>}
+        {isModalAddItemActiv &&
+        <ModalAddItem selectedCamera={selectedCamera} setIsModalAddItemActiv={setIsModalAddItemActiv} setIsModalAddItemSuccess={setIsModalAddItemSuccess}/>}
+        {isModalAddItemSuccess &&
+        <ModalAddItemSuccess setIsModalAddItemSuccess={setIsModalAddItemSuccess}/>}
       </main>
       <Footer />
     </div>

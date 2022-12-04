@@ -7,14 +7,14 @@ import { Camera, Cameras } from '../../types/cameras-type';
 type CatalogCardsPropsType = {
   cameras: Cameras;
   setSelectedCamera: (selectedCamera: Camera) => void;
-  setIsCatalogAddItemActiv: (status: boolean) => void;
+  setIsModalAddItemActiv: (status: boolean) => void;
 }
 
-export default function CatalogCards({cameras, setSelectedCamera, setIsCatalogAddItemActiv}: CatalogCardsPropsType):JSX.Element {
+export default function CatalogCards({cameras, setSelectedCamera, setIsModalAddItemActiv}: CatalogCardsPropsType):JSX.Element {
   const dispatch = useAppDispatch();
   const handleButtonAddItemClick = (camera: Camera) => {
     setSelectedCamera(camera);
-    setIsCatalogAddItemActiv(true);
+    setIsModalAddItemActiv(true);
     document.body.style.overflow = 'hidden';
   };
 

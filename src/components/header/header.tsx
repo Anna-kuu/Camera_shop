@@ -1,6 +1,9 @@
+import { useAppSelector } from '../../hooks/use-app-selector';
+import { getCamerasInBascket } from '../../store/camera-data/selectors';
 import FormSearch from '../form-search/form-search';
 
 export default function Header(): JSX.Element {
+  const countCamerasInBascket = useAppSelector(getCamerasInBascket).length;
   return (
     <header className="header" id="header">
       <div className="container">
@@ -26,6 +29,7 @@ export default function Header(): JSX.Element {
           <svg width="16" height="16" aria-hidden="true">
             <use xlinkHref="#icon-basket"></use>
           </svg>
+          {countCamerasInBascket > 0 && <span className="header__basket-count">{countCamerasInBascket}</span>}
         </a>
       </div>
     </header>

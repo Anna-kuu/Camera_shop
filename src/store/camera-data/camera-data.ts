@@ -8,12 +8,17 @@ const initialState: CameraData = {
   camera: {} as Camera,
   similarCameras: [],
   dataLoadingStatus: DataLoadingStatus.Idle,
+  camerasInBasket: [],
 };
 
 export const cameraData = createSlice({
   name: NameSpace.Camera,
   initialState,
-  reducers: {},
+  reducers: {
+    addCameraToBasket: (state, action) => {
+      state.camerasInBasket.push(action.payload);
+    }
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchCameraByIdAction.pending, (state) => {
@@ -31,3 +36,4 @@ export const cameraData = createSlice({
       });
   }
 });
+export const {addCameraToBasket} = cameraData.actions;

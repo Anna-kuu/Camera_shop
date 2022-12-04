@@ -14,8 +14,8 @@ import { fetchCameraByIdAction, fetchReviewsAction, fetchSimilarCamerasAction } 
 import { getCameraById, getDataLoadingStatus, getSimilarCameras } from '../../store/camera-data/selectors';
 import { getReviews } from '../../store/reviews-data/selectors';
 import { reviewSort } from '../../util';
-import CatalogAddItem from '../../components/catalog-add-item/catalog-add-item';
-import CatalogAddItemSuccess from '../../components/catalog-add-item-success/catalog-add-item-success';
+import ModalAddItem from '../../components/modal-add-item/modal-add-item';
+import ModalAddItemSuccess from '../../components/modal-add-item-success/modal-add-item-success';
 
 export default function Camera():JSX.Element {
   const dispatch = useAppDispatch();
@@ -27,12 +27,12 @@ export default function Camera():JSX.Element {
   const reviewsSorted = reviews.slice().sort(reviewSort);
   const cameraLoadingStatus = useAppSelector(getDataLoadingStatus);
   const [selectedCamera, setSelectedCamera] = useState(camera);
-  const [isCatalogAddItemActiv, setIsCatalogAddItemActiv] = useState(false);
-  const [isCatalogAddItemSuccess, setIsCatalogAddItemSuccess] = useState(false);
+  const [isModalAddItemActiv, setIsModalAddItemActiv] = useState(false);
+  const [isModalAddItemSuccess, setIsModalAddItemSuccess] = useState(false);
 
   const handleButtonAddItemClick = () => {
     setSelectedCamera(camera);
-    setIsCatalogAddItemActiv(true);
+    setIsModalAddItemActiv(true);
     document.body.style.overflow = 'hidden';
   };
 
@@ -117,16 +117,16 @@ export default function Camera():JSX.Element {
           </div>
           {similarCameras.length !== 0 &&
           <div className="page-content__section">
-            <SimilarCameras similarCameras={similarCameras} setSelectedCamera={setSelectedCamera} setIsCatalogAddItemActiv={setIsCatalogAddItemActiv}/>
+            <SimilarCameras similarCameras={similarCameras} setSelectedCamera={setSelectedCamera} setIsModalAddItemActiv={setIsModalAddItemActiv}/>
           </div>}
           <div className="page-content__section">
             <ReviewsList reviews={reviewsSorted} id={id}/>
           </div>
         </div>
-        {isCatalogAddItemActiv &&
-        <CatalogAddItem selectedCamera={selectedCamera} setIsCatalogAddItemActiv={setIsCatalogAddItemActiv} setIsCatalogAddItemSuccess={setIsCatalogAddItemSuccess}/>}
-        {isCatalogAddItemSuccess &&
-        <CatalogAddItemSuccess setIsCatalogAddItemSuccess={setIsCatalogAddItemSuccess}/>}
+        {isModalAddItemActiv &&
+        <ModalAddItem selectedCamera={selectedCamera} setIsModalAddItemActiv={setIsModalAddItemActiv} setIsModalAddItemSuccess={setIsModalAddItemSuccess}/>}
+        {isModalAddItemSuccess &&
+        <ModalAddItemSuccess setIsModalAddItemSuccess={setIsModalAddItemSuccess}/>}
       </main>
       <button className="up-btn" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
         <svg width="12" height="18" aria-hidden="true">

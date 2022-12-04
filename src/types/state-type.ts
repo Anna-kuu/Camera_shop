@@ -23,6 +23,7 @@ export type CameraData = {
   camera: Camera;
   similarCameras: Cameras;
   dataLoadingStatus: DataLoadingStatus;
+  camerasInBasket: Cameras;
 }
 
 export type ReviewsData = {

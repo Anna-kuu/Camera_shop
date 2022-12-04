@@ -5,3 +5,4 @@ import { State } from '../../types/state-type';
 export const getCameraById = (state: State): Camera => state[NameSpace.Camera].camera;
 export const getSimilarCameras = (state: State): Cameras => state[NameSpace.Camera].similarCameras;
 export const getDataLoadingStatus = (state: State): string => state[NameSpace.Camera].dataLoadingStatus;
+export const getCamerasInBascket = (state: State): Cameras => state[NameSpace.Camera].camerasInBasket;

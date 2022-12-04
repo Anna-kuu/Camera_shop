@@ -8,14 +8,14 @@ import { Camera, Cameras } from '../../types/cameras-type';
 type SimilarCamerasProps = {
   similarCameras: Cameras;
   setSelectedCamera: (selectedCamera: Camera) => void;
-  setIsCatalogAddItemActiv: (status: boolean) => void;
+  setIsModalAddItemActiv: (status: boolean) => void;
 }
 
-export default function SimilarCameras({similarCameras, setSelectedCamera, setIsCatalogAddItemActiv}: SimilarCamerasProps):JSX.Element {
+export default function SimilarCameras({similarCameras, setSelectedCamera, setIsModalAddItemActiv}: SimilarCamerasProps):JSX.Element {
   const dispatch = useAppDispatch();
   const handleButtonAddItemClick = (camera: Camera) => {
     setSelectedCamera(camera);
-    setIsCatalogAddItemActiv(true);
+    setIsModalAddItemActiv(true);
     document.body.style.overflow = 'hidden';
   };
   const [sliderStart, setSliderStart] = useState(SLIDER_DEFAULT);
