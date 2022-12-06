@@ -1,6 +1,6 @@
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import useKeydown from '../../hooks/use-keydown';
-import { addCameraToBasket } from '../../store/camera-data/camera-data';
+import { addCameraToBasket } from '../../store/basket-data/basket-data';
 import { Camera } from '../../types/cameras-type';
 
 type ModalAddItemProps = {

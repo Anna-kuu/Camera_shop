@@ -1,11 +1,13 @@
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { useAppSelector } from '../../hooks/use-app-selector';
-import { getCamerasInBascket } from '../../store/camera-data/selectors';
+import { getCamerasInBascket } from '../../store/basket-data/selectors';
 import FormSearch from '../form-search/form-search';
 
 export default function Header(): JSX.Element {
-  const countCamerasInBascket = useAppSelector(getCamerasInBascket).length;
+  const camerasInBascket = useAppSelector(getCamerasInBascket);
+  const countCamerasInBascket = camerasInBascket.reduce((summ, {cameraCount}) => summ + cameraCount, 0);
+
   return (
     <header className="header" id="header">
       <div className="container">

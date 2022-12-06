@@ -1,7 +1,16 @@
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
+import { useAppSelector } from '../../hooks/use-app-selector';
+import { getCamerasInBascket } from '../../store/basket-data/selectors';
 
 export default function Basket():JSX.Element {
+  /*const camerasInBasket = useAppSelector(getCamerasInBascket);
+  const a = [{id: 1, count: 2}, {id: 2, count: 1}, {id: 5, count:3}];
+  // eslint-disable-next-line prefer-const
+  let b: number[] = [];
+  a.map((v) => Array.prototype.push.apply(b, Array(v.count).fill(v.id)));
+  console.log(a);
+  console.log(b);*/
   return (
     <div className="wrapper">
       <Header />
