@@ -16,7 +16,7 @@ export default function ModalAddItemSuccess({setIsModalAddItemSuccess}: ModalAdd
           </svg>
           <div className="modal__buttons">
             <Link to={AppRoute.Root} onClick={() => {setIsModalAddItemSuccess(false); document.body.style.overflow = 'scroll';}} className="btn btn--transparent modal__btn">Продолжить покупки</Link>
-            <button className="btn btn--purple modal__btn modal__btn--fit-width">Перейти в корзину</button>
+            <Link to={AppRoute.Basket} onClick={() => {setIsModalAddItemSuccess(false); document.body.style.overflow = 'scroll';}} className="btn btn--purple modal__btn modal__btn--fit-width">Перейти в корзину</Link>
           </div>
           <button onClick={() => {setIsModalAddItemSuccess(false); document.body.style.overflow = 'scroll';}} className="cross-btn" type="button" aria-label="Закрыть попап">
             <svg width="10" height="10" aria-hidden="true">

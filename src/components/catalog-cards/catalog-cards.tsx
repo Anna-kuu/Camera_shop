@@ -3,7 +3,7 @@ import { APIRoute, AppRoute, MAX_RATING} from '../../const';
 import { resetCounter } from '../../store/reviews-data/reviews-data';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { Camera, Cameras } from '../../types/cameras-type';
-import { getCamerasInBascket } from '../../store/basket-data/selectors';
+import { getCamerasInBasket } from '../../store/basket-data/selectors';
 import { useAppSelector } from '../../hooks/use-app-selector';
 
 type CatalogCardsPropsType = {
@@ -14,7 +14,7 @@ type CatalogCardsPropsType = {
 
 export default function CatalogCards({cameras, setSelectedCamera, setIsModalAddItemActiv}: CatalogCardsPropsType):JSX.Element {
   const dispatch = useAppDispatch();
-  const camerasInBasket = useAppSelector(getCamerasInBascket);
+  const camerasInBasket = useAppSelector(getCamerasInBasket);
   const handleButtonAddItemClick = (camera: Camera) => {
     setSelectedCamera(camera);
     setIsModalAddItemActiv(true);

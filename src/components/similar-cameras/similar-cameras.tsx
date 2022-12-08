@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { APIRoute, AppRoute, MAX_RATING, SLIDER_DEFAULT, SLIDER_STEP } from '../../const';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { useAppSelector } from '../../hooks/use-app-selector';
-import { getCamerasInBascket } from '../../store/basket-data/selectors';
+import { getCamerasInBasket } from '../../store/basket-data/selectors';
 import { resetCounter } from '../../store/reviews-data/reviews-data';
 import { Camera, Cameras } from '../../types/cameras-type';
 
@@ -15,7 +15,7 @@ type SimilarCamerasProps = {
 
 export default function SimilarCameras({similarCameras, setSelectedCamera, setIsModalAddItemActiv}: SimilarCamerasProps):JSX.Element {
   const dispatch = useAppDispatch();
-  const camerasInBasket = useAppSelector(getCamerasInBascket);
+  const camerasInBasket = useAppSelector(getCamerasInBasket);
   const handleButtonAddItemClick = (camera: Camera) => {
     setSelectedCamera(camera);
     setIsModalAddItemActiv(true);

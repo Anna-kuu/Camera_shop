@@ -21,8 +21,11 @@ export const basketData = createSlice({
         camera: action.payload,
         cameraCount: 1,
       });
-
+    },
+    changeCameraCount: (state, action) => {
+      const index = state.camerasInBasket.findIndex(({camera}) => camera.id === action.payload.id);
+      state.camerasInBasket[index].cameraCount = action.payload.value;
     }
   },
 });
-export const {addCameraToBasket} = basketData.actions;
+export const {addCameraToBasket, changeCameraCount} = basketData.actions;

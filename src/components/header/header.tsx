@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { useAppSelector } from '../../hooks/use-app-selector';
-import { getCamerasInBascket } from '../../store/basket-data/selectors';
+import { getCamerasInBasket } from '../../store/basket-data/selectors';
 import FormSearch from '../form-search/form-search';
 
 export default function Header(): JSX.Element {
-  const camerasInBascket = useAppSelector(getCamerasInBascket);
-  const countCamerasInBascket = camerasInBascket.reduce((summ, {cameraCount}) => summ + cameraCount, 0);
+  const camerasInBasket = useAppSelector(getCamerasInBasket);
+  const countCamerasInBasket = camerasInBasket.reduce((summ, {cameraCount}) => summ + cameraCount, 0);
 
   return (
     <header className="header" id="header">
@@ -18,13 +18,13 @@ export default function Header(): JSX.Element {
         </a>
         <nav className="main-nav header__main-nav">
           <ul className="main-nav__list">
-            <li className="main-nav__item"><a className="main-nav__link" href="/">Каталог</a>
+            <li className="main-nav__item"><Link className="main-nav__link" to={AppRoute.Root}>Каталог</Link>
             </li>
-            <li className="main-nav__item"><a className="main-nav__link" href="/">Гарантии</a>
+            <li className="main-nav__item"><Link className="main-nav__link" to={AppRoute.Root}>Гарантии</Link>
             </li>
-            <li className="main-nav__item"><a className="main-nav__link" href="/">Доставка</a>
+            <li className="main-nav__item"><Link className="main-nav__link" to={AppRoute.Root}>Доставка</Link>
             </li>
-            <li className="main-nav__item"><a className="main-nav__link" href="/">О компании</a>
+            <li className="main-nav__item"><Link className="main-nav__link" to={AppRoute.Root}>О компании</Link>
             </li>
           </ul>
         </nav>
@@ -33,7 +33,7 @@ export default function Header(): JSX.Element {
           <svg width="16" height="16" aria-hidden="true">
             <use xlinkHref="#icon-basket"></use>
           </svg>
-          {countCamerasInBascket > 0 && <span className="header__basket-count">{countCamerasInBascket}</span>}
+          {countCamerasInBasket > 0 && <span className="header__basket-count">{countCamerasInBasket}</span>}
         </Link>
       </div>
     </header>

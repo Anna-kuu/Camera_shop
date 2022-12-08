@@ -1,7 +1,12 @@
+import { Link } from 'react-router-dom';
+import CameraInBasket from '../../components/camera-in-basket/camera-in-basket';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
+import { AppRoute } from '../../const';
 import { useAppSelector } from '../../hooks/use-app-selector';
-import { getCamerasInBascket } from '../../store/basket-data/selectors';
+import { getCamerasInBasket } from '../../store/basket-data/selectors';
+//import { useAppSelector } from '../../hooks/use-app-selector';
+//import { getCamerasInBascket } from '../../store/basket-data/selectors';
 
 export default function Basket():JSX.Element {
   /*const camerasInBasket = useAppSelector(getCamerasInBascket);
@@ -11,6 +16,8 @@ export default function Basket():JSX.Element {
   a.map((v) => Array.prototype.push.apply(b, Array(v.count).fill(v.id)));
   console.log(a);
   console.log(b);*/
+  const camerasInBasket = useAppSelector(getCamerasInBasket);
+  const totalCount = camerasInBasket.reduce((summ, {camera, cameraCount}) => summ + camera.price * cameraCount, 0);
   return (
     <div className="wrapper">
       <Header />
@@ -20,18 +27,18 @@ export default function Basket():JSX.Element {
             <div className="container">
               <ul className="breadcrumbs__list">
                 <li className="breadcrumbs__item">
-                  <a className="breadcrumbs__link" href="index.html">Главная
+                  <Link className="breadcrumbs__link" to={AppRoute.Root}>Главная
                     <svg width="5" height="8" aria-hidden="true">
                       <use xlinkHref="#icon-arrow-mini"></use>
                     </svg>
-                  </a>
+                  </Link>
                 </li>
                 <li className="breadcrumbs__item">
-                  <a className="breadcrumbs__link" href="catalog.html">Каталог
+                  <Link className="breadcrumbs__link" to={AppRoute.Root}>Каталог
                     <svg width="5" height="8" aria-hidden="true">
                       <use xlinkHref="#icon-arrow-mini"></use>
                     </svg>
-                  </a>
+                  </Link>
                 </li>
                 <li className="breadcrumbs__item"><span className="breadcrumbs__link breadcrumbs__link--active">Корзина</span>
                 </li>
@@ -42,45 +49,8 @@ export default function Basket():JSX.Element {
             <div className="container">
               <h1 className="title title--h2">Корзина</h1>
               <ul className="basket__list">
-                <li className="basket-item">
-                  <div className="basket-item__img">
-                    <picture>
-                      <source type="image/webp" srcSet="img/content/img9.webp, img/content/img9@2x.webp 2x" />
-                      <img src="img/content/img9.jpg" srcSet="img/content/img9@2x.jpg 2x" width="140" height="120" alt="Фотоаппарат «Орлёнок»" />
-                    </picture>
-                  </div>
-                  <div className="basket-item__description">
-                    <p className="basket-item__title">Фотоаппарат «Орлёнок»</p>
-                    <ul className="basket-item__list">
-                      <li className="basket-item__list-item"><span className="basket-item__article">Артикул:</span> <span className="basket-item__number">O78DFGSD832</span>
-                      </li>
-                      <li className="basket-item__list-item">Плёночная фотокамера</li>
-                      <li className="basket-item__list-item">Любительский уровень</li>
-                    </ul>
-                  </div>
-                  <p className="basket-item__price"><span className="visually-hidden">Цена:</span>18 970 ₽</p>
-                  <div className="quantity">
-                    <button className="btn-icon btn-icon--prev" aria-label="уменьшить количество товара">
-                      <svg width="7" height="12" aria-hidden="true">
-                        <use xlinkHref="#icon-arrow"></use>
-                      </svg>
-                    </button>
-                    <label className="visually-hidden" htmlFor="counter1"></label>
-                    <input type="number" id="counter1" value="2" min="1" max="99" aria-label="количество товара" />
-                    <button className="btn-icon btn-icon--next" aria-label="увеличить количество товара">
-                      <svg width="7" height="12" aria-hidden="true">
-                        <use xlinkHref="#icon-arrow"></use>
-                      </svg>
-                    </button>
-                  </div>
-                  <div className="basket-item__total-price"><span className="visually-hidden">Общая цена:</span>37 940 ₽</div>
-                  <button className="cross-btn" type="button" aria-label="Удалить товар">
-                    <svg width="10" height="10" aria-hidden="true">
-                      <use xlinkHref="#icon-close"></use>
-                    </svg>
-                  </button>
-                </li>
-
+                {camerasInBasket.map(({camera, cameraCount}) => (
+                  <CameraInBasket camera={camera} cameraCount={cameraCount}/>))}
               </ul>
               <div className="basket__summary">
                 <div className="basket__promo">
@@ -100,7 +70,7 @@ export default function Basket():JSX.Element {
                   </div>
                 </div>
                 <div className="basket__summary-order">
-                  <p className="basket__summary-item"><span className="basket__summary-text">Всего:</span><span className="basket__summary-value">111 390 ₽</span></p>
+                  <p className="basket__summary-item"><span className="basket__summary-text">Всего:</span><span className="basket__summary-value">{`${totalCount.toLocaleString('ru')} ₽`}</span></p>
                   <p className="basket__summary-item"><span className="basket__summary-text">Скидка:</span><span className="basket__summary-value basket__summary-value--bonus">0 ₽</span></p>
                   <p className="basket__summary-item"><span className="basket__summary-text basket__summary-text--total">К оплате:</span><span className="basket__summary-value basket__summary-value--total">111 390 ₽</span></p>
                   <button className="btn btn--purple" type="submit">Оформить заказ
