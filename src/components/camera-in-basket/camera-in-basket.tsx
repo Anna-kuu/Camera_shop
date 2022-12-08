@@ -9,8 +9,10 @@ const CAMERA_COUNT_STEP = 1;
 type CameraInBasketPrpos = {
   camera: Camera;
   cameraCount: number;
+  setIsModalRemoveActive: (status: boolean) => void;
+  setSelectedCamera: (selectedCamera: Camera) => void;
 }
-export default function CameraInBasket({camera, cameraCount}: CameraInBasketPrpos):JSX.Element {
+export default function CameraInBasket({camera, cameraCount, setIsModalRemoveActive, setSelectedCamera}: CameraInBasketPrpos):JSX.Element {
   const [cameraCountInput, setCameraCountInput] = useState(String(cameraCount));
   const dispatch = useAppDispatch();
   const totalCount = () => {
@@ -53,8 +55,14 @@ export default function CameraInBasket({camera, cameraCount}: CameraInBasketPrpo
     dispatch(changeCameraCount({id: camera.id, value: cameraCountIncrease}));
   };
 
+  const handleRemoveItemClick = (selectedCamera: Camera) => {
+    setIsModalRemoveActive(true);
+    document.body.style.overflow = 'hidden';
+    setSelectedCamera(selectedCamera);
+  };
+
   return (
-    <li className="basket-item" key={`basket-item-${camera.id}`}>
+    <li className="basket-item">
       <div className="basket-item__img">
         <picture>
           <source type="image/webp" srcSet={`${camera.previewImgWebp}, ${camera.previewImgWebp2x} 2x`} />
@@ -88,7 +96,7 @@ export default function CameraInBasket({camera, cameraCount}: CameraInBasketPrpo
         </button>
       </div>
       <div className="basket-item__total-price"><span className="visually-hidden">Общая цена:</span>{`${totalCount().toLocaleString('ru')} ₽`}</div>
-      <button className="cross-btn" type="button" aria-label="Удалить товар">
+      <button onClick={() => handleRemoveItemClick(camera)} className="cross-btn" type="button" aria-label="Удалить товар">
         <svg width="10" height="10" aria-hidden="true">
           <use xlinkHref="#icon-close"></use>
         </svg>

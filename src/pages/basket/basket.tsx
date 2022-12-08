@@ -1,10 +1,13 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import CameraInBasket from '../../components/camera-in-basket/camera-in-basket';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
+import ModalRemoveItem from '../../components/modal-remove-item/modal-remove-item';
 import { AppRoute } from '../../const';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { getCamerasInBasket } from '../../store/basket-data/selectors';
+import { Camera } from '../../types/cameras-type';
 //import { useAppSelector } from '../../hooks/use-app-selector';
 //import { getCamerasInBascket } from '../../store/basket-data/selectors';
 
@@ -17,6 +20,8 @@ export default function Basket():JSX.Element {
   console.log(a);
   console.log(b);*/
   const camerasInBasket = useAppSelector(getCamerasInBasket);
+  const [isModalRemoveActive, setIsModalRemoveActive] = useState(false);
+  const [selectedCamera, setSelectedCamera] = useState({} as Camera);
   const totalCount = camerasInBasket.reduce((summ, {camera, cameraCount}) => summ + camera.price * cameraCount, 0);
   return (
     <div className="wrapper">
@@ -50,7 +55,7 @@ export default function Basket():JSX.Element {
               <h1 className="title title--h2">Корзина</h1>
               <ul className="basket__list">
                 {camerasInBasket.map(({camera, cameraCount}) => (
-                  <CameraInBasket camera={camera} cameraCount={cameraCount}/>))}
+                  <CameraInBasket key={`basket-item-${camera.id}`} camera={camera} cameraCount={cameraCount} setIsModalRemoveActive={setIsModalRemoveActive} setSelectedCamera={setSelectedCamera}/>))}
               </ul>
               <div className="basket__summary">
                 <div className="basket__promo">
@@ -80,6 +85,7 @@ export default function Basket():JSX.Element {
             </div>
           </section>
         </div>
+        {isModalRemoveActive && <ModalRemoveItem setIsModalRemoveActive={setIsModalRemoveActive} selectedCamera={selectedCamera}/>}
       </main>
       <Footer />
     </div>

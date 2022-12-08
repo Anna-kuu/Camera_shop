@@ -9,7 +9,7 @@ type ModalAddItemProps = {
   setIsModalAddItemSuccess: (status: boolean) => void;
 }
 export default function ModalAddItem({selectedCamera, setIsModalAddItemActiv, setIsModalAddItemSuccess}: ModalAddItemProps): JSX.Element {
-  useKeydown('Escape', () => setIsModalAddItemActiv(false));
+  useKeydown('Escape', () => {setIsModalAddItemActiv(false); document.body.style.overflow = 'scroll';});
   const dispatch = useAppDispatch();
   return (
     <div className="modal is-active">

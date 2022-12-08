@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
+import useKeydown from '../../hooks/use-keydown';
 
 type ModalAddItemSuccessProps = {
   setIsModalAddItemSuccess: (status: boolean) => void;
 }
 export default function ModalAddItemSuccess({setIsModalAddItemSuccess}: ModalAddItemSuccessProps): JSX.Element {
+  useKeydown('Escape', () => {setIsModalAddItemSuccess(false); document.body.style.overflow = 'scroll';});
   return (
     <div className="modal is-active modal--narrow">
       <div className="modal__wrapper">

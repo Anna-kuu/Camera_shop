@@ -17,7 +17,7 @@ type ModalReviewProps = {
 };
 
 export default function ModalReview({isModalReviewActive, setIsModalReviewActive, setIsModalReviewSuccessActive, idCamera}: ModalReviewProps): JSX.Element {
-  useKeydown('Escape', () => setIsModalReviewActive(false));
+  useKeydown('Escape', () => {setIsModalReviewActive(false); document.body.style.overflow = 'scroll';});
   const dispatch = useAppDispatch();
   const [rating, setRating] = useState(0);
   const {
