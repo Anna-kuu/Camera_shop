@@ -199,6 +199,18 @@ export const addReviewAction = createAsyncThunk<void, ReviewPost, {
   },
 );
 
+export const couponPost = createAsyncThunk<number, string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/couponPost',
+  async(value, {extra: api}) => {
+    const {data} = await api.post<number>(APIRoute.Coupon, {coupon: value});
+    return data;
+  },
+);
+
 export const fetchCamerasByNameAction = createAsyncThunk<Cameras, string, {
   dispatch: AppDispatch;
   state: State;

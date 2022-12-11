@@ -1,12 +1,14 @@
-import { useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
 import CameraInBasket from '../../components/camera-in-basket/camera-in-basket';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
 import ModalRemoveItem from '../../components/modal-remove-item/modal-remove-item';
-import { AppRoute } from '../../const';
+import { AppRoute, DataLoadingStatus } from '../../const';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { useAppSelector } from '../../hooks/use-app-selector';
-import { getCamerasInBasket } from '../../store/basket-data/selectors';
+import { couponPost } from '../../store/api-actions';
+import { getCamerasInBasket, getDiscount, getDiscountLoadingStatus } from '../../store/basket-data/selectors';
 import { Camera } from '../../types/cameras-type';
 //import { useAppSelector } from '../../hooks/use-app-selector';
 //import { getCamerasInBascket } from '../../store/basket-data/selectors';
@@ -19,10 +21,24 @@ export default function Basket():JSX.Element {
   a.map((v) => Array.prototype.push.apply(b, Array(v.count).fill(v.id)));
   console.log(a);
   console.log(b);*/
+  const dispatch = useAppDispatch();
   const camerasInBasket = useAppSelector(getCamerasInBasket);
+  const discount = useAppSelector(getDiscount);
+  const discountLoadingStatus = useAppSelector(getDiscountLoadingStatus);
   const [isModalRemoveActive, setIsModalRemoveActive] = useState(false);
+  const [promoValue, setPromoValue] = useState('');
   const [selectedCamera, setSelectedCamera] = useState({} as Camera);
   const totalCount = camerasInBasket.reduce((summ, {camera, cameraCount}) => summ + camera.price * cameraCount, 0);
+
+  const handleInputPromoChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    setPromoValue(evt.target.value.replace(/^ +| +$|( ) +/g, '$1'));
+  };
+
+  const handleSubmitPromo = (evt: FormEvent) => {
+    evt.preventDefault();
+    dispatch(couponPost(promoValue));
+  };
+
   return (
     <div className="wrapper">
       <Header />
@@ -61,13 +77,13 @@ export default function Basket():JSX.Element {
                 <div className="basket__promo">
                   <p className="title title--h4">Если у вас есть промокод на скидку, примените его в этом поле</p>
                   <div className="basket-form">
-                    <form action="#">
+                    <form onSubmit={handleSubmitPromo}>
                       <div className="custom-input">
                         <label><span className="custom-input__label">Промокод</span>
-                          <input type="text" name="promo" placeholder="Введите промокод" />
+                          <input onChange={handleInputPromoChange} type="text" name="promo" placeholder="Введите промокод" value={promoValue} />
                         </label>
-                        <p className="custom-input__error">Промокод неверный</p>
-                        <p className="custom-input__success">Промокод принят!</p>
+                        {discountLoadingStatus === DataLoadingStatus.Rejected && <p className="custom-input__error">Промокод неверный</p>}
+                        {discountLoadingStatus === DataLoadingStatus.Fulfilled && <p className="custom-input__success">Промокод принят!</p>}
                       </div>
                       <button className="btn" type="submit">Применить
                       </button>
@@ -76,8 +92,8 @@ export default function Basket():JSX.Element {
                 </div>
                 <div className="basket__summary-order">
                   <p className="basket__summary-item"><span className="basket__summary-text">Всего:</span><span className="basket__summary-value">{`${totalCount.toLocaleString('ru')} ₽`}</span></p>
-                  <p className="basket__summary-item"><span className="basket__summary-text">Скидка:</span><span className="basket__summary-value basket__summary-value--bonus">0 ₽</span></p>
-                  <p className="basket__summary-item"><span className="basket__summary-text basket__summary-text--total">К оплате:</span><span className="basket__summary-value basket__summary-value--total">111 390 ₽</span></p>
+                  <p className="basket__summary-item"><span className="basket__summary-text">Скидка:</span><span className={`basket__summary-value ${discountLoadingStatus === DataLoadingStatus.Fulfilled ? 'basket__summary-value--bonus' : ''}`}>{`${(discount * totalCount / 100).toLocaleString('ru')} ₽`}</span></p>
+                  <p className="basket__summary-item"><span className="basket__summary-text basket__summary-text--total">К оплате:</span><span className="basket__summary-value basket__summary-value--total">{`${((100 - discount) * totalCount / 100).toLocaleString('ru')} ₽`}</span></p>
                   <button className="btn btn--purple" type="submit">Оформить заказ
                   </button>
                 </div>

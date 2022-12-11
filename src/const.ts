@@ -20,6 +20,7 @@ export enum APIRoute {
   Promo = '/promo',
   Catalog = '/catalog',
   Review = '/reviews',
+  Coupon = '/coupons',
 }
 
 export enum NameSpace {

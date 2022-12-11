@@ -30,6 +30,8 @@ export type BasketData = {
     camera: Camera;
     cameraCount: number;
   }[];
+  discount: number;
+  discountLoadingStatus: DataLoadingStatus;
 }
 
 export type ReviewsData = {
