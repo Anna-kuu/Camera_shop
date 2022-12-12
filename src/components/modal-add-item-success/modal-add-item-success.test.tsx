@@ -2,25 +2,21 @@ import { render, screen } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import { Provider } from 'react-redux';
 import { store } from '../../utils/mock-store';
-import { makeFakeCamera, makeFakeCameras } from '../../utils/mocks';
 import HistoryRouter from '../history-route/history-route';
-import SimilarCameras from './similar-cameras';
+import ModalAddItemSuccess from './modal-add-item-success';
 
-const cameras = makeFakeCameras();
-const camera = makeFakeCamera();
-describe('Component: SimilarCameras', () => {
+describe('Component: ModalAddItemSuccess', () => {
   it ('should render corectly', () => {
     const history = createMemoryHistory();
-    history.push('/cameras/3');
 
     render(
       <Provider store={store}>
         <HistoryRouter history={history}>
-          <SimilarCameras similarCameras={cameras} setSelectedCamera={() => camera} setIsModalAddItemActiv={() => false}/>
+          <ModalAddItemSuccess setIsModalAddItemSuccess={() => true}/>
         </HistoryRouter>
       </Provider>
     );
 
-    expect(screen.getByText('Похожие товары')).toBeInTheDocument();
+    expect(screen.getByText('Товар успешно добавлен в корзину')).toBeInTheDocument();
   });
 });

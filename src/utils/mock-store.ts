@@ -1,5 +1,5 @@
 import { configureMockStore } from '@jedmao/redux-mock-store';
-import { DataLoadingStatus, REVIEWS_COUNT_DEFAULT } from '../const';
+import { DataLoadingStatus, DEFAULT_DISCOUNT, REVIEWS_COUNT_DEFAULT } from '../const';
 import { DEFAULT_CAMERAS_TOTAL_COUNT, makeFakeCamera, makeFakeCameras, makeFakePromoCamera, makeFakeReviews } from './mocks';
 
 import thunk from 'redux-thunk';
@@ -34,5 +34,11 @@ export const store = mockStore({
   },
   PROMO : {
     promo: promo,
+  },
+  BASKET : {
+    camerasInBasket: [],
+    discount: DEFAULT_DISCOUNT,
+    discountLoadingStatus: DataLoadingStatus.Idle,
+    orderPostLoadingStatus: DataLoadingStatus.Idle,
   }
 });

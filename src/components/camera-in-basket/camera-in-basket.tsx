@@ -62,7 +62,7 @@ export default function CameraInBasket({camera, cameraCount, setIsModalRemoveAct
   };
 
   return (
-    <li className="basket-item">
+    <li className="basket-item" data-testid="basket-item">
       <div className="basket-item__img">
         <picture>
           <source type="image/webp" srcSet={`${camera.previewImgWebp}, ${camera.previewImgWebp2x} 2x`} />

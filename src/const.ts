@@ -7,6 +7,7 @@ export const SLIDER_DEFAULT = 0;
 export const REVIEWS_COUNT_DEFAULT = Number(3);
 export const REVIEWS_COUNT_STEP = 3;
 export const CAMERAS_COUNT_DEFAULT = 0;
+export const DEFAULT_DISCOUNT = 0;
 
 export enum AppRoute {
   Root = '/',

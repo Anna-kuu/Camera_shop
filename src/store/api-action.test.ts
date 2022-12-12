@@ -6,7 +6,7 @@ import { State } from '../types/state-type';
 import { Action } from 'redux';
 import { APIRoute } from '../const';
 import { CAMERAS_TOTAL_COUNT, DEFAULT_CAMERAS_TOTAL_COUNT, makeFakeAddReview, makeFakeCamera, makeFakeCameras, makeFakePromoCamera, makeFakeReviews } from '../utils/mocks';
-import { addReviewAction, fetchCameraByIdAction, fetchCamerasAction, fetchCamerasByNameAction, fetchCamerasMinMaxPrice, fetchCamerasMinMaxPriceFiltered, fetchPromoCameraAction, fetchReviewsAction, fetchSimilarCamerasAction } from './api-actions';
+import { addReviewAction, couponPost, fetchCameraByIdAction, fetchCamerasAction, fetchCamerasByNameAction, fetchCamerasMinMaxPrice, fetchCamerasMinMaxPriceFiltered, fetchPromoCameraAction, fetchReviewsAction, fetchSimilarCamerasAction, orderPost } from './api-actions';
 
 describe('Async actions', () => {
   const api = createAPI();
@@ -182,6 +182,44 @@ describe('Async actions', () => {
       addReviewAction.fulfilled.type,
     ]);
   });
+
+  it('should dispatch couponPost when POST /coupons', async () => {
+    mockAPI
+      .onPost(APIRoute.Coupon)
+      .reply(200, Number);
+
+    const store = mockStore();
+
+    await store.dispatch(couponPost('coupon-333'));
+
+    const actions = store.getActions().map(({ type }:Action<string>) => type);
+
+    expect(actions).toEqual([
+      couponPost.pending.type,
+      couponPost.fulfilled.type,
+    ]);
+  });
+
+  it('should dispatch orderPost when POST /oders', async () => {
+    mockAPI
+      .onPost(APIRoute.Order)
+      .reply(200);
+
+    const store = mockStore();
+
+    await store.dispatch(orderPost({
+      camerasIds: [3, 5, 4],
+      coupon: null,
+    }));
+
+    const actions = store.getActions().map(({ type }:Action<string>) => type);
+
+    expect(actions).toEqual([
+      orderPost.pending.type,
+      orderPost.fulfilled.type,
+    ]);
+  });
+
   it('should dispatch fetchCamerasByNameAction when GET /cameras?name_like', async () => {
     const mockCamerasByName = makeFakeCameras();
     const mockCamera = makeFakeCamera();

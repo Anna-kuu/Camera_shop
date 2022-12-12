@@ -12,7 +12,7 @@ import { couponPost, orderPost } from '../../store/api-actions';
 import { getCamerasInBasket, getDiscount, getDiscountLoadingStatus, getOrderPostLoadingStatus } from '../../store/basket-data/selectors';
 import { Camera } from '../../types/cameras-type';
 
-export default function Basket():JSX.Element {
+export default function Basket(): JSX.Element {
   const dispatch = useAppDispatch();
   const camerasInBasket = useAppSelector(getCamerasInBasket);
   const discount = useAppSelector(getDiscount);
@@ -81,7 +81,7 @@ export default function Basket():JSX.Element {
               </ul>
             </div>
           </div>
-          <section className="basket">
+          <section className="basket" data-testid={'basket'}>
             <div className="container">
               <h1 className="title title--h2">Корзина</h1>
               <ul className="basket__list">

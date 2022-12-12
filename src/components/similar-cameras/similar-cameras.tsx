@@ -24,7 +24,7 @@ export default function SimilarCameras({similarCameras, setSelectedCamera, setIs
   const [sliderStart, setSliderStart] = useState(SLIDER_DEFAULT);
   const shownSimilarCameras = similarCameras.slice(sliderStart, (sliderStart + SLIDER_STEP));
   const similarCamerasSlider = shownSimilarCameras.map((camera) => {
-    const isCameraInBasket = camerasInBasket.find((cameraInBasket) => camera.id === cameraInBasket.camera.id);
+    const isCameraInBasket = camerasInBasket?.find((cameraInBasket) => camera.id === cameraInBasket.camera.id);
     return (
       <div className="product-card is-active" key={`slider-${camera.id}`}>
         <div className="product-card__img">

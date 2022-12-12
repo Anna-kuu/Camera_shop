@@ -1,10 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { DataLoadingStatus, NameSpace } from '../../const';
+import { DataLoadingStatus, DEFAULT_DISCOUNT, NameSpace } from '../../const';
 import { Camera } from '../../types/cameras-type';
 import { BasketData } from '../../types/state-type';
 import { couponPost, orderPost } from '../api-actions';
-
-const DEFAULT_DISCOUNT = 0;
 
 const initialState: BasketData = {
   camerasInBasket: [],
