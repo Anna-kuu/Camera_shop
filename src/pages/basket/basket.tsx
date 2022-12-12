@@ -5,7 +5,7 @@ import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
 import ModalBasketSuccess from '../../components/modal-basket-success/modal-basket-success';
 import ModalRemoveItem from '../../components/modal-remove-item/modal-remove-item';
-import { AppRoute, DataLoadingStatus } from '../../const';
+import { AppRoute, DataLoadingStatus, PERCENT } from '../../const';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { couponPost, orderPost } from '../../store/api-actions';
@@ -107,8 +107,8 @@ export default function Basket(): JSX.Element {
                 </div>
                 <div className="basket__summary-order">
                   <p className="basket__summary-item"><span className="basket__summary-text">Всего:</span><span className="basket__summary-value">{`${totalCount.toLocaleString('ru')} ₽`}</span></p>
-                  <p className="basket__summary-item"><span className="basket__summary-text">Скидка:</span><span className={`basket__summary-value ${discountLoadingStatus === DataLoadingStatus.Fulfilled ? 'basket__summary-value--bonus' : ''}`}>{`${(discount * totalCount / 100).toLocaleString('ru')} ₽`}</span></p>
-                  <p className="basket__summary-item"><span className="basket__summary-text basket__summary-text--total">К оплате:</span><span className="basket__summary-value basket__summary-value--total">{`${((100 - discount) * totalCount / 100).toLocaleString('ru')} ₽`}</span></p>
+                  <p className="basket__summary-item"><span className="basket__summary-text">Скидка:</span><span className={`basket__summary-value ${discountLoadingStatus === DataLoadingStatus.Fulfilled ? 'basket__summary-value--bonus' : ''}`}>{`${(discount * totalCount / PERCENT).toLocaleString('ru')} ₽`}</span></p>
+                  <p className="basket__summary-item"><span className="basket__summary-text basket__summary-text--total">К оплате:</span><span className="basket__summary-value basket__summary-value--total">{`${((PERCENT - discount) * totalCount / PERCENT).toLocaleString('ru')} ₽`}</span></p>
                   <button onClick={handleOrderBtnClick} className="btn btn--purple" type="submit" disabled={orderPostLoadingStatus === DataLoadingStatus.Pending} >Оформить заказ
                   </button>
                 </div>

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { DataLoadingStatus, DEFAULT_DISCOUNT, NameSpace } from '../../const';
+import { CAMERA_IN_BASKET_DEFAUT, DataLoadingStatus, DEFAULT_DISCOUNT, NameSpace } from '../../const';
 import { Camera } from '../../types/cameras-type';
 import { BasketData } from '../../types/state-type';
 import { couponPost, orderPost } from '../api-actions';
@@ -23,7 +23,7 @@ export const basketData = createSlice({
       }
       state.camerasInBasket.push({
         camera: action.payload,
-        cameraCount: 1,
+        cameraCount: CAMERA_IN_BASKET_DEFAUT,
       });
     },
     changeCameraCount: (state, action: PayloadAction<{id: number; value: number}>) => {

@@ -2,7 +2,6 @@ import { render, screen } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import { Provider } from 'react-redux';
 import { store } from '../../store';
-import { Camera } from '../../types/cameras-type';
 import { makeFakeCamera } from '../../utils/mocks';
 import HistoryRouter from '../history-route/history-route';
 import CameraInBasket from './camera-in-basket';

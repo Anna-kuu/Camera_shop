@@ -2,8 +2,8 @@ import { ChangeEvent, useState } from 'react';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { changeCameraCount } from '../../store/basket-data/basket-data';
 import { Camera } from '../../types/cameras-type';
-const MIN_CAMERA_COUNT = '1';
-const MAX_CAMERA_COUNT = '99';
+const MIN_CAMERA_COUNT = 1;
+const MAX_CAMERA_COUNT = 99;
 const CAMERA_COUNT_STEP = 1;
 
 type CameraInBasketPrpos = {
@@ -27,9 +27,9 @@ export default function CameraInBasket({camera, cameraCount, setIsModalRemoveAct
       setCameraCountInput('');
       return;
     }
-    if (Number(evt.target.value) > 99) {
-      setCameraCountInput(MAX_CAMERA_COUNT);
-      dispatch(changeCameraCount({id: camera.id, value: Number(MAX_CAMERA_COUNT)}));
+    if (Number(evt.target.value) > MAX_CAMERA_COUNT) {
+      setCameraCountInput(String(MAX_CAMERA_COUNT));
+      dispatch(changeCameraCount({id: camera.id, value: MAX_CAMERA_COUNT}));
       return;
     }
     setCameraCountInput(evt.target.value);
@@ -38,8 +38,8 @@ export default function CameraInBasket({camera, cameraCount, setIsModalRemoveAct
 
   const handleInputBlur = (evt: ChangeEvent<HTMLInputElement>) => {
     if (!evt.target.value) {
-      setCameraCountInput(MIN_CAMERA_COUNT);
-      dispatch(changeCameraCount({id: camera.id, value: Number(MIN_CAMERA_COUNT)}));
+      setCameraCountInput(String(MIN_CAMERA_COUNT));
+      dispatch(changeCameraCount({id: camera.id, value: MIN_CAMERA_COUNT}));
     }
   };
 
@@ -82,14 +82,14 @@ export default function CameraInBasket({camera, cameraCount, setIsModalRemoveAct
       </div>
       <p className="basket-item__price"><span className="visually-hidden">Цена:</span>{`${camera.price.toLocaleString('ru')} ₽`}</p>
       <div className="quantity">
-        <button onClick={handleDecreaseBtnClick} className="btn-icon btn-icon--prev" aria-label="уменьшить количество товара" disabled={Number(cameraCountInput) <= 1}>
+        <button onClick={handleDecreaseBtnClick} className="btn-icon btn-icon--prev" aria-label="уменьшить количество товара" disabled={Number(cameraCountInput) <= MIN_CAMERA_COUNT}>
           <svg width="7" height="12" aria-hidden="true">
             <use xlinkHref="#icon-arrow"></use>
           </svg>
         </button>
         <label className="visually-hidden" htmlFor="counter1"></label>
         <input onChange={handleInputChange} onBlur={handleInputBlur} type="number" id="counter1" value={cameraCountInput} min="1" max="99" aria-label="количество товара" />
-        <button onClick={handleIncreaseBtnClick} className="btn-icon btn-icon--next" aria-label="увеличить количество товара" disabled={Number(cameraCountInput) >= 99}>
+        <button onClick={handleIncreaseBtnClick} className="btn-icon btn-icon--next" aria-label="увеличить количество товара" disabled={Number(cameraCountInput) >= MAX_CAMERA_COUNT}>
           <svg width="7" height="12" aria-hidden="true">
             <use xlinkHref="#icon-arrow"></use>
           </svg>

@@ -8,6 +8,8 @@ export const REVIEWS_COUNT_DEFAULT = Number(3);
 export const REVIEWS_COUNT_STEP = 3;
 export const CAMERAS_COUNT_DEFAULT = 0;
 export const DEFAULT_DISCOUNT = 0;
+export const CAMERA_IN_BASKET_DEFAUT = 1;
+export const PERCENT = 100;
 
 export enum AppRoute {
   Root = '/',
@@ -85,7 +87,7 @@ export const TypeFilter = {
   digital: 'Цифровая',
   film: 'Плёночная',
   snapshot: 'Моментальная',
-  collection: 'Коллеекционная',
+  collection: 'Коллекционная',
 } as const;
 
 export const LevelType = {
