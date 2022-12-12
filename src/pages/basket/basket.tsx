@@ -13,12 +13,6 @@ import { getCamerasInBasket, getDiscount, getDiscountLoadingStatus, getOrderPost
 import { Camera } from '../../types/cameras-type';
 
 export default function Basket():JSX.Element {
-  //const a = [{camera: {id: 1}, count: 2}, {camera: {id: 2}, count: 1}, {camera: {id: 5}, count:3}];
-  // eslint-disable-next-line prefer-const
-  // let b: number[] = [];
-  // a.map((v) => Array.prototype.push.apply(b, Array(v.count).fill(v.camera.id)));
-  // console.log(a);
-  // console.log(b);
   const dispatch = useAppDispatch();
   const camerasInBasket = useAppSelector(getCamerasInBasket);
   const discount = useAppSelector(getDiscount);
@@ -40,7 +34,12 @@ export default function Basket():JSX.Element {
   };
 
   const handleOrderBtnClick = () => {
-    const camerasOrderId = camerasInBasket.map(({camera}) => camera.id);
+    const camerasOrderId: number[] = [];
+    camerasInBasket.forEach((item) => {
+      for (let i = 1; i <= item.cameraCount; i++) {
+        camerasOrderId.push(item.camera.id);
+      }
+    });
     const order = {
       camerasIds: camerasOrderId,
       coupon: promoValue ? promoValue : null,
