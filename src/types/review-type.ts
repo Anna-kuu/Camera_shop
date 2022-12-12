@@ -19,3 +19,8 @@ export type ReviewPost = {
   review: string;
   rating: number;
 }
+
+export type OrderPost = {
+  camerasIds: number[];
+  coupon: string | null;
+}

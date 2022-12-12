@@ -1,31 +1,31 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import CameraInBasket from '../../components/camera-in-basket/camera-in-basket';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
+import ModalBasketSuccess from '../../components/modal-basket-success/modal-basket-success';
 import ModalRemoveItem from '../../components/modal-remove-item/modal-remove-item';
 import { AppRoute, DataLoadingStatus } from '../../const';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { useAppSelector } from '../../hooks/use-app-selector';
-import { couponPost } from '../../store/api-actions';
-import { getCamerasInBasket, getDiscount, getDiscountLoadingStatus } from '../../store/basket-data/selectors';
+import { couponPost, orderPost } from '../../store/api-actions';
+import { getCamerasInBasket, getDiscount, getDiscountLoadingStatus, getOrderPostLoadingStatus } from '../../store/basket-data/selectors';
 import { Camera } from '../../types/cameras-type';
-//import { useAppSelector } from '../../hooks/use-app-selector';
-//import { getCamerasInBascket } from '../../store/basket-data/selectors';
 
 export default function Basket():JSX.Element {
-  /*const camerasInBasket = useAppSelector(getCamerasInBascket);
-  const a = [{id: 1, count: 2}, {id: 2, count: 1}, {id: 5, count:3}];
+  //const a = [{camera: {id: 1}, count: 2}, {camera: {id: 2}, count: 1}, {camera: {id: 5}, count:3}];
   // eslint-disable-next-line prefer-const
-  let b: number[] = [];
-  a.map((v) => Array.prototype.push.apply(b, Array(v.count).fill(v.id)));
-  console.log(a);
-  console.log(b);*/
+  // let b: number[] = [];
+  // a.map((v) => Array.prototype.push.apply(b, Array(v.count).fill(v.camera.id)));
+  // console.log(a);
+  // console.log(b);
   const dispatch = useAppDispatch();
   const camerasInBasket = useAppSelector(getCamerasInBasket);
   const discount = useAppSelector(getDiscount);
   const discountLoadingStatus = useAppSelector(getDiscountLoadingStatus);
+  const orderPostLoadingStatus = useAppSelector(getOrderPostLoadingStatus);
   const [isModalRemoveActive, setIsModalRemoveActive] = useState(false);
+  const [isModalBasketSuccess, setIsModalBasketSuccess] = useState(orderPostLoadingStatus === DataLoadingStatus.Fulfilled);
   const [promoValue, setPromoValue] = useState('');
   const [selectedCamera, setSelectedCamera] = useState({} as Camera);
   const totalCount = camerasInBasket.reduce((summ, {camera, cameraCount}) => summ + camera.price * cameraCount, 0);
@@ -38,6 +38,22 @@ export default function Basket():JSX.Element {
     evt.preventDefault();
     dispatch(couponPost(promoValue));
   };
+
+  const handleOrderBtnClick = () => {
+    const camerasOrderId = camerasInBasket.map(({camera}) => camera.id);
+    const order = {
+      camerasIds: camerasOrderId,
+      coupon: promoValue ? promoValue : null,
+    };
+    dispatch(orderPost(order));
+  };
+
+  useEffect(() => {
+    if (orderPostLoadingStatus === DataLoadingStatus.Fulfilled) {
+      setIsModalBasketSuccess(true);
+      document.body.style.overflow = 'hidden';
+    }
+  }, [orderPostLoadingStatus]);
 
   return (
     <div className="wrapper">
@@ -78,14 +94,14 @@ export default function Basket():JSX.Element {
                   <p className="title title--h4">Если у вас есть промокод на скидку, примените его в этом поле</p>
                   <div className="basket-form">
                     <form onSubmit={handleSubmitPromo}>
-                      <div className="custom-input">
+                      <div className={`custom-input ${discountLoadingStatus === DataLoadingStatus.Rejected ? 'is-invalid' : ''} ${discountLoadingStatus === DataLoadingStatus.Fulfilled ? 'is-valid' : ''}`}>
                         <label><span className="custom-input__label">Промокод</span>
                           <input onChange={handleInputPromoChange} type="text" name="promo" placeholder="Введите промокод" value={promoValue} />
                         </label>
                         {discountLoadingStatus === DataLoadingStatus.Rejected && <p className="custom-input__error">Промокод неверный</p>}
                         {discountLoadingStatus === DataLoadingStatus.Fulfilled && <p className="custom-input__success">Промокод принят!</p>}
                       </div>
-                      <button className="btn" type="submit">Применить
+                      <button className="btn" type="submit" disabled={discountLoadingStatus === DataLoadingStatus.Pending}>Применить
                       </button>
                     </form>
                   </div>
@@ -94,7 +110,7 @@ export default function Basket():JSX.Element {
                   <p className="basket__summary-item"><span className="basket__summary-text">Всего:</span><span className="basket__summary-value">{`${totalCount.toLocaleString('ru')} ₽`}</span></p>
                   <p className="basket__summary-item"><span className="basket__summary-text">Скидка:</span><span className={`basket__summary-value ${discountLoadingStatus === DataLoadingStatus.Fulfilled ? 'basket__summary-value--bonus' : ''}`}>{`${(discount * totalCount / 100).toLocaleString('ru')} ₽`}</span></p>
                   <p className="basket__summary-item"><span className="basket__summary-text basket__summary-text--total">К оплате:</span><span className="basket__summary-value basket__summary-value--total">{`${((100 - discount) * totalCount / 100).toLocaleString('ru')} ₽`}</span></p>
-                  <button className="btn btn--purple" type="submit">Оформить заказ
+                  <button onClick={handleOrderBtnClick} className="btn btn--purple" type="submit" disabled={orderPostLoadingStatus === DataLoadingStatus.Pending} >Оформить заказ
                   </button>
                 </div>
               </div>
@@ -102,6 +118,7 @@ export default function Basket():JSX.Element {
           </section>
         </div>
         {isModalRemoveActive && <ModalRemoveItem setIsModalRemoveActive={setIsModalRemoveActive} selectedCamera={selectedCamera}/>}
+        {isModalBasketSuccess && <ModalBasketSuccess setIsModalBasketSuccess={setIsModalBasketSuccess} />}
       </main>
       <Footer />
     </div>

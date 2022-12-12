@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { APIRoute, MAX_CAMERAS_OF_PAGE, OrderType, QueryParams, SortType } from '../const';
 import { Camera, Cameras, FetchCamerasPayloadType } from '../types/cameras-type';
 import { Promo } from '../types/promo-type';
-import { Review, ReviewPost, Reviews } from '../types/review-type';
+import { OrderPost, Review, ReviewPost, Reviews } from '../types/review-type';
 import { AppDispatch, State } from '../types/state-type';
 
 export const fetchCamerasAction = createAsyncThunk<{data: Cameras; camerasCount: string}, FetchCamerasPayloadType, {
@@ -208,6 +208,22 @@ export const couponPost = createAsyncThunk<number, string, {
   async(value, {extra: api}) => {
     const {data} = await api.post<number>(APIRoute.Coupon, {coupon: value});
     return data;
+  },
+);
+
+export const orderPost = createAsyncThunk<void, OrderPost, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/orderPost',
+  async(order, {extra: api}) => {
+    try {
+      await api.post<OrderPost>(APIRoute.Order, order);
+    } catch (error) {
+      toast.error('Failed to send order. Try again later');
+      throw(error);
+    }
   },
 );
 

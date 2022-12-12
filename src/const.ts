@@ -21,6 +21,7 @@ export enum APIRoute {
   Catalog = '/catalog',
   Review = '/reviews',
   Coupon = '/coupons',
+  Order = '/orders',
 }
 
 export enum NameSpace {

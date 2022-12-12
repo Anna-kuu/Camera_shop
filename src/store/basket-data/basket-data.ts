@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { DataLoadingStatus, NameSpace } from '../../const';
 import { Camera } from '../../types/cameras-type';
 import { BasketData } from '../../types/state-type';
-import { couponPost } from '../api-actions';
+import { couponPost, orderPost } from '../api-actions';
 
 const DEFAULT_DISCOUNT = 0;
 
@@ -10,6 +10,7 @@ const initialState: BasketData = {
   camerasInBasket: [],
   discount: DEFAULT_DISCOUNT,
   discountLoadingStatus: DataLoadingStatus.Idle,
+  orderPostLoadingStatus: DataLoadingStatus.Idle,
 };
 
 export const basketData = createSlice({
@@ -34,6 +35,9 @@ export const basketData = createSlice({
     removeCamera: (state, action: PayloadAction<Camera>) => {
       state.camerasInBasket = state.camerasInBasket.filter(({camera}) => camera.id !== action.payload.id);
     },
+    changeOrderPostLoadingStatus: (state, action: PayloadAction<DataLoadingStatus>) => {
+      state.orderPostLoadingStatus = action.payload;
+    },
   },
   extraReducers(builder) {
     builder
@@ -47,8 +51,17 @@ export const basketData = createSlice({
       .addCase(couponPost.rejected, (state) => {
         state.discountLoadingStatus = DataLoadingStatus.Rejected;
         state.discount = DEFAULT_DISCOUNT;
+      })
+      .addCase(orderPost.pending, (state) => {
+        state.orderPostLoadingStatus = DataLoadingStatus.Pending;
+      })
+      .addCase(orderPost.fulfilled, (state) => {
+        state.orderPostLoadingStatus = DataLoadingStatus.Fulfilled;
+      })
+      .addCase(orderPost.rejected, (state) => {
+        state.orderPostLoadingStatus = DataLoadingStatus.Rejected;
       });
   }
 });
 
-export const {addCameraToBasket, changeCameraCount, removeCamera} = basketData.actions;
+export const {addCameraToBasket, changeCameraCount, removeCamera, changeOrderPostLoadingStatus} = basketData.actions;

@@ -32,6 +32,7 @@ export type BasketData = {
   }[];
   discount: number;
   discountLoadingStatus: DataLoadingStatus;
+  orderPostLoadingStatus: DataLoadingStatus;
 }
 
 export type ReviewsData = {
