@@ -9,15 +9,15 @@ import { useAppSelector } from '../../hooks/use-app-selector';
 type CatalogCardsPropsType = {
   cameras: Cameras;
   setSelectedCamera: (selectedCamera: Camera) => void;
-  setIsModalAddItemActiv: (status: boolean) => void;
+  setIsModalAddItemActive: (status: boolean) => void;
 }
 
-export default function CatalogCards({cameras, setSelectedCamera, setIsModalAddItemActiv}: CatalogCardsPropsType):JSX.Element {
+export default function CatalogCards({cameras, setSelectedCamera, setIsModalAddItemActive}: CatalogCardsPropsType):JSX.Element {
   const dispatch = useAppDispatch();
   const camerasInBasket = useAppSelector(getCamerasInBasket);
   const handleButtonAddItemClick = (camera: Camera) => {
     setSelectedCamera(camera);
-    setIsModalAddItemActiv(true);
+    setIsModalAddItemActive(true);
     document.body.style.overflow = 'hidden';
   };
 

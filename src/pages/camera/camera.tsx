@@ -27,12 +27,12 @@ export default function Camera():JSX.Element {
   const reviewsSorted = reviews.slice().sort(reviewSort);
   const cameraLoadingStatus = useAppSelector(getDataLoadingStatus);
   const [selectedCamera, setSelectedCamera] = useState(camera);
-  const [isModalAddItemActiv, setIsModalAddItemActiv] = useState(false);
+  const [isModalAddItemActiv, setIsModalAddItemActive] = useState(false);
   const [isModalAddItemSuccess, setIsModalAddItemSuccess] = useState(false);
 
   const handleButtonAddItemClick = () => {
     setSelectedCamera(camera);
-    setIsModalAddItemActiv(true);
+    setIsModalAddItemActive(true);
     document.body.style.overflow = 'hidden';
   };
 
@@ -117,14 +117,14 @@ export default function Camera():JSX.Element {
           </div>
           {similarCameras.length !== 0 &&
           <div className="page-content__section">
-            <SimilarCameras similarCameras={similarCameras} setSelectedCamera={setSelectedCamera} setIsModalAddItemActiv={setIsModalAddItemActiv}/>
+            <SimilarCameras similarCameras={similarCameras} setSelectedCamera={setSelectedCamera} setIsModalAddItemActive={setIsModalAddItemActive}/>
           </div>}
           <div className="page-content__section">
             <ReviewsList reviews={reviewsSorted} id={id}/>
           </div>
         </div>
         {isModalAddItemActiv &&
-        <ModalAddItem selectedCamera={selectedCamera} setIsModalAddItemActiv={setIsModalAddItemActiv} setIsModalAddItemSuccess={setIsModalAddItemSuccess}/>}
+        <ModalAddItem selectedCamera={selectedCamera} setIsModalAddItemActive={setIsModalAddItemActive} setIsModalAddItemSuccess={setIsModalAddItemSuccess}/>}
         {isModalAddItemSuccess &&
         <ModalAddItemSuccess setIsModalAddItemSuccess={setIsModalAddItemSuccess}/>}
       </main>

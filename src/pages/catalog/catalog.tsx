@@ -28,7 +28,7 @@ export default function Catalog(): JSX.Element {
   const loadingCamerasStatus = useAppSelector(getLoadingDataStatus);
   const cameras = useAppSelector(getCameras);
   const [selectedCamera, setSelectedCamera] = useState({} as Camera);
-  const [isModalAddItemActiv, setIsModalAddItemActiv] = useState(false);
+  const [isModalAddItemActiv, setIsModalAddItemActive] = useState(false);
   const [isModalAddItemSuccess, setIsModalAddItemSuccess] = useState(false);
 
   const paramsSort = useMemo(() => ({
@@ -158,7 +158,7 @@ export default function Catalog(): JSX.Element {
                   {!cameras.length && loadingCamerasStatus === DataLoadingStatus.Fulfilled ? <h2 className="title title--h2">По вашему запросу ничего не найдено</h2> : ''}
                   {cameras.length && loadingCamerasStatus === DataLoadingStatus.Fulfilled ?
                     <>
-                      <CatalogCards cameras={cameras} setSelectedCamera={setSelectedCamera} setIsModalAddItemActiv={setIsModalAddItemActiv}/>
+                      <CatalogCards cameras={cameras} setSelectedCamera={setSelectedCamera} setIsModalAddItemActive={setIsModalAddItemActive}/>
                       <Pagination pagesCount={pagesCount}/>
                     </> : ''}
                 </div>
@@ -167,7 +167,7 @@ export default function Catalog(): JSX.Element {
           </section>
         </div>
         {isModalAddItemActiv &&
-        <ModalAddItem selectedCamera={selectedCamera} setIsModalAddItemActiv={setIsModalAddItemActiv} setIsModalAddItemSuccess={setIsModalAddItemSuccess}/>}
+        <ModalAddItem selectedCamera={selectedCamera} setIsModalAddItemActive={setIsModalAddItemActive} setIsModalAddItemSuccess={setIsModalAddItemSuccess}/>}
         {isModalAddItemSuccess &&
         <ModalAddItemSuccess setIsModalAddItemSuccess={setIsModalAddItemSuccess}/>}
       </main>

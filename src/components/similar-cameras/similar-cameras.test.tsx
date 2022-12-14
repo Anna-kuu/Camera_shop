@@ -16,7 +16,7 @@ describe('Component: SimilarCameras', () => {
     render(
       <Provider store={store}>
         <HistoryRouter history={history}>
-          <SimilarCameras similarCameras={cameras} setSelectedCamera={() => camera} setIsModalAddItemActiv={() => false}/>
+          <SimilarCameras similarCameras={cameras} setSelectedCamera={() => camera} setIsModalAddItemActive={() => false}/>
         </HistoryRouter>
       </Provider>
     );

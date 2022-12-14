@@ -15,7 +15,7 @@ describe('Component: ModalAddItem', () => {
     render(
       <Provider store={store}>
         <HistoryRouter history={history}>
-          <ModalAddItem selectedCamera={camera} setIsModalAddItemActiv={() => true} setIsModalAddItemSuccess={() => false}/>
+          <ModalAddItem selectedCamera={camera} setIsModalAddItemActive={() => true} setIsModalAddItemSuccess={() => false}/>
         </HistoryRouter>
       </Provider>
     );
